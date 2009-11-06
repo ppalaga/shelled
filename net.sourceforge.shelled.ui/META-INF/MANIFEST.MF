@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Shelled Ui
+Bundle-SymbolicName: net.sourceforge.shelled.ui;singleton:=true
+Bundle-Version: 0.0.0.qualifier
+Bundle-Activator: net.sourceforge.shelled.ui.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.dltk.ui;bundle-version="1.0.0",
+ net.sourceforge.shelled.core;bundle-version="0.0.0",
+ org.eclipse.dltk.core;bundle-version="1.0.0",
+ org.eclipse.dltk.launching;bundle-version="1.0.0",
+ org.eclipse.dltk.debug.ui;bundle-version="1.0.0",
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.jface.text;bundle-version="3.5.0",
+ org.eclipse.debug.core;bundle-version="3.5.0",
+ org.eclipse.debug.ui;bundle-version="3.5.1",
+ org.eclipse.search;bundle-version="3.5.1"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

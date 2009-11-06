@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point="org.eclipse.dltk.ui.language">
+		<language class="net.sourceforge.shelled.ui.ShelledUILanguageToolkit"
+			nature="net.sourceforge.shelled.core.nature" priority="0">
+		</language>
+	</extension>
+	<extension point="org.eclipse.ui.newWizards">
+		<wizard category="net.sourceforge.shelled.category"
+			class="org.eclipse.dltk.ui.wizards.GenericDLTKProjectWizard:net.sourceforge.shelled.core.nature"
+			id="net.sourceforge.shelled.wizard1" name="Shell Script Project Wizard"
+			project="true">
+		</wizard>
+		<category id="net.sourceforge.shelled.category" name="Shell Script">
+		</category>
+	</extension>
+	<extension point="org.eclipse.dltk.launching.interpreterInstallTypes">
+		<interpreterInstallType
+			class="net.sourceforge.shelled.ui.interpreter.ShellScriptInstallType"
+			id="net.sourceforge.shelled.ui.interpreter.ShellScriptInstallType">
+		</interpreterInstallType>
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+			class="net.sourceforge.shelled.ui.interpreter.ShellInterpreterPreferencePage"
+			id="net.sourceforge.shelled.ui.preferences.interpreters" name="Shelled Interpreters" />
+	</extension>
+	<extension point="org.eclipse.ui.editors">
+		<editor class="net.sourceforge.shelled.ui.editor.ShellScriptEditor"
+			default="false" id="net.sourceforge.shelled.ui.editor" icon="icons/rosetta.gif"
+			name="Shell Script Editor">
+			<contentTypeBinding contentTypeId="net.sourceforge.shelled.content-type" />
+		</editor>
+	</extension>
+	<extension point="org.eclipse.core.runtime.preferences">
+		<initializer
+			class="net.sourceforge.shelled.ui.ShelledUIPreferenceInitializer" />
+	</extension>
+	<extension point="org.eclipse.debug.core.launchConfigurationTypes">
+		<launchConfigurationType
+			id="net.sourceforge.shelled.ui.launchConfigurationType1" name="Shell Script"
+			delegate="net.sourceforge.shelled.ui.LaunchConfigurationDelegate"
+			modes="run">
+		</launchConfigurationType>
+	</extension>
+	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+		<launchConfigurationTypeImage icon="icons/rosetta.gif"
+			configTypeID="net.sourceforge.shelled.ui.launchConfigurationType1"
+			id="net.sourceforge.shelled.ui.launchConfigurationTypeImage.program">
+		</launchConfigurationTypeImage>
+	</extension>
+
+	<extension point="org.eclipse.debug.ui.launchShortcuts">
+		<shortcut class="net.sourceforge.shelled.ui.LaunchShortcut"
+			id="net.sourceforge.shelled.ui.shortcut" label="Shell script" modes="run"
+			icon="icons/rosetta.gif">
+			<contextualLaunch>
+				<enablement>
+					<with variable="selection">
+						<count value="1" />
+						<iterate>
+							<or>
+								<test args="net.sourceforge.shelled.core.nature" property="org.eclipse.dltk.launching.hasProjectNature">
+								</test>
+							</or>
+						</iterate>
+					</with>
+				</enablement>
+				<contextLabel label="Run shell script" mode="run">
+				</contextLabel>
+			</contextualLaunch>
+
+		</shortcut>
+	</extension>
+	<extension point="org.eclipse.ui.commands">
+		<command name="Run shell" description="run shell script"
+			categoryId="org.eclipse.debug.ui.category.run" id="net.sourceforge.shelled.ui.shortcut">
+		</command>
+	</extension>
+	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+		<launchConfigurationTabGroup
+			class="net.sourceforge.shelled.ui.interpreter.ShellTabGroup" id="net.sourceforge.shelled.ui.interpreter.ShellTabGroup"
+			type="net.sourceforge.shelled.ui.launchConfigurationType1">
+		</launchConfigurationTabGroup>
+	</extension>
+	<extension point="org.eclipse.dltk.core.completionEngine">
+		<completionEngine
+			class="net.sourceforge.shelled.ui.completion.ShellCompletionEngine"
+			nature="net.sourceforge.shelled.core.nature" priority="0">
+		</completionEngine>
+	</extension>
+	<extension point="org.eclipse.dltk.ui.scriptCompletionProposalComputer"
+		id="ShellTypeCompletionProposalComputer">
+		<scriptCompletionProposalComputer
+			class="net.sourceforge.shelled.ui.completion.ShellCompletionProposalComputer"
+			categoryId="org.eclipse.dltk.ui.scriptTypeProposalCategory"
+			toolkitId="net.sourceforge.shelled.core.nature">
+			<partition type="__dftl_partition_content_type" />
+		</scriptCompletionProposalComputer>
+	</extension>
+	<extension point="org.eclipse.search.searchPages">
+		<page canSearchEnclosingProjects="true"
+			class="net.sourceforge.shelled.ui.search.ShelledSearchPage" enabled="true"
+			id="net.sourceforge.shelled.ShelledSearchPage" label="Shell Script Search"
+			showScopeSection="true" sizeHint="460,160">
+		</page>
+	</extension>
+	<extension point="org.eclipse.dltk.core.search">
+		<seachFactory
+			class="net.sourceforge.shelled.ui.search.ShelledSearchFactory"
+			nature="net.sourceforge.shelled.core.nature" priority="0">
+		</seachFactory>
+	</extension>
+	<extension point="org.eclipse.dltk.core.selectionEngine">
+   <selectionEngine
+         class="net.sourceforge.shelled.ui.selection.ShelledSelectionEngine"
+         nature="net.sourceforge.shelled.core.nature"
+         priority="0">
+   </selectionEngine>
+</extension>
+</plugin>

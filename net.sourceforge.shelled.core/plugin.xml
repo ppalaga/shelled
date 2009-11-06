@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+<extension id="nature" point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="net.sourceforge.shelled.core.ShelledNature"/>
+      </runtime>
+   </extension>
+   <extension point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            describer="net.sourceforge.shelled.core.ShelledContentDescriber"
+            file-extensions="sh,ash,bsh,bash,csh,ksh,zsh"
+            id="net.sourceforge.shelled.content-type"
+            name="Shell script content type"
+            priority="high" >
+      </content-type>
+   </extension>
+   <extension point="org.eclipse.dltk.core.language">
+      <language
+            class="net.sourceforge.shelled.core.ShellScriptLanguageToolkit"
+            nature="net.sourceforge.shelled.core.nature"
+            priority="0">
+      </language>
+   </extension>
+   <extension
+         point="org.eclipse.dltk.core.sourceElementParsers">
+      <parser
+            class="net.sourceforge.shelled.core.parser.ShelledSourceElementParser"
+            nature="net.sourceforge.shelled.core.nature"
+            priority="0">
+      </parser>
+   </extension>
+   <extension point="org.eclipse.dltk.core.sourceParsers">
+      <parserContribution
+            natureId="net.sourceforge.shelled.core.nature">
+         <parser
+               class="net.sourceforge.shelled.core.parser.ShellScriptSourceParserFactory"
+               description="Shell Script Source parser"
+               id="net.sourceforge.shelled.core.sourceParser"
+               name="sourceParser.name"
+               priority="0" />
+      </parserContribution>
+</extension>
+ 
+</plugin>
