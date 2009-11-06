@@ -17,13 +17,13 @@ import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.rules.Token;
 
 public class DollarRule implements IRule {
-	private boolean bracesRequired;
-	private StringBuffer buffer = new StringBuffer();
-	private char closeBrace;
-	private IToken defaultToken;
-	private IWordDetector detector;
-	private char openBrace;
-	private IToken successToken;
+	private final boolean bracesRequired;
+	private final StringBuffer buffer = new StringBuffer();
+	private final char closeBrace;
+	private final IToken defaultToken;
+	private final IWordDetector detector;
+	private final char openBrace;
+	private final IToken successToken;
 
 	public DollarRule(IWordDetector detector, IToken defaultToken,
 			IToken token, boolean bracesRequired, char openBrace,
@@ -52,8 +52,8 @@ public class DollarRule implements IRule {
 				buffer.append((char) c);
 				c = scanner.read();
 				++counter;
-			} while (c != ICharacterScanner.EOF
-					&& (detector.isWordPart((char) c) || (c == openBrace && counter == 1)));
+			} while ((c != ICharacterScanner.EOF)
+					&& (detector.isWordPart((char) c) || ((c == openBrace) && (counter == 1))));
 			if (c == closeBrace)
 				buffer.append((char) c);
 			else
@@ -61,7 +61,7 @@ public class DollarRule implements IRule {
 			if (buffer.length() > 1) {
 				char startChar = buffer.charAt(1);
 				char endChar = buffer.charAt(buffer.length() - 1);
-				if ((startChar == openBrace && endChar == closeBrace)
+				if (((startChar == openBrace) && (endChar == closeBrace))
 						|| (!bracesRequired && (Character
 								.isJavaIdentifierPart(startChar) && Character
 								.isJavaIdentifierPart(endChar))))

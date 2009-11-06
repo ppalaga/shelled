@@ -22,10 +22,10 @@ import org.eclipse.jface.text.rules.Token;
  * @version $Id: AssignmentRule.java,v 1.1 2004/08/17 19:56:53 dougsatch Exp $
  */
 public class AssignmentRule implements IRule {
-	private StringBuffer buffer = new StringBuffer();
-	private IToken defaultToken;
-	private IWordDetector detector;
-	private IToken successToken;
+	private final StringBuffer buffer = new StringBuffer();
+	private final IToken defaultToken;
+	private final IWordDetector detector;
+	private final IToken successToken;
 
 	public AssignmentRule(IWordDetector detector, IToken defaultToken,
 			IToken token) {
@@ -48,7 +48,7 @@ public class AssignmentRule implements IRule {
 			do {
 				buffer.append((c));
 				c = (char) scanner.read();
-			} while (c != ICharacterScanner.EOF && detector.isWordPart(c));
+			} while ((c != ICharacterScanner.EOF) && detector.isWordPart(c));
 			scanner.unread();
 			if (c == '=')
 				return successToken;

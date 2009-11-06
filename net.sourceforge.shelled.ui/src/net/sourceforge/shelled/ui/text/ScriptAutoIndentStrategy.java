@@ -23,7 +23,7 @@ import org.eclipse.jface.text.rules.IToken;
  * 
  */
 public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
-	private DocumentAndCommandScanner scanner = new DocumentAndCommandScanner();
+	private final DocumentAndCommandScanner scanner = new DocumentAndCommandScanner();
 
 	/*
 	 * (non-Javadoc)
@@ -35,7 +35,7 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 	 */
 	@Override
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
-		if (c.length == 0 && c.text != null && endsWithDelimiter(d, c.text))
+		if ((c.length == 0) && (c.text != null) && endsWithDelimiter(d, c.text))
 			smartIndentAfterNewLine(d, c);
 		else if (c.text.length() > 0) {
 			try {
@@ -52,8 +52,8 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 
 					if (token.isOther()) {
 						IndentType type = (IndentType) token.getData();
-						if (type != null && type == IndentType.DECREMENT
-								|| type == IndentType.INFLEXION) {
+						if (((type != null) && (type == IndentType.DECREMENT))
+								|| (type == IndentType.INFLEXION)) {
 							smartInsertAfterBracket(d, c);
 							break;
 						}
@@ -71,8 +71,8 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 	 */
 	private boolean endsWithDelimiter(IDocument d, String txt) {
 		String[] delimiters = d.getLegalLineDelimiters();
-		for (int i = 0; i < delimiters.length; i++) {
-			if (txt.endsWith(delimiters[i]))
+		for (String delimiter : delimiters) {
+			if (txt.endsWith(delimiter))
 				return true;
 		}
 		return false;
@@ -138,8 +138,8 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 
 			if (token.isOther()) {
 				IndentType type = (IndentType) token.getData();
-				if (type == IndentType.INCREMENT
-						|| (ignoreCloseBrackets && type == IndentType.INFLEXION))
+				if ((type == IndentType.INCREMENT)
+						|| (ignoreCloseBrackets && (type == IndentType.INFLEXION)))
 					++bracketcount;
 				else if (type == IndentType.DECREMENT)
 					--bracketcount;
@@ -190,7 +190,7 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 	protected void smartIndentAfterNewLine(IDocument document,
 			DocumentCommand command) {
 		int docLength = document.getLength();
-		if (command.offset == -1 || docLength == 0)
+		if ((command.offset == -1) || (docLength == 0))
 			return;
 
 		try {
@@ -199,8 +199,8 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 			int line = document.getLineOfOffset(p);
 
 			StringBuffer buf = new StringBuffer(command.text);
-			if (command.offset < docLength
-					&& document.getChar(command.offset) == '}') {
+			if ((command.offset < docLength)
+					&& (document.getChar(command.offset) == '}')) {
 				int indLine = findMatchingOpenBracket(document, line,
 						command.offset, 0);
 				if (indLine == -1)
@@ -235,7 +235,7 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 	 */
 	protected void smartInsertAfterBracket(IDocument document,
 			DocumentCommand command) {
-		if (command.offset == -1 || document.getLength() == 0)
+		if ((command.offset == -1) || (document.getLength() == 0))
 			return;
 
 		try {

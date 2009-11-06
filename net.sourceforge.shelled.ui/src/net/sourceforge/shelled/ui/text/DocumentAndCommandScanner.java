@@ -40,8 +40,8 @@ public class DocumentAndCommandScanner extends RuleBasedScanner {
 				} catch (BadLocationException e) {
 				}
 			}
-			if (fDocumentCommand != null
-					&& fOffset < fRangeEnd + fDocumentCommand.text.length()) {
+			if ((fDocumentCommand != null)
+					&& (fOffset < fRangeEnd + fDocumentCommand.text.length())) {
 				return fDocumentCommand.text.charAt((fRangeEnd
 						+ fDocumentCommand.text.length() - fOffset) - 1);
 			}

@@ -1,14 +1,17 @@
-/* $Id: WhitespaceDetector.java,v 1.1 2004/08/17 19:39:49 dougsatch Exp $ */
+/*******************************************************************************
+ * Copyright (c) 2009 Doug Satchwell and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Doug Satchwell - initial API and implementation
+ *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
 
-/**
- * 
- * @author Doug Satchwell
- * @version $Id: WhitespaceDetector.java,v 1.1 2004/08/17 19:39:49 dougsatch Exp
- *          $
- */
 public class WhitespaceDetector implements IWhitespaceDetector {
 
 	/**

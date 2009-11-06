@@ -13,8 +13,6 @@ package net.sourceforge.shelled.ui.text;
 /**
  * A type of indent.
  * 
- * @author Doug Satchwell
- * @version $Id: IndentType.java,v 1.1 2004/08/17 19:39:49 dougsatch Exp $
  */
 public class IndentType {
 	/** A single indent decrement */

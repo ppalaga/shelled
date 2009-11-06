@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Doug Satchwell - initial API and implementation
+ *    Doug Satchwell - initial API and implementation
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
@@ -70,8 +70,8 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		// there is a LOT of whitespace
 		// and when a token is detected the other rules are not evaluated.
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new DollarRule(dollarDetector, defaultToken, varToken,
-				false, '{', '}'));
+		rules.add(new DollarRule(dollarDetector, defaultToken, varToken, false,
+				'{', '}'));
 		rules.add(new SingleLineRule("$(", ")", evalToken, '\\', false));
 		rules.add(new SingleLineRule("`", "`", evalToken, '\\', false));
 		rules.add(new SingleLineRule("'", "'", singleQuoteToken, '\\', false));
