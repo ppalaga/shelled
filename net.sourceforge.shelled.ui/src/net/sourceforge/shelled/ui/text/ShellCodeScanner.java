@@ -23,7 +23,6 @@ import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
-import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
@@ -48,10 +47,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 			IShellColorConstants.SHELL_COMMENT,
 			IShellColorConstants.SHELL_DEFAULT,
 			IShellColorConstants.SHELL_KEYWORD,
-			IShellColorConstants.SHELL_HASHBANG,
-			IShellColorConstants.SHELL_EVAL,
-			IShellColorConstants.SHELL_SINGLE_QUOTE,
-			IShellColorConstants.SHELL_DOUBLE_QUOTE,
 			IShellColorConstants.SHELL_VARIABLE,
 			IShellColorConstants.SHELL_COMMAND };
 
@@ -84,22 +79,20 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		IToken keyword = this.getToken(IShellColorConstants.SHELL_KEYWORD);
 		IToken commandToken = this.getToken(IShellColorConstants.SHELL_COMMAND);
 		IToken other = this.getToken(IShellColorConstants.SHELL_DEFAULT);
-		IToken hashbang = this.getToken(IShellColorConstants.SHELL_HASHBANG);
 		IToken comment = this.getToken(IShellColorConstants.SHELL_COMMENT);
-		IToken eval = this.getToken(IShellColorConstants.SHELL_EVAL);
-		IToken doubleQuote = this
-				.getToken(IShellColorConstants.SHELL_DOUBLE_QUOTE);
-		IToken singleQuote = this
-				.getToken(IShellColorConstants.SHELL_SINGLE_QUOTE);
 		IToken variable = this.getToken(IShellColorConstants.SHELL_VARIABLE);
-		rules.add(new EndOfLineRule("#!", hashbang));
 		rules.add(new EndOfLineRule("#", comment));
-		rules.add(new SingleLineRule("$(", ")", eval, '\\', false, true));
-		rules.add(new SingleLineRule("`", "`", eval, '\\', false, true));
-		rules
-				.add(new SingleLineRule("\"", "\"", doubleQuote, '\\', false,
-						true));
-		rules.add(new SingleLineRule("'", "'", singleQuote, '\\', false, true));
+		IWordDetector dollarDetector = new IWordDetector() {
+			public boolean isWordPart(char c) {
+				return Character.isJavaIdentifierPart(c);
+			}
+
+			public boolean isWordStart(char c) {
+				return c == '$';
+			}
+		};
+		rules.add(new DollarRule(dollarDetector, variable, variable, false,
+				'{', '}'));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
 		for (String element : KEYWORDS) {
 			wordRule.addWord(element, keyword);
@@ -118,21 +111,10 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 			}
 		};
 
-		IWordDetector dollarDetector = new IWordDetector() {
-			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c);
-			}
-
-			public boolean isWordStart(char c) {
-				return c == '$';
-			}
-		};
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		rules.add(new AssignmentRule(wordDetector, variable, variable));
-		rules.add(new DollarRule(dollarDetector, variable, variable, false,
-				'{', '}'));
 
-		this.setDefaultReturnToken(other);
+		// this.setDefaultReturnToken(other);
 		return rules;
 	}
 

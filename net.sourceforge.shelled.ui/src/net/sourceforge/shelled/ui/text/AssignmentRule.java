@@ -16,11 +16,6 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.rules.Token;
 
-/**
- * 
- * @author Doug Satchwell
- * @version $Id: AssignmentRule.java,v 1.1 2004/08/17 19:56:53 dougsatch Exp $
- */
 public class AssignmentRule implements IRule {
 	private final StringBuffer buffer = new StringBuffer();
 	private final IToken defaultToken;

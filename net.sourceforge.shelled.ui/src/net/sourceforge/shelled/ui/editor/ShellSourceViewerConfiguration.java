@@ -200,7 +200,7 @@ public class ShellSourceViewerConfiguration extends
 				.getColorManager(), this.fPreferenceStore);
 		this.fEvalScanner = new SingleTokenScriptScanner(
 				this.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_SINGLE_QUOTE);
+				IShellColorConstants.SHELL_EVAL);
 	}
 
 	@Override

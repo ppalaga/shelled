@@ -16,7 +16,6 @@ import org.eclipse.dltk.ui.text.ScriptSourceViewerConfiguration;
 import org.eclipse.dltk.ui.text.ScriptTextTools;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.rules.IPartitionTokenScanner;
-import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 public class ShellTextTools extends ScriptTextTools {
@@ -26,8 +25,7 @@ public class ShellTextTools extends ScriptTextTools {
 	public ShellTextTools(boolean autoDisposeOnDisplayDispose) {
 		super(IShellPartitions.SHELL_PARTITIONING,
 				IShellPartitions.CONTENT_TYPES, autoDisposeOnDisplayDispose);
-		fPartitionScanner = new RuleBasedPartitionScanner();
-
+		fPartitionScanner = new ShellPartitionScanner();
 	}
 
 	@Override
