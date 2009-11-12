@@ -64,11 +64,13 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					}
 				}
 				for (String funcName : functionNames) {
-					if (line.contains(funcName)) {// TODO find real occurances
+					if (line.contains(funcName)) {
 						moduleDeclaration
 								.addStatement(new MethodCallExpression(
-										lineStart, lineStart + line.length(),
-										null, funcName, null));
+										lineStart + line.indexOf(funcName),
+										lineStart + +line.indexOf(funcName)
+												+ funcName.length(), null,
+										funcName, null));
 					}
 				}
 
