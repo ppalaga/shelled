@@ -19,6 +19,7 @@ import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.expressions.MethodCallExpression;
+import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.codeassist.ISelectionEngine;
 import org.eclipse.dltk.compiler.env.ISourceModule;
 import org.eclipse.dltk.core.DLTKCore;
@@ -46,6 +47,10 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 							findDeclaration(((MethodCallExpression) s)
 									.getName(), results);
 						}
+						if (s instanceof VariableReference) {
+							findDeclaration(((VariableReference) s).getName(),
+									results);
+						}
 					}
 					return super.visit(s);
 				}
@@ -58,6 +63,7 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 					}
 					return super.visit(s);
 				}
+
 			});
 		} catch (Exception e) {
 			if (DLTKCore.DEBUG) {

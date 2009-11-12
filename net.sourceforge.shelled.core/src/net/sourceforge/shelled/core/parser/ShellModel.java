@@ -13,14 +13,17 @@ package net.sourceforge.shelled.core.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.dltk.ast.declarations.FieldDeclaration;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 
 public class ShellModel {
 	
 	private List<MethodDeclaration> functions;
+	private List<FieldDeclaration> variables;
 	
 	public ShellModel() {
 		functions = new ArrayList<MethodDeclaration>();
+		variables = new ArrayList<FieldDeclaration>();
 	}
 	
 	public void addFunction(MethodDeclaration funtion) {
@@ -29,6 +32,14 @@ public class ShellModel {
 
 	public List<MethodDeclaration> getFunctions() {
 		return functions;
+	}
+	
+	public void addVariable(FieldDeclaration variable) {
+		variables.add(variable);
+	}
+
+	public List<FieldDeclaration> getVariables() {
+		return variables;
 	}
 
 }

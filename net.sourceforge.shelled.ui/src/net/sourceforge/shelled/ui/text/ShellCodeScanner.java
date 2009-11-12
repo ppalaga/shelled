@@ -96,8 +96,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 				return Character.isJavaIdentifierStart(c);
 			}
 		};
-		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new AssignmentRule(wordDetector, other, variable));
 		rules.add(new DollarRule(dollarDetector, other, variable, false, '{',
 				'}'));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
@@ -108,6 +106,8 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 			wordRule.addWord(command, commandToken);
 		}
 		rules.add(wordRule);
+		rules.add(new WhitespaceRule(new WhitespaceDetector()));
+		rules.add(new AssignmentRule(wordDetector, other, variable));
 
 		// this.setDefaultReturnToken(other);
 		return rules;

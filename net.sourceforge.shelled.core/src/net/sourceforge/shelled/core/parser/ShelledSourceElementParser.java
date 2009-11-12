@@ -13,6 +13,7 @@ package net.sourceforge.shelled.core.parser;
 import net.sourceforge.shelled.core.ShelledNature;
 
 import org.eclipse.dltk.compiler.ISourceElementRequestor;
+import org.eclipse.dltk.compiler.ISourceElementRequestor.FieldInfo;
 import org.eclipse.dltk.compiler.ISourceElementRequestor.TypeInfo;
 import org.eclipse.dltk.core.AbstractSourceElementParser;
 import org.eclipse.dltk.core.ISourceModuleInfoCache.ISourceModuleInfo;
@@ -39,6 +40,10 @@ public class ShelledSourceElementParser extends AbstractSourceElementParser {
 		for (FunctionInfo method : moduleDeclaration.getFunctionsInfo()){
 			requestor.enterMethod(method);
 			requestor.exitMethod(method.declarationEnd);
+		}
+		for (FieldInfo variable : moduleDeclaration.getFieldsInfo()){
+			requestor.enterField(variable);
+			requestor.exitMethod(variable.nameSourceEnd);
 		}
 		requestor.exitType(module.getSourceContents().length());
 		requestor.exitModule(module.getSourceContents().length());
