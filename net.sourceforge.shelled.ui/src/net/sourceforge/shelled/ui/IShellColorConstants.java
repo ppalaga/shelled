@@ -23,4 +23,5 @@ public interface IShellColorConstants {
 	public static final String SHELL_SINGLE_QUOTE = DLTKColorConstants.DLTK_STRING;
 	public static final String SHELL_VARIABLE = DLTKColorConstants.DLTK_ARGUMENT;
 	public static final String SHELL_COMMAND = DLTKColorConstants.DLTK_BASE_CLASS;
+	public static final String SHELL_TODO_TAG = DLTKColorConstants.TASK_TAG;
 }

@@ -11,6 +11,7 @@
 package net.sourceforge.shelled.ui;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.dltk.compiler.task.TaskTagUtils;
 import org.eclipse.dltk.ui.CodeFormatterConstants;
 import org.eclipse.dltk.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -51,10 +52,15 @@ public class ShelledUIPreferenceInitializer extends
 		PreferenceConverter.setDefault(store,
 				IShellColorConstants.SHELL_VARIABLE, new RGB(0, 0, 156));
 
+		PreferenceConverter.setDefault(store,
+				IShellColorConstants.SHELL_TODO_TAG, new RGB(127, 159, 191));
+		store.setDefault(IShellColorConstants.SHELL_TODO_TAG
+				+ PreferenceConstants.EDITOR_BOLD_SUFFIX, true);
+
 		store.setDefault(IShellColorConstants.SHELL_COMMENT
 				+ PreferenceConstants.EDITOR_BOLD_SUFFIX, false);
 		store.setDefault(IShellColorConstants.SHELL_COMMENT
-				+ PreferenceConstants.EDITOR_ITALIC_SUFFIX, false);
+				+ PreferenceConstants.EDITOR_ITALIC_SUFFIX, true);
 		store.setDefault(IShellColorConstants.SHELL_HASHBANG
 				+ PreferenceConstants.EDITOR_ITALIC_SUFFIX, true);
 
@@ -74,5 +80,7 @@ public class ShelledUIPreferenceInitializer extends
 				.setDefault(CodeFormatterConstants.FORMATTER_INDENTATION_SIZE,
 						"4");
 		store.setDefault(PreferenceConstants.EDITOR_FOLDING_ENABLED, true);
+		TaskTagUtils.initializeDefaultValues(Activator.getDefault()
+				.getPluginPreferences());
 	}
 }

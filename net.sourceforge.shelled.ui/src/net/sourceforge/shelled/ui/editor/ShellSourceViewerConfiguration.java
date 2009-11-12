@@ -150,10 +150,6 @@ public class ShellSourceViewerConfiguration extends
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 
-		dr = new DefaultDamagerRepairer(this.fCommentScanner);
-		reconciler.setDamager(dr, IShellPartitions.COMMENT_CONTENT_TYPE);
-		reconciler.setRepairer(dr, IShellPartitions.COMMENT_CONTENT_TYPE);
-
 		dr = new DefaultDamagerRepairer(this.fHashbangScanner);
 		reconciler.setDamager(dr, IShellPartitions.HASHBANG_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IShellPartitions.HASHBANG_CONTENT_TYPE);
@@ -174,6 +170,10 @@ public class ShellSourceViewerConfiguration extends
 		reconciler.setDamager(dr, IShellPartitions.EVAL_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IShellPartitions.EVAL_CONTENT_TYPE);
 
+		dr = new DefaultDamagerRepairer(this.fCommentScanner);
+		reconciler.setDamager(dr, IShellPartitions.COMMENT_CONTENT_TYPE);
+		reconciler.setRepairer(dr, IShellPartitions.COMMENT_CONTENT_TYPE);
+
 		return reconciler;
 	}
 
@@ -184,9 +184,6 @@ public class ShellSourceViewerConfiguration extends
 		this.fCodeScanner = new ShellCodeScanner(this.getColorManager(),
 				this.fPreferenceStore);
 		// This is default scanners for partitions with same color.
-		this.fCommentScanner = new SingleTokenScriptScanner(this
-				.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_COMMENT);
 		this.fFunctionScanner = new SingleTokenScriptScanner(this
 				.getColorManager(), this.fPreferenceStore,
 				IShellColorConstants.SHELL_FUNCTION);
@@ -201,6 +198,9 @@ public class ShellSourceViewerConfiguration extends
 		this.fEvalScanner = new SingleTokenScriptScanner(
 				this.getColorManager(), this.fPreferenceStore,
 				IShellColorConstants.SHELL_EVAL);
+		this.fCommentScanner = createCommentScanner(
+				IShellColorConstants.SHELL_COMMENT,
+				IShellColorConstants.SHELL_TODO_TAG);
 	}
 
 	@Override
