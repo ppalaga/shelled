@@ -19,7 +19,6 @@ import net.sourceforge.shelled.ui.IShellColorConstants;
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
 import org.eclipse.dltk.ui.text.IColorManager;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
@@ -44,7 +43,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 	private static List<String> fgCommands = getCommands();
 
 	private static String fgTokenProperties[] = new String[] {
-			IShellColorConstants.SHELL_COMMENT,
 			IShellColorConstants.SHELL_DEFAULT,
 			IShellColorConstants.SHELL_KEYWORD,
 			IShellColorConstants.SHELL_VARIABLE,
@@ -79,9 +77,7 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		IToken keyword = this.getToken(IShellColorConstants.SHELL_KEYWORD);
 		IToken commandToken = this.getToken(IShellColorConstants.SHELL_COMMAND);
 		IToken other = this.getToken(IShellColorConstants.SHELL_DEFAULT);
-		IToken comment = this.getToken(IShellColorConstants.SHELL_COMMENT);
 		IToken variable = this.getToken(IShellColorConstants.SHELL_VARIABLE);
-		rules.add(new EndOfLineRule("#", comment));
 		IWordDetector dollarDetector = new IWordDetector() {
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c);
@@ -91,16 +87,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 				return c == '$';
 			}
 		};
-		rules.add(new DollarRule(dollarDetector, variable, variable, false,
-				'{', '}'));
-		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
-		for (String element : KEYWORDS) {
-			wordRule.addWord(element, keyword);
-		}
-		for (String command : fgCommands) {
-			wordRule.addWord(command, commandToken);
-		}
-		rules.add(wordRule);
 		IWordDetector wordDetector = new IWordDetector() {
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c);
@@ -110,9 +96,18 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 				return Character.isJavaIdentifierStart(c);
 			}
 		};
-
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new AssignmentRule(wordDetector, variable, variable));
+		rules.add(new AssignmentRule(wordDetector, other, variable));
+		rules.add(new DollarRule(dollarDetector, other, variable, false, '{',
+				'}'));
+		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
+		for (String element : KEYWORDS) {
+			wordRule.addWord(element, keyword);
+		}
+		for (String command : fgCommands) {
+			wordRule.addWord(command, commandToken);
+		}
+		rules.add(wordRule);
 
 		// this.setDefaultReturnToken(other);
 		return rules;
