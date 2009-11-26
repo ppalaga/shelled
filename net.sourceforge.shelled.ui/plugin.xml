@@ -87,6 +87,12 @@
 		<command name="Run shell" description="run shell script"
 			categoryId="org.eclipse.debug.ui.category.run" id="net.sourceforge.shelled.ui.shortcut">
 		</command>
+		<command
+        defaultHandler="net.sourceforge.shelled.ui.ShowManHandler"
+        description="Show man page view"
+        id="net.sourceforge.shelled.ui.showman"
+        name="Show man page">
+		</command>
 	</extension>
 	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
 		<launchConfigurationTabGroup
@@ -147,5 +153,20 @@
     </requires>
   </buildParticipant>
   
+</extension>
+<extension point="org.eclipse.dltk.ui.scriptDocumentationProviders">
+     <provider
+           class="net.sourceforge.shelled.ui.selection.ShellDocumentationProvider"
+           id="net.sourceforge.shelled.ShellDocumentationProvider"
+           nature="net.sourceforge.shelled.core.nature"/>
+</extension>
+<extension
+      point="org.eclipse.ui.bindings">
+   <key
+         commandId="net.sourceforge.shelled.ui.showman"
+         contextId="org.eclipse.ui.contexts.window"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+         sequence="Alt+M">
+   </key>
 </extension>
 </plugin>

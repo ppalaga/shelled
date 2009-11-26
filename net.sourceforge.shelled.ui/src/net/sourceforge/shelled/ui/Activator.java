@@ -37,12 +37,6 @@ public class Activator extends AbstractUIPlugin {
 
 	private ShellTextTools fShellTextTools;
 
-	/**
-	 * The constructor
-	 */
-	public Activator() {
-	}
-
 	public synchronized ShellTextTools getTextTools() {
 		if (fShellTextTools == null)
 			fShellTextTools = new ShellTextTools(true);
