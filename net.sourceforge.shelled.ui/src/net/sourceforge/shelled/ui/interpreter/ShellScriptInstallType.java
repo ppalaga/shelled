@@ -51,7 +51,7 @@ public class ShellScriptInstallType extends AbstractInterpreterInstallType {
 	}
 
 	public String getName() {
-		return "Shell interperter";
+		return "Shell Interpreter";
 	}
 
 	public String getNatureId() {
