@@ -1,0 +1,21 @@
+<project default="run" name="Project's .releng buildExtra.xml">
+
+	<target name="init">
+	</target>
+
+	<target name="run">
+		<!-- TODO: write code that's hooked into o.e.d.commonbuilder.releng's build.xml to do extra configs (eg., for inserting 3rd party libs into plugins) 
+		-->
+	</target>
+
+	<target name="extraPackaging">
+		<p2.composite.repository>
+		  <repository location="file:/myDestination" name="A new repository" />
+		  <add>
+		    <repository location="http://aSource/" kind="M" />
+		    <repository location="http://aSource2/" kind="A" />
+		  </add>
+		</p2.composite.repository>
+	</target>
+
+</project>
