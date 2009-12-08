@@ -22,17 +22,20 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
+import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 
 public class ShellCodeScanner extends AbstractScriptScanner {
 	public class ShellWordDetector implements IWordDetector {
 		public boolean isWordPart(char character) {
-			return Character.isJavaIdentifierPart(character) && character != 36;
+			return Character.isJavaIdentifierPart(character)
+					&& (character != 36);
 		}
 
 		public boolean isWordStart(char character) {
-			return Character.isJavaIdentifierStart(character) && character != 36;
+			return Character.isJavaIdentifierStart(character)
+					&& (character != 36);
 		}
 	}
 
@@ -96,8 +99,10 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 				return Character.isJavaIdentifierStart(c);
 			}
 		};
-		rules.add(new DollarRule(dollarDetector, other, variable, false, '{',
-				'}'));
+		rules.add(new WhitespaceRule(new WhitespaceDetector()));
+		rules.add(new AssignmentRule(wordDetector, Token.UNDEFINED, variable));
+		rules.add(new DollarRule(dollarDetector, Token.UNDEFINED, variable,
+				false, '{', '}'));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
 		for (String element : KEYWORDS) {
 			wordRule.addWord(element, keyword);
@@ -106,10 +111,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 			wordRule.addWord(command, commandToken);
 		}
 		rules.add(wordRule);
-		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new AssignmentRule(wordDetector, other, variable));
-
-		// this.setDefaultReturnToken(other);
 		return rules;
 	}
 
