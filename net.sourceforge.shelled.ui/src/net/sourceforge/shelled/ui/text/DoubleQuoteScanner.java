@@ -52,8 +52,6 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		IToken defaultToken = this
 				.getToken(IShellColorConstants.SHELL_DOUBLE_QUOTE);
 		IToken evalToken = this.getToken(IShellColorConstants.SHELL_EVAL);
-		IToken singleQuoteToken = this
-				.getToken(IShellColorConstants.SHELL_SINGLE_QUOTE);
 		IToken varToken = this.getToken(IShellColorConstants.SHELL_VARIABLE);
 
 		IWordDetector dollarDetector = new IWordDetector() {
@@ -74,7 +72,6 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		rules.add(new DollarRule(dollarDetector, defaultToken, varToken, false,
 				'{', '}'));
 		rules.add(new SingleLineRule("`", "`", evalToken, '\\', false));
-		rules.add(new SingleLineRule("'", "'", singleQuoteToken, '\\', false));
 		setDefaultReturnToken(defaultToken);
 		return rules;
 	}
