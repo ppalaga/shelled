@@ -56,7 +56,8 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 
 		IWordDetector dollarDetector = new IWordDetector() {
 			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c);
+				return Character.isJavaIdentifierPart(c) || (c == '[')
+						|| (c == ']');
 			}
 
 			public boolean isWordStart(char c) {
