@@ -83,7 +83,8 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		IToken variable = this.getToken(IShellColorConstants.SHELL_VARIABLE);
 		IWordDetector dollarDetector = new IWordDetector() {
 			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c);
+				return Character.isJavaIdentifierPart(c) || (c == '[')
+						|| (c == ']');
 			}
 
 			public boolean isWordStart(char c) {
@@ -92,7 +93,8 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		};
 		IWordDetector wordDetector = new IWordDetector() {
 			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c);
+				return Character.isJavaIdentifierPart(c) || (c == '[')
+						|| (c == ']');
 			}
 
 			public boolean isWordStart(char c) {
