@@ -41,7 +41,8 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 
 	public static String[] KEYWORDS = { "do", "done", "if", "fi", "then",
 			"else", "elif", "case", "esac", "while", "for", "in", "select",
-			"time", "until", "function", "[", "[[", "]", "]]" };
+			"time", "until", "function", "[", "[[", "]", "]]", "set", "unset",
+			"declare" };
 
 	private static List<String> fgCommands = getCommands();
 
