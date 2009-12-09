@@ -30,7 +30,7 @@ public class ShellPartitionScanner extends RuleBasedPartitionScanner {
 		// Add rule for single line comments.
 		rules.add(new EndOfLineRule("#!", new Token(
 				IShellPartitions.HASHBANG_CONTENT_TYPE)));
-		rules.add(new EndOfLineRule("#", new Token(
+		rules.add(new EndOfLineRule(" #", new Token(
 				IShellPartitions.COMMENT_CONTENT_TYPE)));
 		rules.add(new SingleLineRule("$(", ")", new Token(
 				IShellPartitions.EVAL_CONTENT_TYPE), '\\', false, true));
