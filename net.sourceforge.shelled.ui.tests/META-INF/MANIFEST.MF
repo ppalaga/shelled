@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tests for the ShellEd UI plugin
+Bundle-SymbolicName: net.sourceforge.shelled.ui.tests
+Bundle-Version: 0.0.1.qualifier
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.sourceforge.shelled.ui,
+ org.junit4
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
