@@ -34,9 +34,10 @@ public class ShellPartitionScanner extends RuleBasedPartitionScanner {
 		// is a whitespace before the #
 		rules.add(new EndOfLineRule("#", new Token(
 				IShellPartitions.COMMENT_CONTENT_TYPE)));
-		// TODO make this rule counting braces to get them highlighted correctly
-		rules.add(new SingleLineRule("$(", ")", new Token(
-				IShellPartitions.EVAL_CONTENT_TYPE), '\\', false, true));
+		rules.add(new DollarBraceCountingRule('(', ')', new Token(
+				IShellPartitions.EVAL_CONTENT_TYPE), '\\'));
+		rules.add(new DollarBraceCountingRule('{', '}', new Token(
+				IShellPartitions.PARAM_CONTENT_TYPE), '\\'));
 		rules.add(new SingleLineRule("`", "`", new Token(
 				IShellPartitions.EVAL_CONTENT_TYPE), '\\', false, true));
 		rules

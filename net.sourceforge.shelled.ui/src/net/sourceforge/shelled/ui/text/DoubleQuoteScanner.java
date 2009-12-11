@@ -20,17 +20,14 @@ import org.eclipse.dltk.ui.text.IColorManager;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 
 public class DoubleQuoteScanner extends AbstractScriptScanner {
 
 	private static String fgTokenProperties[] = new String[] {
-			IShellColorConstants.SHELL_COMMENT,
 			IShellColorConstants.SHELL_DEFAULT,
 			IShellColorConstants.SHELL_EVAL,
-			IShellColorConstants.SHELL_SINGLE_QUOTE,
 			IShellColorConstants.SHELL_DOUBLE_QUOTE,
 			IShellColorConstants.SHELL_VARIABLE };
 
@@ -54,24 +51,14 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		IToken evalToken = this.getToken(IShellColorConstants.SHELL_EVAL);
 		IToken varToken = this.getToken(IShellColorConstants.SHELL_VARIABLE);
 
-		IWordDetector dollarDetector = new IWordDetector() {
-			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c) || (c == '[')
-						|| (c == ']');
-			}
-
-			public boolean isWordStart(char c) {
-				return c == '$';
-			}
-		};
-
 		// Add generic whitespace rule. This is here for efficiency reasons,
 		// there is a LOT of whitespace
 		// and when a token is detected the other rules are not evaluated.
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new SingleLineRule("$(", ")", evalToken, '\\', false));
-		rules.add(new DollarRule(dollarDetector, defaultToken, varToken, false,
-				'{', '}'));
+		rules.add(new DollarBraceCountingRule('(', ')', evalToken, '\\'));
+		rules.add(new DollarBraceCountingRule('{', '}', varToken, '\\'));
+		rules.add(new DollarRule(new DollarDetector(), defaultToken, varToken,
+				false, '{', '}'));
 		rules.add(new SingleLineRule("`", "`", evalToken, '\\', false));
 		setDefaultReturnToken(defaultToken);
 		return rules;

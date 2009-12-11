@@ -82,16 +82,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		IToken commandToken = this.getToken(IShellColorConstants.SHELL_COMMAND);
 		IToken other = this.getToken(IShellColorConstants.SHELL_DEFAULT);
 		IToken variable = this.getToken(IShellColorConstants.SHELL_VARIABLE);
-		IWordDetector dollarDetector = new IWordDetector() {
-			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c) || (c == '[')
-						|| (c == ']');
-			}
-
-			public boolean isWordStart(char c) {
-				return c == '$';
-			}
-		};
 		IWordDetector wordDetector = new IWordDetector() {
 			public boolean isWordPart(char c) {
 				return Character.isJavaIdentifierPart(c) || (c == '[')
@@ -104,8 +94,8 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		};
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		rules.add(new AssignmentRule(wordDetector, Token.UNDEFINED, variable));
-		rules.add(new DollarRule(dollarDetector, Token.UNDEFINED, variable,
-				false, '{', '}'));
+		rules.add(new DollarRule(new DollarDetector(), Token.UNDEFINED,
+				variable, false, '{', '}'));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
 		for (String element : KEYWORDS) {
 			wordRule.addWord(element, keyword);

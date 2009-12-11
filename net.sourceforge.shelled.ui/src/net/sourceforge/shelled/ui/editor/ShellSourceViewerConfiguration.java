@@ -72,18 +72,14 @@ public class ShellSourceViewerConfiguration extends
 		return wordL;
 	}
 
+	// Scanners for all the various content types provided by the partitioner
 	private AbstractScriptScanner fCodeScanner;
-
 	private AbstractScriptScanner fCommentScanner;
-
 	private AbstractScriptScanner fDoubleQuoteScanner;
-
+	private AbstractScriptScanner fParamScanner;
 	private AbstractScriptScanner fEvalScanner;
-
 	private AbstractScriptScanner fHashbangScanner;
-
 	private AbstractScriptScanner fFunctionScanner;
-
 	private AbstractScriptScanner fSingleQuoteScanner;
 
 	public ShellSourceViewerConfiguration(IColorManager colorManager,
@@ -145,14 +141,19 @@ public class ShellSourceViewerConfiguration extends
 		reconciler.setDocumentPartitioning(this
 				.getConfiguredDocumentPartitioning(sourceViewer));
 
-		DefaultDamagerRepairer dr = new DefaultDamagerRepairer(
-				this.fCodeScanner);
+		DefaultDamagerRepairer dr;
+
+		dr = new DefaultDamagerRepairer(this.fCodeScanner);
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 
 		dr = new DefaultDamagerRepairer(this.fHashbangScanner);
 		reconciler.setDamager(dr, IShellPartitions.HASHBANG_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IShellPartitions.HASHBANG_CONTENT_TYPE);
+
+		dr = new DefaultDamagerRepairer(this.fParamScanner);
+		reconciler.setDamager(dr, IShellPartitions.PARAM_CONTENT_TYPE);
+		reconciler.setRepairer(dr, IShellPartitions.PARAM_CONTENT_TYPE);
 
 		dr = new DefaultDamagerRepairer(this.fFunctionScanner);
 		reconciler.setDamager(dr, IShellPartitions.FUNCTION_CONTENT_TYPE);
@@ -195,6 +196,9 @@ public class ShellSourceViewerConfiguration extends
 				IShellColorConstants.SHELL_SINGLE_QUOTE);
 		this.fDoubleQuoteScanner = new DoubleQuoteScanner(this
 				.getColorManager(), this.fPreferenceStore);
+		this.fParamScanner = new SingleTokenScriptScanner(this
+				.getColorManager(), this.fPreferenceStore,
+				IShellColorConstants.SHELL_VARIABLE);
 		this.fEvalScanner = new SingleTokenScriptScanner(
 				this.getColorManager(), this.fPreferenceStore,
 				IShellColorConstants.SHELL_EVAL);
@@ -205,7 +209,6 @@ public class ShellSourceViewerConfiguration extends
 
 	@Override
 	protected void alterContentAssistant(ContentAssistant assistant) {
-		// IDocument.DEFAULT_CONTENT_TYPE
 		IContentAssistProcessor scriptProcessor = new ShellCompletionProcessor(
 				getEditor(), assistant, IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.setContentAssistProcessor(scriptProcessor,
