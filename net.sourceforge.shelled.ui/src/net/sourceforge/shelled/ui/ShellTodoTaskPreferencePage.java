@@ -41,7 +41,7 @@ public class ShellTodoTaskPreferencePage extends
 
 	@Override
 	protected void setDescription() {
-		setDescription("TODO tasks");
+		setDescription("Strings indicating tasks in shell script comments.");
 	}
 
 	protected Preferences getPluginPreferences() {

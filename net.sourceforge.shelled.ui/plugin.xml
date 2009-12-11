@@ -23,18 +23,18 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 	<page id="net.sourceforge.shelled.ui.preferences"
- 		name="Shelled"
+ 		name="ShellEd"
     		class="net.sourceforge.shelled.ui.MainPreferencePage">
    	</page>
 	
 		<page
 			class="net.sourceforge.shelled.ui.interpreter.ShellInterpreterPreferencePage"
-			category="net.sourceforge.shelled.ui.preferences" id="net.sourceforge.shelled.ui.preferences.interpreters" name="Shelled Interpreters" />
+			category="net.sourceforge.shelled.ui.preferences" id="net.sourceforge.shelled.ui.preferences.interpreters" name="Interpreters" />
 			<page
   category="net.sourceforge.shelled.ui.preferences"
   class="net.sourceforge.shelled.ui.ShellTodoTaskPreferencePage"
   id="net.sourceforge.shelled.ui.preferences.TodoTasks"
-  name="Shelled task tags"/>
+  name="Task Tags"/>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
 		<editor class="net.sourceforge.shelled.ui.editor.ShellScriptEditor"
