@@ -6,6 +6,7 @@ Bundle-Version: 0.0.1.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.sourceforge.shelled.ui,
- org.junit4
+ org.junit4,
+ org.eclipse.jface.text
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
