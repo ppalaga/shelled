@@ -57,8 +57,7 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		rules.add(new DollarBraceCountingRule('(', ')', evalToken, '\\'));
 		rules.add(new DollarBraceCountingRule('{', '}', varToken, '\\'));
-		rules.add(new DollarRule(new DollarDetector(), defaultToken, varToken,
-				false, '{', '}'));
+		rules.add(new DollarRule(new DollarDetector(), defaultToken, varToken));
 		rules.add(new SingleLineRule("`", "`", evalToken, '\\', false));
 		setDefaultReturnToken(defaultToken);
 		return rules;

@@ -10,13 +10,13 @@ package net.sourceforge.shelled.ui.text;
 import org.eclipse.jface.text.rules.IWordDetector;
 
 /**
- * Detemines whether given any given character forms part of a shell variable.
+ * Determines whether given any given character forms part of a shell variable.
  */
 public class DollarDetector implements IWordDetector {
 
 	@Override
 	public boolean isWordPart(char c) {
-		return Character.isJavaIdentifierPart(c) || (c == '[') || (c == ']');
+		return Character.isJavaIdentifierPart(c);
 	}
 
 	@Override

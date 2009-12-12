@@ -28,8 +28,6 @@ public class DollarDetectorTest {
 
 	@Test
 	public void testIsWordPart() {
-		assertTrue(detector.isWordPart('['));
-		assertTrue(detector.isWordPart(']'));
 	}
 
 	@Test

@@ -95,7 +95,7 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		rules.add(new AssignmentRule(wordDetector, Token.UNDEFINED, variable));
 		rules.add(new DollarRule(new DollarDetector(), Token.UNDEFINED,
-				variable, false, '{', '}'));
+				variable));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
 		for (String element : KEYWORDS) {
 			wordRule.addWord(element, keyword);

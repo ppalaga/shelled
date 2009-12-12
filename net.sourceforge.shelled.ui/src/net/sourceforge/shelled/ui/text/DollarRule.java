@@ -16,24 +16,48 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.IWordDetector;
 import org.eclipse.jface.text.rules.Token;
 
+/**
+ * This rule captures parameter expansions that are not covered by
+ * DollarBraceCountingRule. That is, all dollar-prefixed variables including
+ * special variables where encapsulation in braces is not necessary.
+ */
 public class DollarRule implements IRule {
-	private final boolean bracesRequired;
+
 	private final StringBuffer buffer = new StringBuffer();
-	private final char closeBrace;
 	private final IToken defaultToken;
 	private final IWordDetector detector;
-	private final char openBrace;
 	private final IToken successToken;
 
-	public DollarRule(IWordDetector detector, IToken defaultToken,
-			IToken token, boolean bracesRequired, char openBrace,
-			char closeBrace) {
+	public DollarRule(IWordDetector detector, IToken defaultToken, IToken token) {
 		this.detector = detector;
 		this.successToken = token;
 		this.defaultToken = defaultToken;
-		this.openBrace = openBrace;
-		this.closeBrace = closeBrace;
-		this.bracesRequired = bracesRequired;
+	}
+
+	/**
+	 * Returns whether the specified character is a special parameter in shell
+	 * script. A dollar sign combined with any of the following characters will
+	 * be highlighted, but no characters after that.
+	 * <p>
+	 *'*', '@' - positional parameters starting from 1<br>
+	 *'#' - number of positional parameters<br>
+	 *'?' - exit status of the last executed foreground command<br>
+	 *'-' - current option flags<br>
+	 *'$' - PID of the shell<br>
+	 *'!' - PID of the last executed background command<br>
+	 *'_' - pathname used to invoke the shell and every subsequent command <br>
+	 *'0' - usually the name of the file used to invoke the shell<br>
+	 *'1' to '9' - expands to the corresponding positional parameters,
+	 * parameters 10+ must be referenced with braces like ${12}
+	 * 
+	 * @param c
+	 *            a character to test
+	 * @return true if the specified character is a special parameter
+	 */
+	protected boolean isSpecial(char c) {
+		return ((c == '*') || (c == '@') || (c == '#') || (c == '?')
+				|| (c == '-') || (c == '$') || (c == '!') || (c == '_') || Character
+				.isDigit(c));
 	}
 
 	/*
@@ -47,26 +71,16 @@ public class DollarRule implements IRule {
 		int c = scanner.read();
 		if (detector.isWordStart((char) c)) {
 			buffer.setLength(0);
-			int counter = 0;
 			do {
 				buffer.append((char) c);
 				c = scanner.read();
-				++counter;
-			} while ((c != ICharacterScanner.EOF)
-					&& (detector.isWordPart((char) c) || ((c == openBrace) && (counter == 1))));
-			if (c == closeBrace)
-				buffer.append((char) c);
-			else
-				scanner.unread();
-			if (buffer.length() > 1) {
-				char startChar = buffer.charAt(1);
-				char endChar = buffer.charAt(buffer.length() - 1);
-				if (((startChar == openBrace) && (endChar == closeBrace))
-						|| (!bracesRequired && (Character
-								.isJavaIdentifierPart(startChar) && Character
-								.isJavaIdentifierPart(endChar))))
+				if ((buffer.length() == 1) && isSpecial((char) c))
 					return successToken;
-			}
+			} while ((c != ICharacterScanner.EOF)
+					&& detector.isWordPart((char) c));
+			scanner.unread();
+			if (buffer.length() > 1)
+				return successToken;
 			if (defaultToken.isUndefined())
 				unreadBuffer(scanner);
 			return defaultToken;

@@ -13,9 +13,10 @@ import org.eclipse.jface.text.rules.PatternRule;
 
 /**
  * This rule captures a pattern that begins with '$' and an opening brace and
- * end with a closed brace. It counts the opening and closing braces as it
- * encounters them to make sure we always end at the correct closing brace or
- * the end of the line, which ever comes first.
+ * ends with a closed brace. This is used for highlighting ${} or $() blocks. It
+ * counts the opening and closing braces as it encounters them to make sure we
+ * always end at the correct closing brace or the end of the line, which ever
+ * comes first.
  */
 public class DollarBraceCountingRule extends PatternRule {
 
