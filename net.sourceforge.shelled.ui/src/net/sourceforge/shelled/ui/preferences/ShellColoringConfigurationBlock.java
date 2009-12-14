@@ -53,7 +53,8 @@ public class ShellColoringConfigurationBlock extends
 			{ "Single quoted text", IShellColorConstants.SHELL_SINGLE_QUOTE,
 					sCoreCategory },
 			{ "Variables", IShellColorConstants.SHELL_VARIABLE, sCoreCategory },
-			{ "Commands", IShellColorConstants.SHELL_COMMAND, sCoreCategory }
+			{ "Commands", IShellColorConstants.SHELL_COMMAND, sCoreCategory },
+			{ "Default", IShellColorConstants.SHELL_DEFAULT, sCoreCategory }
 
 	};
 
