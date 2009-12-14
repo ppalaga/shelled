@@ -47,6 +47,7 @@ import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -213,6 +214,38 @@ public class ShellSourceViewerConfiguration extends
 				getEditor(), assistant, IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.setContentAssistProcessor(scriptProcessor,
 				IDocument.DEFAULT_CONTENT_TYPE);
+	}
+
+	@Override
+	public boolean affectsTextPresentation(PropertyChangeEvent event) {
+		return fCodeScanner.affectsBehavior(event)
+				|| fCommentScanner.affectsBehavior(event)
+				|| fDoubleQuoteScanner.affectsBehavior(event)
+				|| fSingleQuoteScanner.affectsBehavior(event)
+				|| fFunctionScanner.affectsBehavior(event)
+				|| fParamScanner.affectsBehavior(event)
+				|| fEvalScanner.affectsBehavior(event)
+				|| fHashbangScanner.affectsBehavior(event);
+	}
+
+	@Override
+	public void handlePropertyChangeEvent(PropertyChangeEvent event) {
+		if (fCodeScanner.affectsBehavior(event))
+			fCodeScanner.adaptToPreferenceChange(event);
+		if (fCommentScanner.affectsBehavior(event))
+			fCommentScanner.adaptToPreferenceChange(event);
+		if (fDoubleQuoteScanner.affectsBehavior(event))
+			fDoubleQuoteScanner.adaptToPreferenceChange(event);
+		if (fSingleQuoteScanner.affectsBehavior(event))
+			fSingleQuoteScanner.adaptToPreferenceChange(event);
+		if (fFunctionScanner.affectsBehavior(event))
+			fFunctionScanner.adaptToPreferenceChange(event);
+		if (fParamScanner.affectsBehavior(event))
+			fParamScanner.adaptToPreferenceChange(event);
+		if (fEvalScanner.affectsBehavior(event))
+			fEvalScanner.adaptToPreferenceChange(event);
+		if (fHashbangScanner.affectsBehavior(event))
+			fHashbangScanner.adaptToPreferenceChange(event);
 	}
 
 }
