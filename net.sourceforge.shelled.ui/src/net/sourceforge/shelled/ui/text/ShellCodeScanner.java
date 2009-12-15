@@ -60,14 +60,18 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 	public static List<String> getCommands() {
 		String path = System.getenv("PATH");
 		List<String> commands = new ArrayList<String>();
-		String[] pathEntries = path.split(":");
+		String[] pathEntries = path.split(System.getProperty("path.separator"));
 		for (String pathEntry : pathEntries) {
 			File dir = new File(pathEntry);
 			if (dir.exists() && dir.isDirectory()) {
 				File[] files = dir.listFiles();
 				for (File file : files) {
 					if (file.canExecute()) {
-						commands.add(file.getName());
+						if (file.getName().endsWith(".exe"))
+							commands.add(file.getName().substring(0,
+									file.getName().length() - 4));
+						else
+							commands.add(file.getName());
 					}
 				}
 			}
