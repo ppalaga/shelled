@@ -18,22 +18,12 @@ import org.eclipse.core.runtime.Preferences;
 import org.eclipse.dltk.ui.PreferencesAdapter;
 import org.eclipse.dltk.ui.preferences.AbstractConfigurationBlockPropertyAndPreferencePage;
 import org.eclipse.dltk.ui.preferences.AbstractOptionsBlock;
-import org.eclipse.dltk.ui.preferences.AbstractTodoTaskOptionsBlock;
-import org.eclipse.dltk.ui.preferences.PreferenceKey;
+import org.eclipse.dltk.ui.preferences.TodoTaskOptionsBlock;
 import org.eclipse.dltk.ui.util.IStatusChangeListener;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 public class ShellTodoTaskPreferencePage extends
 		AbstractConfigurationBlockPropertyAndPreferencePage {
-
-	static final PreferenceKey CASE_SENSITIVE = AbstractTodoTaskOptionsBlock
-			.createCaseSensitiveKey(Activator.PLUGIN_ID);
-
-	static final PreferenceKey ENABLED = AbstractTodoTaskOptionsBlock
-			.createEnabledKey(Activator.PLUGIN_ID);
-
-	static final PreferenceKey TAGS = AbstractTodoTaskOptionsBlock
-			.createTagKey(Activator.PLUGIN_ID);
 
 	@Override
 	protected String getHelpId() {
@@ -53,23 +43,8 @@ public class ShellTodoTaskPreferencePage extends
 	protected AbstractOptionsBlock createOptionsBlock(
 			IStatusChangeListener newStatusChangedListener, IProject project,
 			IWorkbenchPreferenceContainer container) {
-		return new AbstractTodoTaskOptionsBlock(newStatusChangedListener,
-				project, getPreferenceKeys(), container) {
-			@Override
-			protected PreferenceKey getTags() {
-				return TAGS;
-			}
-
-			@Override
-			protected PreferenceKey getEnabledKey() {
-				return ENABLED;
-			}
-
-			@Override
-			protected PreferenceKey getCaseSensitiveKey() {
-				return CASE_SENSITIVE;
-			}
-		};
+		return new TodoTaskOptionsBlock(newStatusChangedListener, project,
+				container, Activator.PLUGIN_ID);
 	}
 
 	@Override
@@ -98,7 +73,4 @@ public class ShellTodoTaskPreferencePage extends
 		return "net.sourceforge.preferences.todo";
 	}
 
-	protected PreferenceKey[] getPreferenceKeys() {
-		return new PreferenceKey[] { TAGS, ENABLED, CASE_SENSITIVE };
-	}
 }

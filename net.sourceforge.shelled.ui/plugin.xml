@@ -36,10 +36,15 @@
   id="net.sourceforge.shelled.ui.preferences.TodoTasks"
   name="Task Tags"/>
   <page
-	          category="net.sourceforge.shelled.ui.preferences"
+	          category="net.sourceforge.shelled.ui.preferences.editor"
 	          class="net.sourceforge.shelled.ui.preferences.ShellSyntaxColoringPreferencePage"
 	          id="net.sourceforge.shelled.ui.syntaxcoloring"
 	          name="Syntax coloring"/>
+	<page
+          category="net.sourceforge.shelled.ui.preferences"
+          class="net.sourceforge.shelled.ui.preferences.ShellEditorPreferencesPage"
+          id="net.sourceforge.shelled.ui.preferences.editor"
+          name="Editor"/>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
 		<editor class="net.sourceforge.shelled.ui.editor.ShellScriptEditor"
