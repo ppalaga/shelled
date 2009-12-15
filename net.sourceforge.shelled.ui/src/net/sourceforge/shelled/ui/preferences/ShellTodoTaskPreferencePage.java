@@ -14,7 +14,6 @@ import net.sourceforge.shelled.core.ShelledNature;
 import net.sourceforge.shelled.ui.Activator;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.dltk.ui.PreferencesAdapter;
 import org.eclipse.dltk.ui.preferences.AbstractConfigurationBlockPropertyAndPreferencePage;
 import org.eclipse.dltk.ui.preferences.AbstractOptionsBlock;
@@ -33,10 +32,6 @@ public class ShellTodoTaskPreferencePage extends
 	@Override
 	protected void setDescription() {
 		setDescription("Strings indicating tasks in shell script comments.");
-	}
-
-	protected Preferences getPluginPreferences() {
-		return Activator.getDefault().getPluginPreferences();
 	}
 
 	@Override
