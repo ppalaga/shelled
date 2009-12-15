@@ -64,6 +64,16 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					functionNames.add(line.substring(0, line.indexOf('('))
 							.trim());
 					model.addFunction(mDeclaration);
+				} else if (line.contains("function")) {
+					mDeclaration = new MethodDeclaration(line.substring(
+							line.indexOf("function") + 8, line.indexOf('{'))
+							.trim(), lineStart + line.indexOf("function") + 8,
+							line.indexOf('{') + lineStart, line.indexOf('{')
+									+ lineStart, line.indexOf('{') + lineStart);
+					functionNames.add(line.substring(
+							line.indexOf("function") + 8, line.indexOf('{'))
+							.trim());
+					model.addFunction(mDeclaration);
 				} else if (line.contains("}")) {
 					if (mDeclaration != null) {
 						mDeclaration.setEnd(lineStart + line.length());
@@ -93,12 +103,13 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					}
 				}
 				for (String varName : varNames) {
-					Pattern varRefPattern = Pattern.compile("(^|\\W)\\$\\b"+varName+"\\b");
+					Pattern varRefPattern = Pattern.compile("(^|\\W)\\$\\b"
+							+ varName + "\\b");
 					Matcher varRefMatcher = varRefPattern.matcher(line);
 					while (varRefMatcher.find()) {
 						moduleDeclaration.addStatement(new VariableReference(
-								lineStart + varRefMatcher.start(),
-								lineStart + varRefMatcher.end(), varName));
+								lineStart + varRefMatcher.start(), lineStart
+										+ varRefMatcher.end(), varName));
 					}
 				}
 
