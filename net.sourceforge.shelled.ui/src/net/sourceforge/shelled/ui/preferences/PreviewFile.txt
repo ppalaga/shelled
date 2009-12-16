@@ -1,4 +1,7 @@
 #!/bin/sh
 
-echo "double quoted text" # some comment
-echo `single quoted text` # TODO tag
+if [ -z $VARIABLE ] ; then
+	echo "double quoted text" # some comment
+	echo 'single quoted text' # TODO tag
+	echo `command substitution`
+fi

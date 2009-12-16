@@ -15,7 +15,7 @@ import org.eclipse.dltk.ui.text.DLTKColorConstants;
 public interface IShellColorConstants {
 	public static final String SHELL_COMMENT = DLTKColorConstants.DLTK_SINGLE_LINE_COMMENT;
 	public static final String SHELL_DEFAULT = DLTKColorConstants.DLTK_DEFAULT;
-	public static final String SHELL_DOUBLE_QUOTE = DLTKColorConstants.DLTK_STRING;
+	public static final String SHELL_DOUBLE_QUOTE = "SHELLED_interpolated_string";
 	public static final String SHELL_EVAL = DLTKColorConstants.DLTK_OPERATOR;
 	public static final String SHELL_FUNCTION = DLTKColorConstants.DLTK_FUNCTION_DEFINITION;
 	public static final String SHELL_HASHBANG = DLTKColorConstants.DLTK_MULTI_LINE_COMMENT;
