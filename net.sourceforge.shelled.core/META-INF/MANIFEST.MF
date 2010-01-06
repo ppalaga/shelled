@@ -11,4 +11,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.dltk.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: net.sourceforge.shelled.core
+Export-Package: net.sourceforge.shelled.core,
+ net.sourceforge.shelled.core.parser
