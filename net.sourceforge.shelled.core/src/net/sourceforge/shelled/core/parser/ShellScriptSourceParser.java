@@ -84,13 +84,15 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 				if (matcher.find()) {
 					String varName = line.substring(matcher.start(), matcher
 							.end() - 1);
-					FieldDeclaration variable = new FieldDeclaration(varName,
-							lineStart + matcher.start(), lineStart
-									+ matcher.end(), lineStart
-									+ matcher.start(), lineStart
-									+ matcher.end());
-					varNames.add(varName);
-					model.addVariable(variable);
+					if (isValidName(varName)) {
+						FieldDeclaration variable = new FieldDeclaration(
+								varName, lineStart + matcher.start(), lineStart
+										+ matcher.end(), lineStart
+										+ matcher.start(), lineStart
+										+ matcher.end());
+						varNames.add(varName);
+						model.addVariable(variable);
+					}
 				}
 				for (String funcName : functionNames) {
 					if (line.contains(funcName)) {
@@ -120,6 +122,13 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 			e.printStackTrace();
 		}
 		return model;
+	}
+
+	private boolean isValidName(String varName) {
+		if (varName.matches("\\w+")) {
+			return true;
+		}
+		return false;
 	}
 
 	private void processNode(ShellModel parse,
