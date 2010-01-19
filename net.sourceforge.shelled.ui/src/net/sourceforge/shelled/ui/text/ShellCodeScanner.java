@@ -29,8 +29,8 @@ import org.eclipse.jface.text.rules.WordRule;
 public class ShellCodeScanner extends AbstractScriptScanner {
 	public class ShellWordDetector implements IWordDetector {
 		public boolean isWordPart(char character) {
-			return Character.isJavaIdentifierPart(character)
-					&& (character != 36);
+			return (Character.isJavaIdentifierPart(character) && (character != '$'))
+					|| (character == '-') || (character == '.');
 		}
 
 		public boolean isWordStart(char character) {
