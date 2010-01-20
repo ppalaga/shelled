@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Red Hat Inc. and others.
+ * Copyright (c) 2009-2010 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,6 +21,7 @@ import net.sourceforge.shelled.ui.text.IShellPartitions;
 import net.sourceforge.shelled.ui.text.IndentType;
 import net.sourceforge.shelled.ui.text.ScriptAutoIndentStrategy;
 import net.sourceforge.shelled.ui.text.ShellCodeScanner;
+import net.sourceforge.shelled.ui.text.EvalScanner;
 import net.sourceforge.shelled.ui.text.WhitespaceDetector;
 
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
@@ -52,8 +53,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-public class ShellSourceViewerConfiguration extends
-		ScriptSourceViewerConfiguration {
+public class ShellSourceViewerConfiguration extends ScriptSourceViewerConfiguration {
 
 	private static IRule getKeywords(IToken keywordToken, final String[] words,
 			IToken defaultToken) {
@@ -186,25 +186,19 @@ public class ShellSourceViewerConfiguration extends
 		this.fCodeScanner = new ShellCodeScanner(this.getColorManager(),
 				this.fPreferenceStore);
 		// This is default scanners for partitions with same color.
-		this.fFunctionScanner = new SingleTokenScriptScanner(this
-				.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_FUNCTION);
-		this.fHashbangScanner = new SingleTokenScriptScanner(this
-				.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_HASHBANG);
-		this.fSingleQuoteScanner = new SingleTokenScriptScanner(this
-				.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_SINGLE_QUOTE);
-		this.fDoubleQuoteScanner = new DoubleQuoteScanner(this
-				.getColorManager(), this.fPreferenceStore);
-		this.fParamScanner = new SingleTokenScriptScanner(this
-				.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_VARIABLE);
-		this.fEvalScanner = new SingleTokenScriptScanner(
-				this.getColorManager(), this.fPreferenceStore,
-				IShellColorConstants.SHELL_EVAL);
-		this.fCommentScanner = createCommentScanner(
-				IShellColorConstants.SHELL_COMMENT,
+		this.fFunctionScanner = new SingleTokenScriptScanner(this.getColorManager(),
+				this.fPreferenceStore, IShellColorConstants.SHELL_FUNCTION);
+		this.fHashbangScanner = new SingleTokenScriptScanner(this.getColorManager(),
+				this.fPreferenceStore, IShellColorConstants.SHELL_HASHBANG);
+		this.fSingleQuoteScanner = new SingleTokenScriptScanner(this.getColorManager(),
+				this.fPreferenceStore, IShellColorConstants.SHELL_SINGLE_QUOTE);
+		this.fDoubleQuoteScanner = new DoubleQuoteScanner(this.getColorManager(),
+				this.fPreferenceStore);
+		this.fParamScanner = new SingleTokenScriptScanner(this.getColorManager(),
+				this.fPreferenceStore, IShellColorConstants.SHELL_VARIABLE);
+		this.fEvalScanner = new EvalScanner(this.getColorManager(),
+				this.fPreferenceStore);
+		this.fCommentScanner = createCommentScanner(IShellColorConstants.SHELL_COMMENT,
 				IShellColorConstants.SHELL_TODO_TAG);
 	}
 

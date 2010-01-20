@@ -7,6 +7,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  net.sourceforge.shelled.ui,
  org.junit4,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.dltk.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
