@@ -93,17 +93,6 @@
 
 		</shortcut>
 	</extension>
-	<extension point="org.eclipse.ui.commands">
-		<command name="Run shell" description="run shell script"
-			categoryId="org.eclipse.debug.ui.category.run" id="net.sourceforge.shelled.ui.shortcut">
-		</command>
-		<command
-        defaultHandler="net.sourceforge.shelled.ui.ShowManHandler"
-        description="Show man page view"
-        id="net.sourceforge.shelled.ui.showman"
-        name="Show man page">
-		</command>
-	</extension>
 	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
 		<launchConfigurationTabGroup
 			class="net.sourceforge.shelled.ui.interpreter.ShellTabGroup" id="net.sourceforge.shelled.ui.interpreter.ShellTabGroup"
@@ -170,6 +159,29 @@
            id="net.sourceforge.shelled.ShellDocumentationProvider"
            nature="net.sourceforge.shelled.core.nature"/>
 </extension>
+	<extension point="org.eclipse.ui.commands">
+		<command name="Run shell" description="run shell script"
+			categoryId="org.eclipse.debug.ui.category.run" id="net.sourceforge.shelled.ui.shortcut">
+		</command>
+		<command
+        defaultHandler="net.sourceforge.shelled.ui.ShowManHandler"
+        description="Show man page view"
+        id="net.sourceforge.shelled.ui.showman"
+        name="Show man page">
+		</command>
+  <command
+        defaultHandler="net.sourceforge.shelled.ui.commands.AddNature"
+        description="Adds the Shell Script nature to these projects"
+        id="net.sourceforge.shelled.ui.addnature"
+        name="Add Shell Script Support">
+  </command>
+  <command
+        defaultHandler="net.sourceforge.shelled.ui.commands.RemoveNature"
+        description="Removes the Shell Script nature from these projects"
+        id="net.sourceforge.shelled.ui.removenature"
+        name="Remove Shell Script Support">
+  </command>
+	</extension>
 <extension
       point="org.eclipse.ui.bindings">
    <key
@@ -178,5 +190,78 @@
          schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
          sequence="Alt+M">
    </key>
+</extension>
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+      <menu
+            label="ShellEd">
+         <command
+               commandId="net.sourceforge.shelled.ui.addnature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="or">
+                     <not>
+                        <test
+                              property="net.sourceforge.shelled.ui.naturetester.hasShellEdNature">
+                        </test>
+                     </not>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="net.sourceforge.shelled.ui.removenature"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="or">
+                     <test
+                           property="net.sourceforge.shelled.ui.naturetester.hasShellEdNature">
+                     </test>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="and">
+                  <or>
+                     <instanceof
+                           value="org.eclipse.core.resources.IProject">
+                     </instanceof>
+                     <instanceof
+                           value="org.eclipse.dltk.core.IScriptProject">
+                     </instanceof>
+                  </or>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </menu>
+   </menuContribution>
+</extension>
+<extension
+      point="org.eclipse.core.expressions.propertyTesters">
+   <propertyTester
+         class="net.sourceforge.shelled.ui.commands.NaturePropertyTester"
+         id="net.sourceforge.shelled.ui.naturetester"
+         namespace="net.sourceforge.shelled.ui.naturetester"
+         properties="hasShellEdNature"
+         type="org.eclipse.core.runtime.IAdaptable">
+   </propertyTester>
 </extension>
 </plugin>

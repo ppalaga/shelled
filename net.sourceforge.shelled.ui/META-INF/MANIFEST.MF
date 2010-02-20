@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Shelled Ui
+Bundle-Name: ShellEd UI
 Bundle-SymbolicName: net.sourceforge.shelled.ui;singleton:=true
 Bundle-Version: 0.0.0.qualifier
 Bundle-Activator: net.sourceforge.shelled.ui.Activator
@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.debug.core,
  org.eclipse.debug.ui,
  org.eclipse.search,
- org.eclipse.linuxtools.man
+ org.eclipse.linuxtools.man,
+ org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.sourceforge.shelled.ui,
