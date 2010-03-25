@@ -64,7 +64,8 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					functionNames.add(line.substring(0, line.indexOf('('))
 							.trim());
 					model.addFunction(mDeclaration);
-				} else if (line.contains("function")) {
+				} else if (line.contains("function")
+						&& !line.trim().startsWith("#")) {
 					mDeclaration = new MethodDeclaration(line.substring(
 							line.indexOf("function") + 8, line.indexOf('{'))
 							.trim(), lineStart + line.indexOf("function") + 8,
