@@ -54,6 +54,9 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 		MethodDeclaration mDeclaration = null;
 		try {
 			while ((line = bReader.readLine()) != null) {
+				if (line.length() > 0 && line.trim().charAt(0) == '#') {
+					continue;
+				}
 				if (line.contains("()")) {
 
 					mDeclaration = new MethodDeclaration(line.substring(0, line
@@ -64,8 +67,7 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					functionNames.add(line.substring(0, line.indexOf('('))
 							.trim());
 					model.addFunction(mDeclaration);
-				} else if (line.contains("function")
-						&& !line.trim().startsWith("#")) {
+				} else if (line.contains("function")) {
 					mDeclaration = new MethodDeclaration(line.substring(
 							line.indexOf("function") + 8, line.indexOf('{'))
 							.trim(), lineStart + line.indexOf("function") + 8,
