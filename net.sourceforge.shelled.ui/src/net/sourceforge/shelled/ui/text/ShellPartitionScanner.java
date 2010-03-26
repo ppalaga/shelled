@@ -44,6 +44,10 @@ public class ShellPartitionScanner extends RuleBasedPartitionScanner {
 		commentRule = new EndOfLineRule(" #", new Token(
 				IShellPartitions.COMMENT_CONTENT_TYPE));
 		rules.add(commentRule);
+		commentRule = new EndOfLineRule("\t#", new Token(
+				IShellPartitions.COMMENT_CONTENT_TYPE));
+		rules.add(commentRule);
+
 		rules.add(new DollarBraceCountingRule('(', ')', new Token(
 				IShellPartitions.EVAL_CONTENT_TYPE), '\\'));
 		rules.add(new DollarBraceCountingRule('{', '}', new Token(
