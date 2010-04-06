@@ -68,13 +68,15 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 							.trim());
 					model.addFunction(mDeclaration);
 				} else if (line.contains("function")) {
+					int fPlusEight = line.indexOf("function") + 8;
+					int lBracket = line.indexOf('{');
+					if (fPlusEight >= line.length() || lBracket < 0)
+						continue;
 					mDeclaration = new MethodDeclaration(line.substring(
-							line.indexOf("function") + 8, line.indexOf('{'))
-							.trim(), lineStart + line.indexOf("function") + 8,
-							line.indexOf('{') + lineStart, line.indexOf('{')
-									+ lineStart, line.indexOf('{') + lineStart);
-					functionNames.add(line.substring(
-							line.indexOf("function") + 8, line.indexOf('{'))
+							fPlusEight, lBracket).trim(), lineStart
+							+ fPlusEight, lBracket + lineStart, lBracket
+							+ lineStart, lBracket + lineStart);
+					functionNames.add(line.substring(fPlusEight, lBracket)
 							.trim());
 					model.addFunction(mDeclaration);
 				} else if (line.contains("}")) {
