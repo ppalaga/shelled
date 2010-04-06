@@ -54,7 +54,7 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 		MethodDeclaration mDeclaration = null;
 		try {
 			while ((line = bReader.readLine()) != null) {
-				if (line.length() > 0 && line.trim().charAt(0) == '#') {
+				if (line.trim().length() > 0 && line.trim().charAt(0) == '#') {
 					continue;
 				}
 				if (line.contains("()")) {
