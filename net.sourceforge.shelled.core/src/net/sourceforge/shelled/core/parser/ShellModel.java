@@ -20,10 +20,12 @@ public class ShellModel {
 	
 	private List<MethodDeclaration> functions;
 	private List<FieldDeclaration> variables;
+	private List<MethodDeclaration> statements;
 	
 	public ShellModel() {
 		functions = new ArrayList<MethodDeclaration>();
 		variables = new ArrayList<FieldDeclaration>();
+		statements = new ArrayList<MethodDeclaration>();
 	}
 	
 	public void addFunction(MethodDeclaration funtion) {
@@ -42,4 +44,11 @@ public class ShellModel {
 		return variables;
 	}
 
+	public void addStatement(MethodDeclaration statement) {
+		statements.add(statement);
+	}
+
+	public List<MethodDeclaration> getStatements() {
+		return statements;
+	}
 }

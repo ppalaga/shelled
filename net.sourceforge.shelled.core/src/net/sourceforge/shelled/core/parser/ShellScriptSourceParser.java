@@ -15,9 +15,11 @@ import java.io.CharArrayReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.dltk.ast.declarations.Declaration;
 import org.eclipse.dltk.ast.declarations.FieldDeclaration;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
@@ -52,9 +54,13 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 		Set<String> functionNames = new HashSet<String>();
 		Set<String> varNames = new HashSet<String>();
 		MethodDeclaration mDeclaration = null;
+		Stack<Declaration> tmp = new Stack<Declaration>();
+		boolean isPrevLnContinued = false;
+
 		try {
 			while ((line = bReader.readLine()) != null) {
-				if (line.trim().length() > 0 && line.trim().charAt(0) == '#') {
+				if (line.trim().length() == 0 || line.trim().charAt(0) == '#') {
+					lineStart += line.length() + 1;
 					continue;
 				}
 				if (line.contains("()")) {
@@ -99,6 +105,32 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 						model.addVariable(variable);
 					}
 				}
+
+				if (line.charAt(line.length() - 1) == '\\'
+						&& !isPrevLnContinued) {
+					isPrevLnContinued = true;
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.length()).trim(), lineStart
+							+ line.indexOf("\\"),
+							lineStart + line.length() - 1, lineStart, lineStart
+									+ line.length());
+					tmp.push(mDeclaration);
+					model.addStatement(mDeclaration);
+				} else if (line.charAt(line.length() - 1) == '\\'
+						&& isPrevLnContinued) {
+					if (!tmp.isEmpty()) {
+						mDeclaration = (MethodDeclaration) tmp.pop();
+						mDeclaration.setEnd(lineStart + line.indexOf('\\'));
+						tmp.push(mDeclaration);
+					}
+				} else if (isPrevLnContinued) {
+					isPrevLnContinued = false;
+					if (!tmp.isEmpty()) {
+						mDeclaration = (MethodDeclaration) tmp.pop();
+						mDeclaration.setEnd(lineStart + line.length() - 2);
+					}
+				}
+
 				for (String funcName : functionNames) {
 					if (line.contains(funcName)) {
 						moduleDeclaration
@@ -143,6 +175,9 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 		}
 		for (FieldDeclaration variableNode : parse.getVariables()) {
 			moduleDeclaration.addStatement(variableNode);
+		}
+		for (MethodDeclaration statement : parse.getStatements()) {
+			moduleDeclaration.addStatement(statement);
 		}
 	}
 
