@@ -29,6 +29,9 @@ public class NaturePropertyTester extends PropertyTester {
 			Object expectedValue) {
 		IResource resource = (IResource) ((IAdaptable) receiver)
 				.getAdapter(IResource.class);
+		if (resource == null) {
+			return false;
+		}
 		if (property.equals(HAS_SHELLED_NATURE)) {
 			try {
 				IProject proj = resource.getProject();
