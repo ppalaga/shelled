@@ -65,15 +65,17 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 				}
 				if (line.contains("()")) {
 
-					mDeclaration = new MethodDeclaration(line.substring(0, line
-							.indexOf('(')), lineStart, line.indexOf(')')
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.indexOf('(')).trim(), lineStart, line
+							.indexOf(')')
 							+ lineStart, line.indexOf('{') + lineStart, line
 							.indexOf('{')
 							+ lineStart);
 					functionNames.add(line.substring(0, line.indexOf('('))
 							.trim());
+					tmp.push(mDeclaration);
 					model.addFunction(mDeclaration);
-				} else if (line.contains("function")) {
+				} else if (line.contains("function ")) {
 					int fPlusEight = line.indexOf("function") + 8;
 					int lBracket = line.indexOf('{');
 					if (fPlusEight >= line.length() || lBracket < 0)
@@ -84,10 +86,14 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 							+ lineStart, lBracket + lineStart);
 					functionNames.add(line.substring(fPlusEight, lBracket)
 							.trim());
+					tmp.push(mDeclaration);
 					model.addFunction(mDeclaration);
-				} else if (line.contains("}")) {
+				} else if (line.trim().equals("}")) {
 					if (mDeclaration != null) {
-						mDeclaration.setEnd(lineStart + line.length());
+						if (!tmp.isEmpty()) {
+							mDeclaration = (MethodDeclaration) tmp.pop();
+							mDeclaration.setEnd(lineStart + line.length());
+						}
 					}
 				}
 				Pattern assignmentPattern = Pattern.compile("(^|\\W)\\w*=");
@@ -106,6 +112,75 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					}
 				}
 
+				// start of if statement
+				if (line.contains("if ") && !line.contains("elif ")) {
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.length()).trim(), lineStart
+							+ line.indexOf("if"),
+							lineStart + line.length() - 1, lineStart, lineStart
+									+ line.length());
+					model.addStatement(mDeclaration);
+					tmp.push(mDeclaration);
+
+					// end of if statement
+				} else if (line.trim().equals("fi")) {
+					if (!tmp.isEmpty()) {
+						mDeclaration = (MethodDeclaration) tmp.pop();
+						mDeclaration.setEnd(lineStart + line.indexOf("fi"));
+					}
+
+					// start of while statement
+				} else if (line.contains("while ")) {
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.length()).trim(), lineStart
+							+ line.indexOf("while"), lineStart + line.length()
+							- 1, lineStart, lineStart + line.length());
+					model.addStatement(mDeclaration);
+					tmp.push(mDeclaration);
+
+					// start of until statement
+				} else if (line.contains("until ")) {
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.length()).trim(), lineStart
+							+ line.indexOf("until"), lineStart + line.length()
+							- 1, lineStart, lineStart + line.length());
+					model.addStatement(mDeclaration);
+					tmp.push(mDeclaration);
+
+					// done statement encountered
+				} else if (line.contains("done ") || line.trim().equals("done")) {
+					if (!tmp.isEmpty()) {
+						mDeclaration = (MethodDeclaration) tmp.pop();
+						mDeclaration.setEnd(lineStart + line.indexOf("done"));
+					}
+
+					// start of for statement
+				} else if (line.contains("for ")) {
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.length()).trim(), lineStart
+							+ line.indexOf("for"), lineStart + line.length()
+							- 1, lineStart, lineStart + line.length());
+					model.addStatement(mDeclaration);
+					tmp.push(mDeclaration);
+
+					// start of case statement
+				} else if (line.contains("case ")) {
+					mDeclaration = new MethodDeclaration(line.substring(0,
+							line.length()).trim(), lineStart
+							+ line.indexOf("case"), lineStart + line.length()
+							- 1, lineStart, lineStart + line.length());
+					model.addStatement(mDeclaration);
+					tmp.push(mDeclaration);
+
+					// end of case statement
+				} else if (line.trim().equals("esac")) {
+					if (!tmp.isEmpty()) {
+						mDeclaration = (MethodDeclaration) tmp.pop();
+						mDeclaration.setEnd(lineStart + line.indexOf("esac"));
+					}
+				}
+
+				// multi-line commands and literals
 				if (line.charAt(line.length() - 1) == '\\'
 						&& !isPrevLnContinued) {
 					isPrevLnContinued = true;
