@@ -26,7 +26,8 @@ import org.eclipse.dltk.launching.IInterpreterInstall;
 import org.eclipse.dltk.launching.LibraryLocation;
 
 public class ShellScriptInstallType extends AbstractInterpreterInstallType {
-	private static final String[] INTERPRETER_NAMES = { "sh", "bash" };
+	private static final String[] INTERPRETER_NAMES = { "sh", "bash", "zsh",
+			"dash", "ksh", "tcsh", "csh" };
 
 	@Override
 	protected IPath createPathFile(IDeployment deployment) throws IOException {
