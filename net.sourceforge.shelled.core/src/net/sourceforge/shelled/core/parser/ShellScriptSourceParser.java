@@ -64,26 +64,28 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					continue;
 				}
 				if (line.contains("()")) {
-
-					mDeclaration = new MethodDeclaration(line.substring(0,
-							line.indexOf('(')).trim(), lineStart, line
-							.indexOf(')')
-							+ lineStart, line.indexOf('{') + lineStart, line
-							.indexOf('{')
-							+ lineStart);
-					functionNames.add(line.substring(0, line.indexOf('('))
-							.trim());
+					int lBracket = line.indexOf('{') == -1 ? 0 : line
+							.indexOf('{');
+					int fPlusEight = line.indexOf("function") == -1 ? 0 : line
+							.indexOf("function") + 8;
+					mDeclaration = new MethodDeclaration(line.substring(
+							fPlusEight, line.indexOf('(')).trim(), lineStart,
+							lineStart + line.length() - 1,
+							lBracket + lineStart, lBracket + lineStart);
+					functionNames.add(line.substring(fPlusEight,
+							line.indexOf('(')).trim());
 					tmp.push(mDeclaration);
 					model.addFunction(mDeclaration);
 				} else if (line.contains("function ")) {
 					int fPlusEight = line.indexOf("function") + 8;
-					int lBracket = line.indexOf('{');
-					if (fPlusEight >= line.length() || lBracket < 0)
+					int lBracket = line.indexOf('{') == -1 ? line.length()
+							: line.indexOf('{') - 1;
+					if (fPlusEight >= line.length())
 						continue;
 					mDeclaration = new MethodDeclaration(line.substring(
-							fPlusEight, lBracket).trim(), lineStart
-							+ fPlusEight, lBracket + lineStart, lBracket
-							+ lineStart, lBracket + lineStart);
+							fPlusEight, lBracket).trim(), lineStart, lineStart
+							+ line.length() - 1, lBracket + lineStart, lBracket
+							+ lineStart);
 					functionNames.add(line.substring(fPlusEight, lBracket)
 							.trim());
 					tmp.push(mDeclaration);
