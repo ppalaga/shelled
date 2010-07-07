@@ -36,6 +36,7 @@ public class AssignmentRule implements IRule {
 	 * org.eclipse.jface.text.rules.IRule#evaluate(org.eclipse.jface.text.rules
 	 * .ICharacterScanner)
 	 */
+	@Override
 	public IToken evaluate(ICharacterScanner scanner) {
 		char c = (char) scanner.read();
 		if (detector.isWordStart((c))) {

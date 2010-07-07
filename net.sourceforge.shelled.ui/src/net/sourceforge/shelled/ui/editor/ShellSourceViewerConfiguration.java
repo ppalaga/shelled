@@ -17,11 +17,11 @@ import net.sourceforge.shelled.ui.IShellColorConstants;
 import net.sourceforge.shelled.ui.ShellContentAssistPreference;
 import net.sourceforge.shelled.ui.completion.ShellCompletionProcessor;
 import net.sourceforge.shelled.ui.text.DoubleQuoteScanner;
+import net.sourceforge.shelled.ui.text.EvalScanner;
 import net.sourceforge.shelled.ui.text.IShellPartitions;
 import net.sourceforge.shelled.ui.text.IndentType;
 import net.sourceforge.shelled.ui.text.ScriptAutoIndentStrategy;
 import net.sourceforge.shelled.ui.text.ShellCodeScanner;
-import net.sourceforge.shelled.ui.text.EvalScanner;
 import net.sourceforge.shelled.ui.text.WhitespaceDetector;
 
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
@@ -53,16 +53,19 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-public class ShellSourceViewerConfiguration extends ScriptSourceViewerConfiguration {
+public class ShellSourceViewerConfiguration extends
+		ScriptSourceViewerConfiguration {
 
 	private static IRule getKeywords(IToken keywordToken, final String[] words,
 			IToken defaultToken) {
 		WordRule wordL = new WordRule(new IWordDetector() {
 
+			@Override
 			public boolean isWordPart(char c) {
 				return !Character.isWhitespace(c);
 			}
 
+			@Override
 			public boolean isWordStart(char c) {
 				return !Character.isWhitespace(c);
 			}
@@ -121,16 +124,13 @@ public class ShellSourceViewerConfiguration extends ScriptSourceViewerConfigurat
 	protected IInformationControlCreator getOutlinePresenterControlCreator(
 			ISourceViewer sourceViewer, final String commandId) {
 		return new IInformationControlCreator() {
+			@Override
 			public IInformationControl createInformationControl(Shell parent) {
 				int shellStyle = SWT.RESIZE;
 				int treeStyle = SWT.V_SCROLL | SWT.H_SCROLL;
 				return new ScriptOutlineInformationControl(parent, shellStyle,
-						treeStyle, commandId) {
-					@Override
-					protected IPreferenceStore getPreferenceStore() {
-						return Activator.getDefault().getPreferenceStore();
-					}
-				};
+						treeStyle, commandId, Activator.getDefault()
+								.getPreferenceStore());
 			}
 		};
 	}
@@ -186,19 +186,24 @@ public class ShellSourceViewerConfiguration extends ScriptSourceViewerConfigurat
 		this.fCodeScanner = new ShellCodeScanner(this.getColorManager(),
 				this.fPreferenceStore);
 		// This is default scanners for partitions with same color.
-		this.fFunctionScanner = new SingleTokenScriptScanner(this.getColorManager(),
-				this.fPreferenceStore, IShellColorConstants.SHELL_FUNCTION);
-		this.fHashbangScanner = new SingleTokenScriptScanner(this.getColorManager(),
-				this.fPreferenceStore, IShellColorConstants.SHELL_HASHBANG);
-		this.fSingleQuoteScanner = new SingleTokenScriptScanner(this.getColorManager(),
-				this.fPreferenceStore, IShellColorConstants.SHELL_SINGLE_QUOTE);
-		this.fDoubleQuoteScanner = new DoubleQuoteScanner(this.getColorManager(),
-				this.fPreferenceStore);
-		this.fParamScanner = new SingleTokenScriptScanner(this.getColorManager(),
-				this.fPreferenceStore, IShellColorConstants.SHELL_VARIABLE);
+		this.fFunctionScanner = new SingleTokenScriptScanner(
+				this.getColorManager(), this.fPreferenceStore,
+				IShellColorConstants.SHELL_FUNCTION);
+		this.fHashbangScanner = new SingleTokenScriptScanner(
+				this.getColorManager(), this.fPreferenceStore,
+				IShellColorConstants.SHELL_HASHBANG);
+		this.fSingleQuoteScanner = new SingleTokenScriptScanner(
+				this.getColorManager(), this.fPreferenceStore,
+				IShellColorConstants.SHELL_SINGLE_QUOTE);
+		this.fDoubleQuoteScanner = new DoubleQuoteScanner(
+				this.getColorManager(), this.fPreferenceStore);
+		this.fParamScanner = new SingleTokenScriptScanner(
+				this.getColorManager(), this.fPreferenceStore,
+				IShellColorConstants.SHELL_VARIABLE);
 		this.fEvalScanner = new EvalScanner(this.getColorManager(),
 				this.fPreferenceStore);
-		this.fCommentScanner = createCommentScanner(IShellColorConstants.SHELL_COMMENT,
+		this.fCommentScanner = createCommentScanner(
+				IShellColorConstants.SHELL_COMMENT,
 				IShellColorConstants.SHELL_TODO_TAG);
 	}
 

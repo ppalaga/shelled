@@ -17,10 +17,12 @@ import org.eclipse.dltk.ui.AbstractDLTKUILanguageToolkit;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 public class ShelledUILanguageToolkit extends AbstractDLTKUILanguageToolkit {
+	@Override
 	public IDLTKLanguageToolkit getCoreToolkit() {
 		return ShellScriptLanguageToolkit.getDefault();
 	}
 
+	@Override
 	public IPreferenceStore getPreferenceStore() {
 		return Activator.getDefault().getPreferenceStore();
 	}

@@ -8,7 +8,6 @@
 package net.sourceforge.shelled.ui.text.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 import net.sourceforge.shelled.ui.text.EvalScanner;
@@ -40,11 +39,11 @@ public class EvalScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDollar() {
 		IToken token = getNextToken();
-		assertTrue(token instanceof IToken);
 		assertEquals(5, scanner.getTokenLength());
 		assertEquals(0, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_VARIABLE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_VARIABLE));
 	}
 
 	/**
@@ -54,11 +53,11 @@ public class EvalScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDollarBrace() {
 		IToken token = getNthToken(14);
-		assertTrue(token instanceof IToken);
 		assertEquals(16, scanner.getTokenLength());
 		assertEquals(17, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_VARIABLE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_VARIABLE));
 	}
 
 	/**
@@ -68,10 +67,10 @@ public class EvalScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDefault() {
 		IToken token = getNthToken(3);
-		assertTrue(token instanceof IToken);
 		assertEquals(1, scanner.getTokenLength());
 		assertEquals(6, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_EVAL));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_EVAL));
 	}
 }

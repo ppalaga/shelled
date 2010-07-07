@@ -15,6 +15,7 @@ import org.eclipse.dltk.core.search.IMatchLocatorParser;
 import org.eclipse.dltk.core.search.matching.MatchLocator;
 
 public class ShelledSearchFactory extends AbstractSearchFactory {
+	@Override
 	public IMatchLocatorParser createMatchParser(MatchLocator locator) {
 		return new ShelledMatchLocationParser(locator);
 	}

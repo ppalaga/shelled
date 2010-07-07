@@ -51,10 +51,12 @@ public class ShellScriptInstallType extends AbstractInterpreterInstallType {
 		return Activator.getDefault().getLog();
 	}
 
+	@Override
 	public String getName() {
 		return "Shell Interpreter";
 	}
 
+	@Override
 	public String getNatureId() {
 		return ShelledNature.SHELLED_NATURE;
 	}

@@ -21,7 +21,7 @@ import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.expressions.MethodCallExpression;
 import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.codeassist.ISelectionEngine;
-import org.eclipse.dltk.compiler.env.ISourceModule;
+import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IModelElementVisitor;
@@ -31,7 +31,8 @@ import org.eclipse.dltk.core.SourceParserUtil;
 public class ShelledSelectionEngine implements ISelectionEngine {
 	private org.eclipse.dltk.core.ISourceModule sourceModule;
 
-	public IModelElement[] select(ISourceModule module, final int offset, int i) {
+	@Override
+	public IModelElement[] select(IModuleSource module, final int offset, int i) {
 		sourceModule = (org.eclipse.dltk.core.ISourceModule) module
 				.getModelElement();
 		ModuleDeclaration moduleDeclaration = SourceParserUtil
@@ -44,8 +45,9 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 					if ((s.sourceStart() <= offset)
 							&& (offset <= s.sourceEnd())) {
 						if (s instanceof MethodCallExpression) {
-							findDeclaration(((MethodCallExpression) s)
-									.getName(), results);
+							findDeclaration(
+									((MethodCallExpression) s).getName(),
+									results);
 						}
 						if (s instanceof VariableReference) {
 							findDeclaration(((VariableReference) s).getName(),
@@ -77,6 +79,7 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 			final List<IModelElement> results) {
 		try {
 			this.sourceModule.accept(new IModelElementVisitor() {
+				@Override
 				public boolean visit(IModelElement element) {
 					if (element.getElementName().equals(name)) {
 						results.add(element);
@@ -91,6 +94,8 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 		}
 	}
 
+	@Override
 	public void setOptions(Map options) {
 	}
+
 }

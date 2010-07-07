@@ -12,6 +12,7 @@ package net.sourceforge.shelled.ui.interpreter;
 
 import net.sourceforge.shelled.core.ShelledNature;
 
+import org.eclipse.dltk.core.environment.IEnvironment;
 import org.eclipse.dltk.internal.debug.ui.interpreters.AddScriptInterpreterDialog;
 import org.eclipse.dltk.internal.debug.ui.interpreters.InterpretersBlock;
 import org.eclipse.dltk.launching.IInterpreterInstall;
@@ -20,10 +21,10 @@ import org.eclipse.dltk.launching.ScriptRuntime;
 public class ShellScriptInterpretersBlock extends InterpretersBlock {
 	@Override
 	protected AddScriptInterpreterDialog createInterpreterDialog(
-			IInterpreterInstall standin) {
+			IEnvironment environment, IInterpreterInstall standin) {
 		AddShellScriptInterpreterDialog dialog = new AddShellScriptInterpreterDialog(
-				this, getShell(), ScriptRuntime
-						.getInterpreterInstallTypes(getCurrentNature()),
+				this, getShell(),
+				ScriptRuntime.getInterpreterInstallTypes(getCurrentNature()),
 				standin);
 		return dialog;
 	}
@@ -32,4 +33,5 @@ public class ShellScriptInterpretersBlock extends InterpretersBlock {
 	protected String getCurrentNature() {
 		return ShelledNature.SHELLED_NATURE;
 	}
+
 }

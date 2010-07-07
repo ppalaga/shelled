@@ -54,4 +54,10 @@ public class ShellCompletionProposalCollector extends
 		return new char[] { '$' };
 	}
 
+	@Override
+	protected String getNatureId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

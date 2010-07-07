@@ -23,14 +23,17 @@ public class ShellScriptLanguageToolkit extends AbstractLanguageToolkit {
 		return toolkit;
 	}
 
+	@Override
 	public String getLanguageName() {
 		return "Shell Script";
 	}
 
+	@Override
 	public String getNatureId() {
 		return ShelledNature.SHELLED_NATURE;
 	}
 
+	@Override
 	public String getLanguageContentType() {
 		return "net.sourceforge.shelled.content-type";
 	}

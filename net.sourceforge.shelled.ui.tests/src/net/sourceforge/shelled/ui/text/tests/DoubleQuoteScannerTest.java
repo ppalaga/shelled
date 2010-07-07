@@ -8,7 +8,6 @@
 package net.sourceforge.shelled.ui.text.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 import net.sourceforge.shelled.ui.text.DoubleQuoteScanner;
@@ -25,7 +24,8 @@ public class DoubleQuoteScannerTest extends AbstractScannerTester {
 
 	@Override
 	protected RuleBasedScanner getScanner() {
-		return new DoubleQuoteScanner(cm, Activator.getDefault().getPreferenceStore());
+		return new DoubleQuoteScanner(cm, Activator.getDefault()
+				.getPreferenceStore());
 	}
 
 	@Override
@@ -40,11 +40,11 @@ public class DoubleQuoteScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDollar() {
 		IToken token = getNthToken(4);
-		assertTrue(token instanceof IToken);
 		assertEquals(4, scanner.getTokenLength());
 		assertEquals(8, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_VARIABLE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_VARIABLE));
 	}
 
 	/**
@@ -54,11 +54,11 @@ public class DoubleQuoteScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDollarBrace() {
 		IToken token = getNthToken(2);
-		assertTrue(token instanceof IToken);
 		assertEquals(6, scanner.getTokenLength());
 		assertEquals(1, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_VARIABLE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_VARIABLE));
 	}
 
 	/**
@@ -68,11 +68,11 @@ public class DoubleQuoteScannerTest extends AbstractScannerTester {
 	@Test
 	public void testEval() {
 		IToken token = getNthToken(5);
-		assertTrue(token instanceof IToken);
 		assertEquals(6, scanner.getTokenLength());
 		assertEquals(12, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_EVAL));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_EVAL));
 	}
 
 	/**
@@ -82,11 +82,11 @@ public class DoubleQuoteScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDollarEval() {
 		IToken token = getNthToken(7);
-		assertTrue(token instanceof IToken);
 		assertEquals(7, scanner.getTokenLength());
 		assertEquals(19, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm.getColor(IShellColorConstants.SHELL_EVAL));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_EVAL));
 	}
 
 	/**
@@ -96,27 +96,24 @@ public class DoubleQuoteScannerTest extends AbstractScannerTester {
 	@Test
 	public void testDefault() {
 		IToken token = getNthToken(1);
-		assertTrue(token instanceof IToken);
 		assertEquals(1, scanner.getTokenLength());
 		assertEquals(0, scanner.getTokenOffset());
 		TextAttribute ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm
-				.getColor(IShellColorConstants.SHELL_DOUBLE_QUOTE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_DOUBLE_QUOTE));
 
 		token = getNthToken(2);
-		assertTrue(token instanceof IToken);
 		assertEquals(1, scanner.getTokenLength());
 		assertEquals(7, scanner.getTokenOffset());
 		ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm
-				.getColor(IShellColorConstants.SHELL_DOUBLE_QUOTE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_DOUBLE_QUOTE));
 
 		token = getNthToken(3);
-		assertTrue(token instanceof IToken);
 		assertEquals(1, scanner.getTokenLength());
 		assertEquals(18, scanner.getTokenOffset());
 		ta = (TextAttribute) token.getData();
-		assertEquals(ta.getForeground(), cm
-				.getColor(IShellColorConstants.SHELL_DOUBLE_QUOTE));
+		assertEquals(ta.getForeground(),
+				cm.getColor(IShellColorConstants.SHELL_DOUBLE_QUOTE));
 	}
 }

@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.dltk.ast.declarations.FieldDeclaration;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
-import org.eclipse.dltk.compiler.ISourceElementRequestor.FieldInfo;
+import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
 
 public class ShellModuleDeclaration extends ModuleDeclaration {
 
@@ -41,7 +41,7 @@ public class ShellModuleDeclaration extends ModuleDeclaration {
 			functionsInfo.add(mInfo);
 		}
 	}
-	
+
 	public void setVariables(List<FieldDeclaration> variables) {
 		getVariablesList().addAll(variables);
 		for (FieldDeclaration method : variables) {
@@ -57,7 +57,7 @@ public class ShellModuleDeclaration extends ModuleDeclaration {
 	public List<FunctionInfo> getFunctionsInfo() {
 		return functionsInfo;
 	}
-	
+
 	public List<FieldInfo> getFieldsInfo() {
 		return variablesInfo;
 	}

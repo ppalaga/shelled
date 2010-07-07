@@ -19,6 +19,7 @@ import org.eclipse.jface.text.IDocument;
 
 public class ShellDocumentSetupParticipant implements IDocumentSetupParticipant {
 
+	@Override
 	public void setup(IDocument document) {
 		ShellTextTools tools = Activator.getDefault().getTextTools();
 		tools.setupDocumentPartitioner(document,

@@ -77,9 +77,7 @@ public class ShelledUIPreferenceInitializer extends
 		store.setDefault(CodeFormatterConstants.FORMATTER_TAB_CHAR,
 				CodeFormatterConstants.TAB);
 		store.setDefault(CodeFormatterConstants.FORMATTER_TAB_SIZE, "4");
-		store
-				.setDefault(CodeFormatterConstants.FORMATTER_INDENTATION_SIZE,
-						"4");
+		store.setDefault(CodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "4");
 		store.setDefault(PreferenceConstants.EDITOR_FOLDING_ENABLED, true);
 
 		SemanticHighlightingUtils.initializeDefaultValues(store, Activator

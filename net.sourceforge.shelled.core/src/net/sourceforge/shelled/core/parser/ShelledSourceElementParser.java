@@ -12,9 +12,9 @@ package net.sourceforge.shelled.core.parser;
 
 import net.sourceforge.shelled.core.ShelledNature;
 
+import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
+import org.eclipse.dltk.compiler.IElementRequestor.TypeInfo;
 import org.eclipse.dltk.compiler.ISourceElementRequestor;
-import org.eclipse.dltk.compiler.ISourceElementRequestor.FieldInfo;
-import org.eclipse.dltk.compiler.ISourceElementRequestor.TypeInfo;
 import org.eclipse.dltk.core.AbstractSourceElementParser;
 import org.eclipse.dltk.core.ISourceModuleInfoCache.ISourceModuleInfo;
 
@@ -25,23 +25,22 @@ public class ShelledSourceElementParser extends AbstractSourceElementParser {
 		return ShelledNature.SHELLED_NATURE;
 	}
 
-	@Override
 	public void parseSourceModule(
-			org.eclipse.dltk.compiler.env.ISourceModule module,
+			org.eclipse.dltk.compiler.env.IModuleSource module,
 			ISourceModuleInfo astCache) {
-		final ShellModuleDeclaration moduleDeclaration = (ShellModuleDeclaration)parse(module, astCache);
+		final ShellModuleDeclaration moduleDeclaration = (ShellModuleDeclaration) parse(module);
 
 		ISourceElementRequestor requestor = getRequestor();
 
 		requestor.enterModule();
 		TypeInfo tInfo = new TypeInfo();
-		tInfo.name=module.getModelElement().getElementName();
+		tInfo.name = module.getModelElement().getElementName();
 		requestor.enterType(tInfo);
-		for (FunctionInfo method : moduleDeclaration.getFunctionsInfo()){
+		for (FunctionInfo method : moduleDeclaration.getFunctionsInfo()) {
 			requestor.enterMethod(method);
 			requestor.exitMethod(method.declarationEnd);
 		}
-		for (FieldInfo variable : moduleDeclaration.getFieldsInfo()){
+		for (FieldInfo variable : moduleDeclaration.getFieldsInfo()) {
 			requestor.enterField(variable);
 			requestor.exitMethod(variable.nameSourceEnd);
 		}

@@ -83,7 +83,7 @@ public class ShellScriptEditor extends ScriptEditor {
 	}
 
 	@Override
-	protected IFoldingStructureProvider getFoldingStructureProvider() {
+	protected IFoldingStructureProvider createFoldingStructureProvider() {
 		return new AbstractASTFoldingStructureProvider() {
 
 			@Override

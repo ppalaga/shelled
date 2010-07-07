@@ -15,6 +15,7 @@ import org.eclipse.dltk.ast.parser.ISourceParserFactory;
 
 public class ShellScriptSourceParserFactory implements ISourceParserFactory {
 
+	@Override
 	public ISourceParser createSourceParser() {
 		return new ShellScriptSourceParser();
 	}

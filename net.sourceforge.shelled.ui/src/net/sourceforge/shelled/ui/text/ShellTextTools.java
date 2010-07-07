@@ -37,7 +37,7 @@ public class ShellTextTools extends ScriptTextTools {
 	}
 
 	@Override
-	public IPartitionTokenScanner getPartitionScanner() {
+	public IPartitionTokenScanner createPartitionScanner() {
 		return fPartitionScanner;
 	}
 

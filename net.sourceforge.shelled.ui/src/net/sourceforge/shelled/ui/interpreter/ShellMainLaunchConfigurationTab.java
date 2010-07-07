@@ -19,24 +19,21 @@ public class ShellMainLaunchConfigurationTab extends MainLaunchConfigurationTab 
 
 	public ShellMainLaunchConfigurationTab(String mode) {
 		super(mode);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected boolean breakOnFirstLinePrefEnabled(
 			PreferencesLookupDelegate delegate) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected boolean dbpgLoggingPrefEnabled(PreferencesLookupDelegate delegate) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	protected String getNatureID() {
+	public String getNatureID() {
 		return ShelledNature.SHELLED_NATURE;
 	}
 

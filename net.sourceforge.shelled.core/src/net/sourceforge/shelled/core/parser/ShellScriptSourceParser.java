@@ -11,8 +11,8 @@
 package net.sourceforge.shelled.core.parser;
 
 import java.io.BufferedReader;
-import java.io.CharArrayReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -25,26 +25,14 @@ import org.eclipse.dltk.ast.declarations.MethodDeclaration;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.expressions.MethodCallExpression;
 import org.eclipse.dltk.ast.parser.AbstractSourceParser;
+import org.eclipse.dltk.ast.parser.IModuleDeclaration;
 import org.eclipse.dltk.ast.references.VariableReference;
+import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.compiler.problem.IProblemReporter;
 
 public class ShellScriptSourceParser extends AbstractSourceParser {
 
-	// @Override
-	public ModuleDeclaration parse(char[] fileName, char[] source,
-			IProblemReporter reporter) {
-		ShellModuleDeclaration moduleDeclaration = new ShellModuleDeclaration(
-				source.length);
-
-		ShellModel shellModel = parse(new CharArrayReader(source),
-				moduleDeclaration);
-		moduleDeclaration.setFunctions(shellModel.getFunctions());
-		moduleDeclaration.setVariables(shellModel.getVariables());
-		processNode(shellModel, moduleDeclaration);
-		return moduleDeclaration;
-	}
-
-	private ShellModel parse(CharArrayReader reader,
+	private ShellModel parse(StringReader reader,
 			ShellModuleDeclaration moduleDeclaration) {
 		ShellModel model = new ShellModel();
 
@@ -101,8 +89,8 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 				Pattern assignmentPattern = Pattern.compile("(^|\\W)\\w*=");
 				Matcher matcher = assignmentPattern.matcher(line);
 				if (matcher.find()) {
-					String varName = line.substring(matcher.start(), matcher
-							.end() - 1);
+					String varName = line.substring(matcher.start(),
+							matcher.end() - 1);
 					if (isValidName(varName)) {
 						FieldDeclaration variable = new FieldDeclaration(
 								varName, lineStart + matcher.start(), lineStart
@@ -256,6 +244,19 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 		for (MethodDeclaration statement : parse.getStatements()) {
 			moduleDeclaration.addStatement(statement);
 		}
+	}
+
+	@Override
+	public IModuleDeclaration parse(IModuleSource source, IProblemReporter arg1) {
+		ShellModuleDeclaration moduleDeclaration = new ShellModuleDeclaration(
+				source.getSourceContents().length());
+
+		ShellModel shellModel = parse(
+				new StringReader(source.getSourceContents()), moduleDeclaration);
+		moduleDeclaration.setFunctions(shellModel.getFunctions());
+		moduleDeclaration.setVariables(shellModel.getVariables());
+		processNode(shellModel, moduleDeclaration);
+		return moduleDeclaration;
 	}
 
 }

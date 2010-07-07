@@ -22,6 +22,7 @@ public class ShellScriptInstall extends AbstractInterpreterInstall {
 		super(type, id);
 	}
 
+	@Override
 	public String getNatureId() {
 		return ShelledNature.SHELLED_NATURE;
 	}

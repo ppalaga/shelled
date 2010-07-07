@@ -10,9 +10,9 @@
  *******************************************************************************/
 package net.sourceforge.shelled.core.parser;
 
-import org.eclipse.dltk.compiler.ISourceElementRequestor.MethodInfo;
+import org.eclipse.dltk.compiler.IElementRequestor.MethodInfo;
 
-public class FunctionInfo extends MethodInfo{
+public class FunctionInfo extends MethodInfo {
 	public int declarationEnd;
-	
+
 }

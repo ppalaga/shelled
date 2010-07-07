@@ -34,6 +34,9 @@ public class ShellCompletionProposal extends ScriptCompletionProposal {
 
 	@Override
 	protected boolean isSmartTrigger(char trigger) {
+		if (trigger == '$') {
+			return true;
+		}
 		return false;
 	}
 

@@ -39,15 +39,15 @@ public class DollarRule implements IRule {
 	 * script. A dollar sign combined with any of the following characters will
 	 * be highlighted, but no characters after that.
 	 * <p>
-	 *'*', '@' - positional parameters starting from 1<br>
-	 *'#' - number of positional parameters<br>
-	 *'?' - exit status of the last executed foreground command<br>
-	 *'-' - current option flags<br>
-	 *'$' - PID of the shell<br>
-	 *'!' - PID of the last executed background command<br>
-	 *'_' - pathname used to invoke the shell and every subsequent command <br>
-	 *'0' - usually the name of the file used to invoke the shell<br>
-	 *'1' to '9' - expands to the corresponding positional parameters,
+	 * '*', '@' - positional parameters starting from 1<br>
+	 * '#' - number of positional parameters<br>
+	 * '?' - exit status of the last executed foreground command<br>
+	 * '-' - current option flags<br>
+	 * '$' - PID of the shell<br>
+	 * '!' - PID of the last executed background command<br>
+	 * '_' - pathname used to invoke the shell and every subsequent command <br>
+	 * '0' - usually the name of the file used to invoke the shell<br>
+	 * '1' to '9' - expands to the corresponding positional parameters,
 	 * parameters 10+ must be referenced with braces like ${12}
 	 * 
 	 * @param c
@@ -67,6 +67,7 @@ public class DollarRule implements IRule {
 	 * org.eclipse.jface.text.rules.IRule#evaluate(org.eclipse.jface.text.rules
 	 * .ICharacterScanner)
 	 */
+	@Override
 	public IToken evaluate(ICharacterScanner scanner) {
 		int c = scanner.read();
 		if (detector.isWordStart((char) c)) {

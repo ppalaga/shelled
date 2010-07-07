@@ -14,8 +14,9 @@ import java.util.Map;
 
 import net.sourceforge.shelled.ui.text.ShellCodeScanner;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.dltk.codeassist.ICompletionEngine;
-import org.eclipse.dltk.compiler.env.ISourceModule;
+import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.CompletionProposal;
 import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.DLTKCore;
@@ -31,7 +32,7 @@ public class ShellCompletionEngine implements ICompletionEngine {
 	private int actualCompletionPosition;
 	private int offset;
 
-	public void complete(ISourceModule module, int position, int pos) {
+	public void complete(IModuleSource module, int position, int pos) {
 		this.actualCompletionPosition = position;
 		this.offset = pos;
 		for (String keyword : ShellCodeScanner.KEYWORDS) {
@@ -61,8 +62,8 @@ public class ShellCompletionEngine implements ICompletionEngine {
 	private void createProposal(String name, IModelElement element) {
 		CompletionProposal proposal = this.createProposal(
 				CompletionProposal.KEYWORD, this.actualCompletionPosition);
-		proposal.setName(name.toCharArray());
-		proposal.setCompletion(name.toCharArray());
+		proposal.setName(name);
+		proposal.setCompletion(name);
 		proposal.setReplaceRange(actualCompletionPosition - offset,
 				actualCompletionPosition - offset);
 		proposal.setRelevance(20);
@@ -70,19 +71,27 @@ public class ShellCompletionEngine implements ICompletionEngine {
 		this.requestor.accept(proposal);
 	}
 
+	@Override
 	public void setOptions(Map options) {
 	}
 
+	@Override
 	public void setProject(IScriptProject project) {
 		this.project = project;
 	}
 
+	@Override
 	public void setRequestor(CompletionRequestor requestor) {
 		this.requestor = requestor;
 	}
 
 	protected CompletionProposal createProposal(int kind, int completionOffset) {
 		return CompletionProposal.create(kind, completionOffset - this.offset);
+	}
+
+	@Override
+	public void setProgressMonitor(IProgressMonitor progressMonitor) {
+
 	}
 
 }
