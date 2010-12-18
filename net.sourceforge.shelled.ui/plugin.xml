@@ -47,9 +47,13 @@
           name="Editor"/>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
-		<editor class="net.sourceforge.shelled.ui.editor.ShellScriptEditor"
-			default="false" id="net.sourceforge.shelled.ui.editor" icon="icons/rosetta.gif"
-			name="Shell Script Editor">
+		<editor
+        class="net.sourceforge.shelled.ui.editor.ShellScriptEditor"
+        contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+        default="false"
+        icon="icons/rosetta.gif"
+        id="net.sourceforge.shelled.ui.editor"
+        name="Shell Script Editor">
 			<contentTypeBinding contentTypeId="net.sourceforge.shelled.content-type" />
 		</editor>
 	</extension>
