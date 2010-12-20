@@ -9,7 +9,7 @@
 	<extension point="org.eclipse.ui.newWizards">
 		<wizard category="net.sourceforge.shelled.category"
 			class="org.eclipse.dltk.ui.wizards.GenericDLTKProjectWizard:net.sourceforge.shelled.core.nature"
-			id="net.sourceforge.shelled.wizard1" name="Shell Script Project Wizard"
+			id="net.sourceforge.shelled.projectwizard" name="Shell Script Project"
 			project="true">
 		</wizard>
 		<category id="net.sourceforge.shelled.category" name="Shell Script">
@@ -168,7 +168,7 @@
 			categoryId="org.eclipse.debug.ui.category.run" id="net.sourceforge.shelled.ui.shortcut">
 		</command>
 		<command
-        defaultHandler="net.sourceforge.shelled.ui.ShowManHandler"
+        defaultHandler="net.sourceforge.shelled.ui.commands.ShowManHandler"
         description="Show man page view"
         id="net.sourceforge.shelled.ui.showman"
         name="Show man page">

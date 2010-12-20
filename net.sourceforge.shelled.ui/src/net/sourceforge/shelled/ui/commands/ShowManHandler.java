@@ -8,7 +8,7 @@
  * Contributors:
  *     Alexander Kurtakov - initial API and implementation
  *******************************************************************************/
-package net.sourceforge.shelled.ui;
+package net.sourceforge.shelled.ui.commands;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

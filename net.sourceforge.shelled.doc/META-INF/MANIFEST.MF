@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ShellEd Documentation Plug-in
+Bundle-SymbolicName: net.sourceforge.shelled.doc; singleton:=true
+Bundle-Version: 0.0.0.qualifier
+Bundle-Vendor: SourceForge
+Require-Bundle: org.eclipse.help
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

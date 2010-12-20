@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2010 Mat Booth and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+      Mat Booth
+ -->
+<project name="net.sourceforge.shelled.doc" default="all">
+	<description>
+		Generate ShellEd help content from the Trac wiki.
+		This file is very loosely based on how the Fedora Packager plug-in does it.
+	</description>
+
+	<property name="wikitext.plugin.location" value="/usr/share/eclipse/dropins/mylyn-wikitext/eclipse/plugins" />
+
+	<path id="wikitext.tasks.classpath">
+		<fileset dir="${wikitext.plugin.location}">
+			<include name="org.eclipse.mylyn.wikitext.*core*.jar" />
+			<exclude name="org.eclipse.mylyn.*tracwiki*.jar" />
+		</fileset>
+		<fileset dir="/home/mbooth">
+			<include name="tracwiki.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classpathref="wikitext.tasks.classpath" resource="org/eclipse/mylyn/wikitext/core/util/anttask/tasks.properties"/>
+
+	<target name="init">
+		<!-- URL of the user guide in the wiki. -->
+		<property name="user.guide.url" value="http://sourceforge.net/apps/trac/shelled/wiki/Documentation/UserGuide"/>
+
+		<!-- Base URL of the user guide's attachments. -->
+		<property name="user.guide.attachments.url" value="http://sourceforge.net/apps/trac/shelled/raw-attachment/wiki/Documentation/UserGuide"/>
+
+		<property name="output.dir" value="userguide"/>
+	</target>
+
+	<target name="clean" depends="init">
+		<!-- Remove all generated content. -->
+		<delete>
+			<fileset dir="${output.dir}">
+				<include name="**/*.*"/>
+				<exclude name="images/*.*"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="generate-help" depends="init">
+		<sequential>
+			<!-- Download the user guide source from the wiki. -->
+			<get src="${user.guide.url}?format=txt" dest="${output.dir}/Introduction.wiki"/>
+
+			<!-- TODO: Make this better. It's kinda problematic to list all the wiki page attachments
+			     here... I guess the real solution is do write a fancy ant task to fetch it all for us,
+			     similar to the <mediawiki-to-eclipse-help> task. -->
+			<get src="${user.guide.attachments.url}/Intro-Screenshot.png" dest="${output.dir}/Intro-Screenshot.png"/>
+
+			<!-- Generate the Eclipse help. -->
+			<wikitext-to-eclipse-help
+				markupLanguage="TracWiki" title="Shell Script Editor User Guide"
+				multipleOutputFiles="true" navigationImages="true" formatOutput="true"
+				helpPrefix="${output.dir}">
+				<fileset dir="${output.dir}">
+					<include name="**/*.wiki"/>
+				</fileset>
+			</wikitext-to-eclipse-help>
+
+			<!-- Remove the downloaded wiki source. -->
+<!--			<delete>
+				<fileset dir="${output.dir}">
+					<include name="**/*.wiki"/>
+				</fileset>
+			</delete>-->
+		</sequential>
+	</target>
+
+	<target name="test" depends="init">
+		<echo level="info">
+Validating help content XML and HTML files: The Eclipse help system expects well-formed XML
+
+If validation fails it is probably because either:
+
+ * the user guide source code is poorly formed
+ * or the WikiText parser has a bug
+		</echo>
+
+		<!-- Don't bother with DTD validation: We only care if the files are well-formed.
+		     We therefore provide an empty DTD and delete it when we're done. -->
+		<echo file="${basedir}/__empty.dtd" message="" />
+		<xmlvalidate lenient="true">
+			<fileset dir="${output.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.html"/>
+			</fileset>
+			<dtd publicid="-//W3C//DTD XHTML 1.0 Transitional//EN" location="${basedir}/__empty.dtd"/>
+		</xmlvalidate>
+		<delete file="${basedir}/__empty.dtd"/>
+	</target>
+
+	<target name="all" depends="clean, generate-help, test"/>
+
+</project>

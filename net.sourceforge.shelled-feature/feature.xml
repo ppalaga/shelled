@@ -4,8 +4,8 @@
       label="ShellEd"
       version="2.0.0.qualifier">
 
-   <description>
-      Shell Script Editor
+   <description url="https://sourceforge.net/apps/trac/shelled/">
+      Shell Script Editor for Eclipse
    </description>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -21,6 +21,13 @@
 
    <plugin
          id="net.sourceforge.shelled.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="net.sourceforge.shelled.doc"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ShellEd UI
+Bundle-Name: ShellEd UI Plug-in
 Bundle-SymbolicName: net.sourceforge.shelled.ui;singleton:=true
 Bundle-Version: 0.0.0.qualifier
 Bundle-Activator: net.sourceforge.shelled.ui.Activator
@@ -22,4 +22,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: net.sourceforge.shelled.ui,
  net.sourceforge.shelled.ui.text
-Bundle-Vendor: Sourceforge
+Bundle-Vendor: SourceForge

@@ -1,0 +1,22 @@
+= Introduction =
+
+'''!ShellEd''' is a superb shell script editor for Eclipse. The great benefits of this plug-in are the integration of man page information for content assist/hover help and the ability to run your project's shell scripts without having to leave Eclipse to start up a terminal.
+
+[[Image(Intro-Screenshot.png)]]
+
+It also comes with all the features you'd expect from a full-featured Eclipse code editor such as syntax highlighting, code-folding and outline view.
+
+= Getting Started =
+
+== New Shell Script Project ==
+
+== Existing Projects ==
+
+= Updating This Guide =
+
+This user's guide is maintained in a collaborative wiki. We would welcome any corrections or additions to this document, so if you wish to update or modify it for inclusion in the next release of '''!ShellEd''', please visit the following URL:
+
+https://sourceforge.net/apps/trac/shelled/wiki/Documentation/UserGuide
+
+Note that you'll need to sign with your !SourceForge account before editing the wiki.
+ 	  	 

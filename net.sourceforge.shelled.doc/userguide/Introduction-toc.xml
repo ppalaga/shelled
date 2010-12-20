@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<toc topic="userguide/Introduction.html" label="Shell Script Editor User Guide">
+	<topic href="userguide/Introduction.html" label="Introduction"></topic>
+	<topic href="userguide/Getting-Started.html" label="Getting Started">
+		<topic href="userguide/Getting-Started.html#NewShellScriptProject" label="New Shell Script Project"></topic>
+		<topic href="userguide/Getting-Started.html#ExistingProjects" label="Existing Projects"></topic>
+	</topic>
+	<topic href="userguide/Updating-This-Guide.html" label="Updating This Guide"></topic>
+</toc>
