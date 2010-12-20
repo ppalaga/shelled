@@ -70,11 +70,11 @@
 			</wikitext-to-eclipse-help>
 
 			<!-- Remove the downloaded wiki source. -->
-<!--			<delete>
+			<delete>
 				<fileset dir="${output.dir}">
 					<include name="**/*.wiki"/>
 				</fileset>
-			</delete>-->
+			</delete>
 		</sequential>
 	</target>
 
