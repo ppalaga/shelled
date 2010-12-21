@@ -20,12 +20,13 @@ import org.eclipse.dltk.launching.ScriptRuntime;
 
 public class ShellScriptInterpretersBlock extends InterpretersBlock {
 	@Override
-	protected AddScriptInterpreterDialog createInterpreterDialog(
-			IEnvironment environment, IInterpreterInstall standin) {
-		AddShellScriptInterpreterDialog dialog = new AddShellScriptInterpreterDialog(
-				this, getShell(),
-				ScriptRuntime.getInterpreterInstallTypes(getCurrentNature()),
-				standin);
+	protected AddScriptInterpreterDialog createInterpreterDialog(IEnvironment environment,
+			IInterpreterInstall standin) {
+		AddShellScriptInterpreterDialog dialog = new AddShellScriptInterpreterDialog(this,
+				getShell(), ScriptRuntime.getInterpreterInstallTypes(getCurrentNature()), standin);
+		if (dialog != null) {
+			dialog.setEnvironment(environment);
+		}
 		return dialog;
 	}
 
