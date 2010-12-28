@@ -262,12 +262,12 @@
                      ifEmpty="false"
                      operator="and">
                   <or>
-                     <instanceof
-                           value="org.eclipse.core.resources.IProject">
-                     </instanceof>
-                     <instanceof
-                           value="org.eclipse.dltk.core.IScriptProject">
-                     </instanceof>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                     </adapt>
+                     <adapt
+                           type="org.eclipse.dltk.core.IScriptProject">
+                     </adapt>
                   </or>
                </iterate>
             </with>
