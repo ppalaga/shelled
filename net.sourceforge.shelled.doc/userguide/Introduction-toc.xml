@@ -2,6 +2,7 @@
 <toc topic="userguide/Introduction.html" label="Shell Script Editor User Guide">
 	<topic href="userguide/Introduction.html" label="Introduction"></topic>
 	<topic href="userguide/Getting-Started.html" label="Getting Started">
+		<topic href="userguide/Getting-Started.html#ConfiguringanInterpreter" label="Configuring an Interpreter"></topic>
 		<topic href="userguide/Getting-Started.html#NewShellScriptProject" label="New Shell Script Project"></topic>
 		<topic href="userguide/Getting-Started.html#ExistingProjects" label="Existing Projects"></topic>
 	</topic>

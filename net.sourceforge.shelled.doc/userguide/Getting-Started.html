@@ -29,8 +29,53 @@
 			</tr>
 		</table><hr/>
 		<h1 id="GettingStarted">Getting Started</h1>
+		<h2 id="ConfiguringanInterpreter">Configuring an Interpreter</h2>
+		<p>To verify that Eclipse is set up correctly for Shell Script development you need to make sure that an interpreter is configured. Select the menu item 
+			<b>Window</b> -&gt; 
+			<b>Preferences</b> to open the workbench preferences. Then choose the 
+			<b>Shell Script</b> -&gt; 
+			<b>Interpreters</b> preference page to show the current interpreter configuration.
+		</p>
+		<p>
+			<img border="0" src="Interps-Empty-Screenshot.png"/>
+		</p>
+		<p>If there are no interpreters listed, you may add an interpreter manually by pressing the 
+			<b>Add</b> button, or let ShellEd try to automatically discover interpreters by pressing the 
+			<b>Search</b> button. Once you have added one or more interpreters, you may select which interpreter to use by default by checking the box next to the interpreter's name.
+		</p>
+		<p>
+			<img border="0" src="Interps-Full-Screenshot.png"/>
+		</p>
 		<h2 id="NewShellScriptProject">New Shell Script Project</h2>
-		<h2 id="ExistingProjects">Existing Projects</h2><hr/>
+		<p>To create a new shell script project, select the menu item 
+			<b>File</b> -&gt; 
+			<b>New</b> -&gt; 
+			<b>Project</b> and select 
+			<b>Shell Script Project</b> from the list of available project types.
+		</p>
+		<p>
+			<img border="0" src="New-Project-Screenshot.png"/>
+		</p>
+		<p>On the next page, you will be asked to choose a name and location for the project and to choose an interpreter.</p>
+		<p>
+			<img border="0" src="Project-Wizard-Screenshot.png"/>
+		</p>
+		<p>If there are no interpreters configured in ShellEd, it will say that your default interpreter is "currently undefined." You will still be allowed to create the project, but you will not be able to run or debug your shell scripts. It is highly recommended that you configure at least one interpreter and you may do so at this point by clicking the 
+			<b>Configure Interpreters</b> link, which will take you to the preferences page described in the 
+			<a href="Getting-Started.html#ConfiguringanInterpreter">previous section</a>.
+		</p>
+		<p>After clicking the 
+			<b>Finish</b> button, the newly created shell script project will be visible in the 
+			<b>Project Explorer</b> type views.
+		</p>
+		<h2 id="ExistingProjects">Existing Projects</h2>
+		<p>You probably have shell scripts in other projects that you want to run and debug. In this case, you can add shell script support to existing, non-shell script projects by right-clicking them and choosing the 
+			<b>ShellEd</b> -&gt; 
+			<b>Add Shell Script Support</b> menu item.
+		</p>
+		<p>
+			<img border="0" src="Add-Support-Screenshot.png"/>
+		</p><hr/>
 		<table class="navigation" style="width: 100%;" border="0" summary="navigation">
 			<tr>
 				<td style="width: 20%" align="left">

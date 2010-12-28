@@ -18,11 +18,14 @@
 	<property name="wikitext.plugin.location" value="/usr/share/eclipse/dropins/mylyn-wikitext/eclipse/plugins" />
 
 	<path id="wikitext.tasks.classpath">
+		<!--
 		<fileset dir="${wikitext.plugin.location}">
 			<include name="org.eclipse.mylyn.wikitext.*core*.jar" />
-			<exclude name="org.eclipse.mylyn.*tracwiki*.jar" />
 		</fileset>
+		-->
+		<!-- XXX: Use special patched version of WikiText until Eclipse bug #319977 is fixed. -->
 		<fileset dir="/home/mbooth">
+			<include name="wikitext.jar" />
 			<include name="tracwiki.jar" />
 		</fileset>
 	</path>
@@ -58,6 +61,11 @@
 			     here... I guess the real solution is do write a fancy ant task to fetch it all for us,
 			     similar to the <mediawiki-to-eclipse-help> task. -->
 			<get src="${user.guide.attachments.url}/Intro-Screenshot.png" dest="${output.dir}/Intro-Screenshot.png"/>
+			<get src="${user.guide.attachments.url}/Interps-Empty-Screenshot.png" dest="${output.dir}/Interps-Empty-Screenshot.png"/>
+			<get src="${user.guide.attachments.url}/Interps-Full-Screenshot.png" dest="${output.dir}/Interps-Full-Screenshot.png"/>
+			<get src="${user.guide.attachments.url}/New-Project-Screenshot.png" dest="${output.dir}/New-Project-Screenshot.png"/>
+			<get src="${user.guide.attachments.url}/Project-Wizard-Screenshot.png" dest="${output.dir}/Project-Wizard-Screenshot.png"/>
+			<get src="${user.guide.attachments.url}/Add-Support-Screenshot.png" dest="${output.dir}/Add-Support-Screenshot.png"/>
 
 			<!-- Generate the Eclipse help. -->
 			<wikitext-to-eclipse-help
