@@ -11,6 +11,7 @@
 package net.sourceforge.shelled.ui;
 
 import net.sourceforge.shelled.core.ShellScriptLanguageToolkit;
+import net.sourceforge.shelled.ui.interpreter.ShellInterpreterPreferencePage;
 
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
 import org.eclipse.dltk.ui.AbstractDLTKUILanguageToolkit;
@@ -27,4 +28,8 @@ public class ShelledUILanguageToolkit extends AbstractDLTKUILanguageToolkit {
 		return Activator.getDefault().getPreferenceStore();
 	}
 
+	@Override
+	public String getInterpreterPreferencePage() {
+		return ShellInterpreterPreferencePage.PAGE_ID;
+	}
 }

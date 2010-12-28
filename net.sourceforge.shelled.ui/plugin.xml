@@ -11,7 +11,7 @@
 		</category>
 		<wizard
         category="net.sourceforge.shelled.category"
-        class="org.eclipse.dltk.ui.wizards.GenericDLTKProjectWizard:net.sourceforge.shelled.core.nature"
+        class="net.sourceforge.shelled.ui.wizards.ShellScriptProjectWizard"
         icon="icons/projectwizard.gif"
         id="net.sourceforge.shelled.projectwizard"
         name="Shell Script Project"
