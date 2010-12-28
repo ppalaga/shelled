@@ -17,8 +17,7 @@ import org.eclipse.dltk.ui.preferences.EditorConfigurationBlock;
 import org.eclipse.dltk.ui.preferences.IPreferenceConfigurationBlock;
 import org.eclipse.dltk.ui.preferences.OverlayPreferenceStore;
 
-public class ShellEditorPreferencesPage extends
-		AbstractConfigurationBlockPreferencePage {
+public class ShellEditorPreferencesPage extends AbstractConfigurationBlockPreferencePage {
 
 	@Override
 	protected String getHelpId() {
@@ -27,7 +26,7 @@ public class ShellEditorPreferencesPage extends
 
 	@Override
 	protected void setDescription() {
-		setDescription("Shell Script Editor");
+		setDescription("Shell Script Editor preferences");
 	}
 
 	@Override

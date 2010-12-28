@@ -31,7 +31,7 @@ public class ShellTodoTaskPreferencePage extends
 
 	@Override
 	protected void setDescription() {
-		setDescription("Strings indicating tasks in shell script comments.");
+		setDescription("Strings indicating tasks in Shell Script comments.");
 	}
 
 	@Override

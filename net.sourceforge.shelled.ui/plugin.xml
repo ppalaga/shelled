@@ -7,13 +7,30 @@
 		</language>
 	</extension>
 	<extension point="org.eclipse.ui.newWizards">
-		<wizard category="net.sourceforge.shelled.category"
-			class="org.eclipse.dltk.ui.wizards.GenericDLTKProjectWizard:net.sourceforge.shelled.core.nature"
-			id="net.sourceforge.shelled.projectwizard" name="Shell Script Project"
-			project="true">
-		</wizard>
 		<category id="net.sourceforge.shelled.category" name="Shell Script">
 		</category>
+		<wizard
+        category="net.sourceforge.shelled.category"
+        class="org.eclipse.dltk.ui.wizards.GenericDLTKProjectWizard:net.sourceforge.shelled.core.nature"
+        icon="icons/projectwizard.gif"
+        id="net.sourceforge.shelled.projectwizard"
+        name="Shell Script Project"
+        project="true">
+     <description>
+        Create a new Shell Script project.
+     </description>
+		</wizard>
+  <wizard
+        category="net.sourceforge.shelled.category"
+        class="net.sourceforge.shelled.ui.wizards.NewShellScriptFileWizard"
+        icon="icons/scriptwizard.gif"
+        id="net.sourceforge.shelled.scriptfilewizard"
+        name="Shell Script"
+        project="false">
+     <description>
+        Create a new Shell Script.
+     </description>
+  </wizard>
 	</extension>
 	<extension point="org.eclipse.dltk.launching.interpreterInstallTypes">
 		<interpreterInstallType
@@ -51,7 +68,7 @@
         class="net.sourceforge.shelled.ui.editor.ShellScriptEditor"
         contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
         default="false"
-        icon="icons/rosetta.gif"
+        icon="icons/script.gif"
         id="net.sourceforge.shelled.ui.editor"
         name="Shell Script Editor">
 			<contentTypeBinding contentTypeId="net.sourceforge.shelled.content-type" />
@@ -69,7 +86,7 @@
 		</launchConfigurationType>
 	</extension>
 	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
-		<launchConfigurationTypeImage icon="icons/rosetta.gif"
+		<launchConfigurationTypeImage icon="icons/shellapp.gif"
 			configTypeID="net.sourceforge.shelled.ui.launchConfigurationType1"
 			id="net.sourceforge.shelled.ui.launchConfigurationTypeImage.program">
 		</launchConfigurationTypeImage>
@@ -78,7 +95,7 @@
 	<extension point="org.eclipse.debug.ui.launchShortcuts">
 		<shortcut class="net.sourceforge.shelled.ui.LaunchShortcut"
 			id="net.sourceforge.shelled.ui.shortcut" label="Shell script" modes="run"
-			icon="icons/rosetta.gif">
+			icon="icons/shellapp.gif">
 			<contextualLaunch>
 				<enablement>
 					<with variable="selection">
