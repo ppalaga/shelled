@@ -19,6 +19,10 @@ import org.eclipse.linuxtools.man.views.ManView;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+/**
+ * A command handler that opens the Man Page view and tries to show the man page
+ * for whatever text is currently highlighted.
+ */
 public class ShowManHandler extends AbstractHandler {
 
 	@Override
@@ -33,13 +37,12 @@ public class ShowManHandler extends AbstractHandler {
 			}
 
 			if (!manPage.isEmpty()) {
-				ManView view = (ManView) HandlerUtil.getActiveWorkbenchWindow(
-						event).getActivePage().showView(
-						"org.eclipse.linuxtools.man.views.ManView");
+				ManView view = (ManView) HandlerUtil
+						.getActiveWorkbenchWindow(event).getActivePage()
+						.showView(ManView.ID);
 				view.setManPageName(manPage);
 			}
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

@@ -41,7 +41,7 @@ public class RemoveNature extends AbstractProjectHandler {
 			description.setNatureIds(newNatures.toArray(new String[newNatures.size()]));
 			project.setDescription(description, null);
 		} catch (CoreException e) {
-			// TODO don't silently fail
+			e.printStackTrace();
 		}
 	}
 }

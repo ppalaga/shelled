@@ -7,161 +7,178 @@
  *
  * Contributors:
  *     Alexander Kurtakov - initial API and implementation
+ *     Mat Booth
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
+import net.sourceforge.shelled.ui.Activator;
+
+import org.eclipse.dltk.ui.CodeFormatterConstants;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.DefaultIndentLineAutoEditStrategy;
 import org.eclipse.jface.text.DocumentCommand;
+import org.eclipse.jface.text.IAutoEditStrategy;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 
 /**
- * An indent strategy capable of indenting on any set of words, depending on the
- * rules that are set.
+ * An indent strategy capable of indenting and unindenting on any set of words,
+ * depending on the rules that are set.
  * 
+ * @see #setRules(IRule[])
  */
-public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy {
+public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
+	/**
+	 * Document scanner used to identify indentations.
+	 */
 	private final DocumentAndCommandScanner scanner = new DocumentAndCommandScanner();
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Set the rules that will be used in a document scanner to identify where
+	 * indentations should occur. Typically you'd have one rule to describe each
+	 * type of indentation.
 	 * 
-	 * @see
-	 * org.eclipse.jface.text.DefaultAutoIndentStrategy#customizeDocumentCommand
-	 * (org.eclipse.jface.text.IDocument,
-	 * org.eclipse.jface.text.DocumentCommand)
+	 * @param rules
+	 *            the list of rules
+	 * @see IndentType
+	 */
+	public void setRules(IRule[] rules) {
+		scanner.setRules(rules);
+	}
+
+	/**
+	 * This implementation attempts to auto-indent and auto-unindent after
+	 * keywords that require it.
 	 */
 	@Override
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
-		if ((c.length == 0) && (c.text != null) && endsWithDelimiter(d, c.text))
+		int delim = TextUtilities.endsWith(d.getLegalLineDelimiters(), c.text);
+		if ((c.length == 0) && (c.text != null) && (delim != -1)) {
+			System.out.println("\n");
+			System.out.println("C Length/Offset: " + c.length + "/" + c.offset);
+			System.out.println("C Text: \"" + c.text + "\"");
 			smartIndentAfterNewLine(d, c);
-		else if (c.text.length() > 0) {
-			try {
-				int docLength = d.getLength();
-				int p = c.offset == docLength ? c.offset - 1 : c.offset;
-				int line = d.getLineOfOffset(p);
-				int lineOffset = d.getLineOffset(line);
-
-				scanner.setRange(d, c, lineOffset, c.offset - lineOffset);
-				while (true) {
-					IToken token = scanner.nextToken();
-					if (token.isEOF())
-						break;
-
-					if (token.isOther()) {
-						IndentType type = (IndentType) token.getData();
-						if (((type != null) && (type == IndentType.DECREMENT))
-								|| (type == IndentType.INFLEXION)) {
-							smartInsertAfterBracket(d, c);
-							break;
-						}
-					}
-				}
-			} catch (BadLocationException e) {
-				// e.printStackTrace();
-			}
+		} else if (c.text.length() == 1) {
+			System.out.println("\n");
+			System.out.println("C Length/Offset: " + c.length + "/" + c.offset);
+			System.out.println("C Text: \"" + c.text + "\"");
+			smartIndentAfterKeypress(d, c);
 		}
 	}
 
 	/**
-	 * Returns whether or not the text ends with one of the given search
-	 * strings.
+	 * Set the indent of a new line when the user hits carriage return. The new
+	 * indent will either be the same as the previous line or incremented if the
+	 * user has hit carriage return on a line that contains a incrementing
+	 * keyword.
+	 * 
+	 * @param document
+	 *            the document being parsed
+	 * @param c
+	 *            the command being performed
 	 */
-	private boolean endsWithDelimiter(IDocument d, String txt) {
-		String[] delimiters = d.getLegalLineDelimiters();
-		for (String delimiter : delimiters) {
-			if (txt.endsWith(delimiter))
-				return true;
+	protected void smartIndentAfterNewLine(IDocument document, DocumentCommand c) {
+		if ((c.offset == -1) || (document.getLength() == 0))
+			return;
+		System.out.print("smartIndentAfterNewLine ");
+		try {
+			StringBuffer buf = new StringBuffer(c.text);
+			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
+			int line = document.getLineOfOffset(p);
+			int start = document.getLineOffset(line);
+			System.out.println("line " + line);
+			int bracketCount = getBracketCount(document, null, start, c.offset,
+					true);
+			buf.append(generateIndentation(getIndentOfLine(document, line),
+					bracketCount <= 0 ? 0 : 1));
+			c.text = buf.toString();
+		} catch (BadLocationException x) {
+			x.printStackTrace();
 		}
-		return false;
 	}
 
 	/**
-	 * Returns the line number of the next bracket after end.
+	 * Set the indent of the current line when the user hits a key. The indent
+	 * will either be unchanged or decremented if the user types
+	 * 
+	 * @param document
+	 *            the document being parsed
+	 * @param c
+	 *            the command being performed
+	 */
+	protected void smartIndentAfterKeypress(IDocument document,
+			DocumentCommand c) {
+		if ((c.offset == -1) || (document.getLength() == 0))
+			return;
+		System.out.print("smartIndentAfterKeypress ");
+		try {
+			StringBuffer buf = new StringBuffer();
+			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
+			int line = document.getLineOfOffset(p);
+			int start = document.getLineOffset(line);
+			int whiteEnd = findEndOfWhiteSpace(document, start, c.offset);
+			System.out.println("line " + line);
+
+			int bracketCount = getBracketCount(document, c, start, c.offset,
+					false);
+			buf.append(generateIndentation(getIndentOfLine(document, line),
+					bracketCount >= 0 ? 0 : -1));
+			buf.append(document.get(whiteEnd, c.offset - whiteEnd));
+			buf.append(c.text);
+			System.out.println("\"" + buf.toString() + "\"");
+			// Alter the command
+			c.length = c.offset - start;
+			c.offset = start;
+			c.text = buf.toString();
+		} catch (BadLocationException x) {
+			x.printStackTrace();
+		}
+	}
+
+	/**
+	 * Returns the first offset greater than <code>offset</code> and smaller
+	 * than <code>end</code> whose character is not a space or tab character. If
+	 * no such offset is found, <code>end</code> is returned.
+	 * 
+	 * @param document
+	 *            the document to search in
+	 * @param offset
+	 *            the offset at which searching start
+	 * @param end
+	 *            the offset at which searching stops
+	 * @return the offset in the specified range whose character is not a space
+	 *         or tab
+	 * @exception BadLocationException
+	 *                if offset is an invalid position in the given document
+	 */
+	private int findEndOfWhiteSpace(IDocument document, int offset, int end)
+			throws BadLocationException {
+		while (offset < end) {
+			char c = document.getChar(offset);
+			if ((c != ' ') && (c != '\t')) {
+				return offset;
+			}
+			offset++;
+		}
+		return end;
+	}
+
+	/**
+	 * Returns the indentation of the specified line in <code>document</code>.
 	 * 
 	 * @param document
 	 *            - the document being parsed
 	 * @param line
-	 *            - the line to start searching back from
-	 * @param end
-	 *            - the end position to search back from
-	 * @param closingBracketIncrease
-	 *            - the number of brackets to skip
-	 * @return the line number of the next matching bracket after end
+	 *            - the line number being searched
+	 * @return the string containing the indentation from the specified line
 	 */
-	protected int findMatchingOpenBracket(IDocument document, int line,
-			int end, int closingBracketIncrease) throws BadLocationException {
-		int start = document.getLineOffset(line);
-		int brackcount = getBracketCount(document, start, end, false)
-				- closingBracketIncrease;
-
-		// sum up the brackets counts of each line (closing brackets count
-		// negative,
-		// opening positive) until we find a line the brings the count to zero
-		while (brackcount < 0) {
-			line--;
-			if (line < 0) {
-				return -1;
-			}
-			start = document.getLineOffset(line);
-			end = start + document.getLineLength(line) - 1;
-			brackcount += getBracketCount(document, start, end, false);
-		}
-		return line;
-	}
-
-	/**
-	 * Returns the bracket value of a section of text. Closing brackets have a
-	 * value of -1 and open brackets have a value of 1.
-	 * 
-	 * @param document
-	 *            - the document being parsed
-	 * @param start
-	 *            - the start position for the search
-	 * @param end
-	 *            - the end position for the search
-	 * @param ignoreCloseBrackets
-	 *            - whether or not to ignore closing brackets in the count
-	 * @return the line number of the next matching bracket after end
-	 */
-	private int getBracketCount(IDocument document, int start, int end,
-			boolean ignoreCloseBrackets) {
-		int bracketcount = 0;
-		scanner.setRange(document, start, end - start);
-
-		while (true) {
-			IToken token = scanner.nextToken();
-			if (token.isEOF())
-				break;
-
-			if (token.isOther()) {
-				IndentType type = (IndentType) token.getData();
-				if ((type == IndentType.INCREMENT)
-						|| (ignoreCloseBrackets && (type == IndentType.INFLEXION)))
-					++bracketcount;
-				else if (type == IndentType.DECREMENT)
-					--bracketcount;
-			}
-		}
-		return bracketcount;
-	}
-
-	/**
-	 * Returns the String at line with the leading whitespace removed.
-	 * 
-	 * @param document
-	 *            - the document being parsed
-	 * @param line
-	 *            - the line being searched
-	 * @return the String at line with the leading whitespace removed.
-	 */
-	protected String getIndentOfLine(IDocument document, int line)
+	private String getIndentOfLine(IDocument document, int line)
 			throws BadLocationException {
 		if (line > -1) {
 			int start = document.getLineOffset(line);
-			int end = start + document.getLineLength(line) - 1;
+			int end = start + document.getLineLength(line);
 			int whiteend = findEndOfWhiteSpace(document, start, end);
 			return document.get(start, whiteend - start);
 		} else {
@@ -170,108 +187,178 @@ public class ScriptAutoIndentStrategy extends DefaultIndentLineAutoEditStrategy 
 	}
 
 	/**
-	 * Set the rules that this will use to identify indentations.
-	 * 
-	 * @param rules
-	 */
-	public void setRules(IRule[] rules) {
-		scanner.setRules(rules);
-	}
-
-	/**
-	 * Set the indent of a new line based on the command provided in the
-	 * supplied document.
+	 * Returns the bracket count of a section of text. The count is incremented
+	 * when an opening bracket is encountered and decremented when a closing
+	 * bracket is encountered.
 	 * 
 	 * @param document
 	 *            - the document being parsed
 	 * @param command
-	 *            - the command being performed
+	 *            - if not null, the inserted text specified by the command will
+	 *            be taken into account as if it were part of the document
+	 * @param start
+	 *            - the start position for the search
+	 * @param end
+	 *            - the end position for the search
+	 * @param ignoreInflexions
+	 *            - whether or not to ignore inflexions in the count
+	 * @return the resulting bracket count, a positive value means we've
+	 *         encountered more opening than closing brackets
 	 */
-	protected void smartIndentAfterNewLine(IDocument document,
-			DocumentCommand command) {
-		int docLength = document.getLength();
-		if ((command.offset == -1) || (docLength == 0))
-			return;
+	private int getBracketCount(IDocument document, DocumentCommand command,
+			int start, int end, boolean ignoreInflexions) {
+		int bracketcount = 0;
+		if (command != null)
+			scanner.setRange(document, command, start, end - start);
+		else
+			scanner.setRange(document, start, end - start);
 
-		try {
-			int p = command.offset == docLength ? command.offset - 1
-					: command.offset;
-			int line = document.getLineOfOffset(p);
+		while (true) {
+			IToken token = scanner.nextToken();
+			if (token.isEOF())
+				break;
 
-			StringBuffer buf = new StringBuffer(command.text);
-			if ((command.offset < docLength)
-					&& (document.getChar(command.offset) == '}')) {
-				int indLine = findMatchingOpenBracket(document, line,
-						command.offset, 0);
-				if (indLine == -1)
-					indLine = line;
-				buf.append(getIndentOfLine(document, indLine));
-			} else {
-				int start = document.getLineOffset(line);
-				int whiteend = findEndOfWhiteSpace(document, start,
-						command.offset);
-				buf.append(document.get(start, whiteend - start));
-				if (getBracketCount(document, start, command.offset, true) > 0) {
-					// Indent as many tabs as specified in preferences
-					buf.append("\t");
-					// buf.append(PreferenceUtil.getIndent());
+			if (token.isOther()) {
+				IndentType type = (IndentType) token.getData();
+				if (type == IndentType.INCREMENT) {
+					System.out.println("Inc");
+					++bracketcount;
+				} else if (type == IndentType.DECREMENT) {
+					System.out.println("Dec");
+					--bracketcount;
+				} else if ((type == IndentType.INFLEXION) && ignoreInflexions) {
+					System.out.println("Inf");
+					++bracketcount;
+				} else if ((type == IndentType.INFLEXION) && !ignoreInflexions) {
+					System.out.println("Inf");
+					--bracketcount;
 				}
 			}
-			command.text = buf.toString();
-
-		} catch (BadLocationException x) {
-			x.printStackTrace(System.err);
 		}
+		System.out.println("Bracket Count: " + bracketcount);
+		return bracketcount;
 	}
 
 	/**
-	 * Set the indent of a bracket based on the command provided in the supplied
-	 * document.
+	 * Calculate the indentation needed for a new line based on the contents of
+	 * the previous line.
 	 * 
-	 * @param document
-	 *            - the document being parsed
-	 * @param command
-	 *            - the command being performed
+	 * @param previous
+	 *            a string containing the indentation of the previous line
+	 * @param additional
+	 *            number of desired addition indentations, may be negative
+	 * @return a string containing the indentation to use on the new line
 	 */
-	protected void smartInsertAfterBracket(IDocument document,
-			DocumentCommand command) {
-		if ((command.offset == -1) || (document.getLength() == 0))
-			return;
+	private String generateIndentation(String previous, int additional) {
+		// Get the indentation preferences
+		IPreferenceStore prefs = Activator.getDefault().getPreferenceStore();
+		String tabChar = prefs
+				.getString(CodeFormatterConstants.FORMATTER_TAB_CHAR);
+		int indentSize = prefs
+				.getInt(CodeFormatterConstants.FORMATTER_INDENTATION_SIZE);
+		int tabSize = prefs.getInt(CodeFormatterConstants.FORMATTER_TAB_SIZE);
 
-		try {
-			int p = command.offset == document.getLength() ? command.offset - 1
-					: command.offset;
-			int line = document.getLineOfOffset(p);
-			int start = document.getLineOffset(line);
-			int whiteend = findEndOfWhiteSpace(document, start, command.offset);
+		// Size in characters of the indentation of the previous line
+		int preLength = computeVisualLength(previous, tabSize);
 
-			// shift only when line does not contain any text up to the closing
-			// bracket
-			for (int i = whiteend; i < command.offset; i++)
-				if (Character.isWhitespace(document.getChar(i)))
-					return;
+		// Number of addition characters needed
+		int addLength = indentSize * additional;
 
-			// evaluate the line with the opening bracket that matches out
-			// closing bracket
-			int indLine = findMatchingOpenBracket(document, line,
-					command.offset, 1);
-			// if (indLine != -1 && indLine != line)
-			// {
-			// take the indent of the found line
-			StringBuffer replaceText = new StringBuffer(getIndentOfLine(
-					document, indLine));
-			// add the rest of the current line including the just added close
-			// bracket
-			replaceText.append(document
-					.get(whiteend, command.offset - whiteend));
-			replaceText.append(command.text);
-			// modify document command
-			command.length = command.offset - start;
-			command.offset = start;
-			command.text = replaceText.toString();
-			// }
-		} catch (BadLocationException x) {
-			x.printStackTrace(System.err);
+		// Target size of the indentation for the new line
+		int endLength = Math.max(0, preLength + addLength);
+
+		// Trim previous indentation back to nearest tab stop
+		int minLength = Math.min(endLength, preLength);
+		int maxCopyLength = tabSize > 0 ? minLength - minLength % tabSize
+				: minLength; // maximum indent to copy
+		String indent = stripExtraChars(previous, maxCopyLength, tabSize);
+
+		// Add additional indentation
+		int missing = endLength - maxCopyLength;
+		final int tabs, spaces;
+		if (CodeFormatterConstants.SPACE.equals(tabChar)) {
+			// Each indent is a number of spaces equal to indent size
+			tabs = 0;
+			spaces = missing;
+		} else if (CodeFormatterConstants.TAB.equals(tabChar)) {
+			// Missing should always be in multiples of indent size, so this
+			// means "one tab per indent" and indent size is essentially ignored
+			tabs = missing / indentSize;
+			spaces = 0;
+		} else if (CodeFormatterConstants.MIXED.equals(tabChar)) {
+			// If the missing indent is a multiple of tab size then tabs will be
+			// used, otherwise use spaces
+			tabs = tabSize > 0 ? missing / tabSize : 0;
+			spaces = tabSize > 0 ? missing % tabSize : missing;
+		} else {
+			tabs = 0;
+			spaces = 0;
 		}
+		for (int i = 0; i < tabs; i++)
+			indent += "\t";
+		for (int i = 0; i < spaces; i++)
+			indent += " ";
+		return indent;
+	}
+
+	/**
+	 * Computes the length of a an indentation, counting a tab character as the
+	 * size until the next tab stop and every other character as one.
+	 * 
+	 * @param indent
+	 *            the string containing the indentation to measure
+	 * @param tabSize
+	 *            the visual size of tab characters
+	 * @return the visual length in number of characters
+	 */
+	private int computeVisualLength(String indent, int tabSize) {
+		int length = 0;
+		for (int i = 0; i < indent.length(); i++) {
+			char ch = indent.charAt(i);
+			switch (ch) {
+			case '\t':
+				if (tabSize > 0) {
+					int reminder = length % tabSize;
+					length += tabSize - reminder;
+				}
+				break;
+			case ' ':
+				length++;
+				break;
+			}
+		}
+		return length;
+	}
+
+	/**
+	 * Strips any characters off the end of an indentation that exceed a
+	 * specified maximum visual indentation length.
+	 * 
+	 * @param indent
+	 *            the string containing the indentation to measure
+	 * @param max
+	 *            the maximum visual indentation length
+	 * @param tabSize
+	 *            the visual size of tab characters
+	 * @return a string containing the stripped indentation
+	 */
+	private String stripExtraChars(String indent, int max, int tabSize) {
+		int measured = 0;
+		int i = 0;
+		for (; (measured < max) && (i < indent.length()); i++) {
+			char ch = indent.charAt(i);
+			switch (ch) {
+			case '\t':
+				if (tabSize > 0) {
+					int reminder = measured % tabSize;
+					measured += tabSize - reminder;
+				}
+				break;
+			case ' ':
+				measured++;
+				break;
+			}
+		}
+		return indent.substring(0, measured > max ? i - 1 : i);
 	}
 }

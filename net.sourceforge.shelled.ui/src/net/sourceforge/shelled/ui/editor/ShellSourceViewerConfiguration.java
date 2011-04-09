@@ -100,9 +100,11 @@ public class ShellSourceViewerConfiguration extends
 		ArrayList<IRule> rules = new ArrayList<IRule>();
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		rules.add(getKeywords(new Token(IndentType.INCREMENT), new String[] {
-				"do", "case", "if", "{", "then" }, Token.UNDEFINED));
+				"do", "case", "{", "then" }, Token.UNDEFINED));
 		rules.add(getKeywords(new Token(IndentType.DECREMENT), new String[] {
-				"done", "esac", "}", "fi", "else", "elif" }, Token.UNDEFINED));
+				"done", "esac", "}", "fi" }, Token.UNDEFINED));
+		rules.add(getKeywords(new Token(IndentType.INFLEXION),
+				new String[] { "else" }, Token.UNDEFINED));
 
 		strategy.setRules(rules.toArray(new IRule[0]));
 

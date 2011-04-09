@@ -12,7 +12,6 @@ package net.sourceforge.shelled.ui.text;
 
 /**
  * A type of indent.
- * 
  */
 public class IndentType {
 	/** A single indent decrement */
@@ -21,8 +20,6 @@ public class IndentType {
 	public static final IndentType INCREMENT = new IndentType();
 	/** An inflexion - both an increment and a decrement */
 	public static final IndentType INFLEXION = new IndentType();
-	/** No indent */
-	public static final IndentType NONE = new IndentType();
 
 	private IndentType() {
 	}

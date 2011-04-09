@@ -35,7 +35,7 @@ public class AddNature extends AbstractProjectHandler {
 			description.setNatureIds(newNatures);
 			project.setDescription(description, null);
 		} catch (CoreException e) {
-			// TODO don't silently fail
+			e.printStackTrace();
 		}
 	}
 }
