@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2009 Red Hat Inc. and others.
+ * Copyright (c) 2009-2011 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Alexander Kurtakov - initial API and implementation
+ *     Mat Booth
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
@@ -88,20 +89,9 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		IToken commandToken = this.getToken(IShellColorConstants.SHELL_COMMAND);
 		IToken other = this.getToken(IShellColorConstants.SHELL_DEFAULT);
 		IToken variable = this.getToken(IShellColorConstants.SHELL_VARIABLE);
-		IWordDetector wordDetector = new IWordDetector() {
-			@Override
-			public boolean isWordPart(char c) {
-				return Character.isJavaIdentifierPart(c) || (c == '[')
-						|| (c == ']');
-			}
-
-			@Override
-			public boolean isWordStart(char c) {
-				return Character.isJavaIdentifierStart(c);
-			}
-		};
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new AssignmentRule(wordDetector, Token.UNDEFINED, variable));
+		rules.add(new AssignmentRule(new AssignmentDetector(), Token.UNDEFINED,
+				variable));
 		rules.add(new DollarRule(new DollarDetector(), Token.UNDEFINED,
 				variable));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
