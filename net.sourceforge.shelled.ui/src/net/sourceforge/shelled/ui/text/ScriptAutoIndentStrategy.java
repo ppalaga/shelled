@@ -56,14 +56,8 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
 		int delim = TextUtilities.endsWith(d.getLegalLineDelimiters(), c.text);
 		if ((c.length == 0) && (c.text != null) && (delim != -1)) {
-			System.out.println("\n");
-			System.out.println("C Length/Offset: " + c.length + "/" + c.offset);
-			System.out.println("C Text: \"" + c.text + "\"");
 			smartIndentAfterNewLine(d, c);
 		} else if (c.text.length() == 1) {
-			System.out.println("\n");
-			System.out.println("C Length/Offset: " + c.length + "/" + c.offset);
-			System.out.println("C Text: \"" + c.text + "\"");
 			smartIndentAfterKeypress(d, c);
 		}
 	}
@@ -82,13 +76,11 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	protected void smartIndentAfterNewLine(IDocument document, DocumentCommand c) {
 		if ((c.offset == -1) || (document.getLength() == 0))
 			return;
-		System.out.print("smartIndentAfterNewLine ");
 		try {
 			StringBuffer buf = new StringBuffer(c.text);
 			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
 			int line = document.getLineOfOffset(p);
 			int start = document.getLineOffset(line);
-			System.out.println("line " + line);
 			int bracketCount = getBracketCount(document, null, start, c.offset,
 					true);
 			buf.append(generateIndentation(getIndentOfLine(document, line),
@@ -112,14 +104,12 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			DocumentCommand c) {
 		if ((c.offset == -1) || (document.getLength() == 0))
 			return;
-		System.out.print("smartIndentAfterKeypress ");
 		try {
 			StringBuffer buf = new StringBuffer();
 			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
 			int line = document.getLineOfOffset(p);
 			int start = document.getLineOffset(line);
 			int whiteEnd = findEndOfWhiteSpace(document, start, c.offset);
-			System.out.println("line " + line);
 
 			int bracketCount = getBracketCount(document, c, start, c.offset,
 					false);
@@ -127,7 +117,6 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 					bracketCount >= 0 ? 0 : -1));
 			buf.append(document.get(whiteEnd, c.offset - whiteEnd));
 			buf.append(c.text);
-			System.out.println("\"" + buf.toString() + "\"");
 			// Alter the command
 			c.length = c.offset - start;
 			c.offset = start;
@@ -221,21 +210,16 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			if (token.isOther()) {
 				IndentType type = (IndentType) token.getData();
 				if (type == IndentType.INCREMENT) {
-					System.out.println("Inc");
 					++bracketcount;
 				} else if (type == IndentType.DECREMENT) {
-					System.out.println("Dec");
 					--bracketcount;
 				} else if ((type == IndentType.INFLEXION) && ignoreInflexions) {
-					System.out.println("Inf");
 					++bracketcount;
 				} else if ((type == IndentType.INFLEXION) && !ignoreInflexions) {
-					System.out.println("Inf");
 					--bracketcount;
 				}
 			}
 		}
-		System.out.println("Bracket Count: " + bracketcount);
 		return bracketcount;
 	}
 
