@@ -21,6 +21,7 @@ import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.expressions.MethodCallExpression;
 import org.eclipse.dltk.ast.references.VariableReference;
 import org.eclipse.dltk.codeassist.ISelectionEngine;
+import org.eclipse.dltk.codeassist.ISelectionRequestor;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IModelElement;
@@ -96,6 +97,12 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 
 	@Override
 	public void setOptions(Map options) {
+	}
+
+	@Override
+	public void setRequestor(ISelectionRequestor requestor) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

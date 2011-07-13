@@ -61,7 +61,7 @@ public class ShellScriptEditor extends ScriptEditor {
 	}
 
 	@Override
-	protected IPreferenceStore getScriptPreferenceStore() {
+	public IPreferenceStore getScriptPreferenceStore() {
 		return Activator.getDefault().getPreferenceStore();
 	}
 
