@@ -15,9 +15,11 @@ import net.sourceforge.shelled.ui.text.tests.TextSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+/**
+ * All tests wrapper.
+ * 
+ */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
-  TextSuite.class
-})
+@Suite.SuiteClasses({ TextSuite.class })
 public class AllTests {
 }
