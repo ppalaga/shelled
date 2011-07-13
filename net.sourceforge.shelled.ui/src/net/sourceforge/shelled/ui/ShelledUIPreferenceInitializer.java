@@ -11,6 +11,7 @@
 package net.sourceforge.shelled.ui;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.dltk.compiler.task.TaskTagUtils;
 import org.eclipse.dltk.ui.CodeFormatterConstants;
 import org.eclipse.dltk.ui.PreferenceConstants;
@@ -82,7 +83,7 @@ public class ShelledUIPreferenceInitializer extends
 
 		SemanticHighlightingUtils.initializeDefaultValues(store, Activator
 				.getDefault().getTextTools().getSemanticHighlightings());
-		TaskTagUtils.initializeDefaultValues(Activator.getDefault()
-				.getPluginPreferences());
+		TaskTagUtils.initializeDefaultValues(DefaultScope.INSTANCE
+				.getNode(Activator.PLUGIN_ID));
 	}
 }
