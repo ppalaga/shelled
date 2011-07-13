@@ -14,7 +14,6 @@ import net.sourceforge.shelled.core.ShelledNature;
 import net.sourceforge.shelled.ui.Activator;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.dltk.ui.PreferencesAdapter;
 import org.eclipse.dltk.ui.preferences.AbstractConfigurationBlockPropertyAndPreferencePage;
 import org.eclipse.dltk.ui.preferences.AbstractOptionsBlock;
 import org.eclipse.dltk.ui.preferences.TodoTaskOptionsBlock;
@@ -54,8 +53,7 @@ public class ShellTodoTaskPreferencePage extends
 
 	@Override
 	protected void setPreferenceStore() {
-		setPreferenceStore(new PreferencesAdapter(Activator.getDefault()
-				.getPluginPreferences()));
+		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
 
 	@Override
