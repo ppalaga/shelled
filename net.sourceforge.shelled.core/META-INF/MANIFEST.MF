@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ShellEd Core Plug-in
 Bundle-SymbolicName: net.sourceforge.shelled.core;singleton:=true
-Bundle-Version: 0.0.0.qualifier
+Bundle-Version: 2.0.0.qualifier
 Bundle-Activator: net.sourceforge.shelled.core.Activator
 Bundle-Vendor: SourceForge
 Require-Bundle: org.eclipse.ui,
