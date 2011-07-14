@@ -12,11 +12,12 @@ package net.sourceforge.shelled.core.parser.tests;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ShellScriptSourceParserTest {
 
-	@Test
+	@Test @Ignore
 	public void testParse() {
 		fail("Not yet implemented");
 	}
