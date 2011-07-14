@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (C) 2011, Red Hat, Inc. and others
+
+   All rights reserved. This program and the accompanying materials
+   are made available under the terms of the Eclipse Public License v1.0
+   which accompanies this distribution, and is available at
+   http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+       Red Hat Incorporated - initial implementation
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>net.sourceforge.shelled</groupId>
+    <artifactId>shelled</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>net.sourceforge.shelled-site</artifactId>
+  <packaging>eclipse-repository</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-publisher-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <publishArtifacts>true</publishArtifacts>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <name>ShellEd p2 Repository </name>
+  <!-- see http://issues.sonatype.org/browse/TYCHO-313 -->
+  <version>2.0.0-SNAPSHOT</version>
+
+</project>

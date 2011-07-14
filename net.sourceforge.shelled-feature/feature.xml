@@ -12,6 +12,10 @@
       Eclipse Public License
    </license>
 
+   <url>
+      <discovery label="Linux Tools" url="http://download.eclipse.org/technology/linuxtools/update"/>
+   </url>
+
    <plugin
          id="net.sourceforge.shelled.core"
          download-size="0"
