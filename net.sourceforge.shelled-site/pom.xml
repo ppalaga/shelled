@@ -39,7 +39,4 @@
   </build>
 
   <name>ShellEd p2 Repository </name>
-  <!-- see http://issues.sonatype.org/browse/TYCHO-313 -->
-  <version>2.0.0-SNAPSHOT</version>
-
 </project>

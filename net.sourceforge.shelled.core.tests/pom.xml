@@ -18,7 +18,6 @@
   </parent>
 
   <artifactId>net.sourceforge.shelled.core.tests</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
   <packaging>eclipse-test-plugin</packaging>
 
   <name>ShellEd core test plugin</name>
@@ -40,14 +39,6 @@
           <useUIThread>true</useUIThread>
           <product>org.eclipse.sdk.ide</product>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
     </plugins>
    </build>
