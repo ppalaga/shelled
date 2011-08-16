@@ -40,6 +40,12 @@
       </comments>
     </license>
   </licenses>
+  
+  <scm>
+    <connection>scm:svn:http://shelled.svn.sourceforge.net/svnroot/shelled/trunk</connection>
+    <developerConnection>scm:svn:https://shelled.svn.sourceforge.net/svnroot/shelled/trunk</developerConnection>
+    <url>http://shelled.svn.sourceforge.net/viewvc/shelled/</url>
+  </scm>
 
   <properties>
     <tycho-version>0.12.0</tycho-version>
