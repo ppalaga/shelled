@@ -15,8 +15,8 @@ import net.sourceforge.shelled.core.ShelledNature;
 import org.eclipse.dltk.compiler.IElementRequestor.FieldInfo;
 import org.eclipse.dltk.compiler.IElementRequestor.TypeInfo;
 import org.eclipse.dltk.compiler.ISourceElementRequestor;
+import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.AbstractSourceElementParser;
-import org.eclipse.dltk.core.ISourceModuleInfoCache.ISourceModuleInfo;
 
 public class ShelledSourceElementParser extends AbstractSourceElementParser {
 
@@ -25,9 +25,8 @@ public class ShelledSourceElementParser extends AbstractSourceElementParser {
 		return ShelledNature.SHELLED_NATURE;
 	}
 
-	public void parseSourceModule(
-			org.eclipse.dltk.compiler.env.IModuleSource module,
-			ISourceModuleInfo astCache) {
+	@Override
+	public void parseSourceModule(IModuleSource module) {
 		final ShellModuleDeclaration moduleDeclaration = (ShellModuleDeclaration) parse(module);
 
 		ISourceElementRequestor requestor = getRequestor();
