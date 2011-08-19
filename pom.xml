@@ -84,6 +84,13 @@
 	</repositories>
 
 	<build>
+	<extensions>
+		<extension>
+			<groupId>org.apache.maven.wagon</groupId>
+			<artifactId>wagon-ssh</artifactId>
+			<version>1.0</version>
+		</extension>
+	</extensions>  
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -171,4 +178,10 @@
 		<system>trac</system>
 		<url>https://sourceforge.net/apps/trac/shelled/</url>
 	</issueManagement>
+	<distributionManagement>
+		<site>
+			<id>shelled.sf.net</id>
+			<url>scp://shell.sourceforge.net/home/project-web/shelled/htdocs</url>
+		</site>
+	</distributionManagement>
 </project>
