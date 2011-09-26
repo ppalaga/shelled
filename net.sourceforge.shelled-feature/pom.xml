@@ -16,7 +16,7 @@
     <version>2.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>net.sourceforge.shelled-feature</artifactId>
+  <artifactId>net.sourceforge.shelled</artifactId>
   <packaging>eclipse-feature</packaging>
 
   <name>ShellEd Feature</name>
