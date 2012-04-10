@@ -10,6 +10,8 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui;
 
+import net.sourceforge.shelled.core.ShelledNature;
+
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.dltk.compiler.task.TaskTagUtils;
@@ -81,8 +83,14 @@ public class ShelledUIPreferenceInitializer extends
 		store.setDefault(CodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "4");
 		store.setDefault(PreferenceConstants.EDITOR_FOLDING_ENABLED, true);
 
-		SemanticHighlightingUtils.initializeDefaultValues(store, Activator
-				.getDefault().getTextTools().getSemanticHighlightings());
+		SemanticHighlightingUtils.initializeDefaultValues(
+				store,
+				Activator
+						.getDefault()
+						.getTextTools()
+						.getSemanticPositionUpdater(
+								ShelledNature.SHELLED_NATURE)
+						.getSemanticHighlightings());
 		TaskTagUtils.initializeDefaultValues(DefaultScope.INSTANCE
 				.getNode(Activator.PLUGIN_ID));
 	}
