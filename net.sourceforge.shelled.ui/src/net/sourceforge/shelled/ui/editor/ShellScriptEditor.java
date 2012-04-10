@@ -14,7 +14,6 @@ import net.sourceforge.shelled.core.ShellScriptLanguageToolkit;
 import net.sourceforge.shelled.core.ShelledNature;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.text.IShellPartitions;
-import net.sourceforge.shelled.ui.text.ShellTextTools;
 
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
@@ -42,9 +41,8 @@ public class ShellScriptEditor extends ScriptEditor {
 			IDocumentExtension3 extension = (IDocumentExtension3) document;
 			if (extension
 					.getDocumentPartitioner(IShellPartitions.SHELL_PARTITIONING) == null) {
-				ShellTextTools tools = Activator.getDefault().getTextTools();
-				tools.setupDocumentPartitioner(document,
-						IShellPartitions.SHELL_PARTITIONING);
+				ShellDocumentSetupParticipant participant = new ShellDocumentSetupParticipant();
+				participant.setup(document);
 			}
 		}
 	}
