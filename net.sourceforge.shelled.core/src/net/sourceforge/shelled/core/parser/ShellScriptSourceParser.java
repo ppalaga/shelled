@@ -39,6 +39,7 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 		BufferedReader bReader = new BufferedReader(reader);
 		String line;
 		int lineStart = 0;
+		int commentLength = 0;
 		Set<String> functionNames = new HashSet<String>();
 		Set<String> varNames = new HashSet<String>();
 		MethodDeclaration mDeclaration = null;
@@ -52,6 +53,7 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					continue;
 				}
 				if (line.contains("#")) {
+					commentLength = line.substring(line.indexOf('#')).length();
 					line = line.substring(0, line.indexOf('#'));
 				}
 				if (line.contains("()")) {
@@ -222,7 +224,8 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					}
 				}
 
-				lineStart += line.length() + 1;
+				lineStart += line.length() + commentLength + 1;
+				commentLength = 0;
 			}
 			bReader.close();
 		} catch (IOException e) {
