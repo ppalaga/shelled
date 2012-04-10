@@ -143,10 +143,10 @@
 		</page>
 	</extension>
 	<extension point="org.eclipse.dltk.core.search">
-		<seachFactory
+		<searchFactory
 			class="net.sourceforge.shelled.ui.search.ShelledSearchFactory"
 			nature="net.sourceforge.shelled.core.nature" priority="0">
-		</seachFactory>
+		</searchFactory>
 	</extension>
 	<extension point="org.eclipse.dltk.core.selectionEngine">
    <selectionEngine
