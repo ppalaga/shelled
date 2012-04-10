@@ -51,6 +51,9 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					lineStart += line.length() + 1;
 					continue;
 				}
+				if (line.contains("#")) {
+					line = line.substring(0, line.indexOf('#'));
+				}
 				if (line.contains("()")) {
 					int lBracket = line.indexOf('{') == -1 ? 0 : line
 							.indexOf('{');
