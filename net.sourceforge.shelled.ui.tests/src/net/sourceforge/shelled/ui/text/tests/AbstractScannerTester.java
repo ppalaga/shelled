@@ -8,6 +8,7 @@
 package net.sourceforge.shelled.ui.text.tests;
 
 import org.eclipse.dltk.internal.ui.text.DLTKColorManager;
+import org.eclipse.dltk.ui.text.IColorManager;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
@@ -18,7 +19,7 @@ import org.junit.Before;
  */
 public abstract class AbstractScannerTester {
 
-	protected DLTKColorManager cm = new DLTKColorManager();
+	protected IColorManager cm = new DLTKColorManager();
 	protected RuleBasedScanner scanner;
 
 	/**
