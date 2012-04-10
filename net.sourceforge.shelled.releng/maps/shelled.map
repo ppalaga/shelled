@@ -1,5 +1,0 @@
-!*** changelog
-plugin@net.sourceforge.shelled.core=SVN,trunk,https://shelled.svn.sourceforge.net/svnroot/shelled/,,net.sourceforge.shelled.core
-plugin@net.sourceforge.shelled.doc=SVN,trunk,https://shelled.svn.sourceforge.net/svnroot/shelled/,,net.sourceforge.shelled.doc
-plugin@net.sourceforge.shelled.ui=SVN,trunk,https://shelled.svn.sourceforge.net/svnroot/shelled/,,net.sourceforge.shelled.ui
-feature@net.sourceforge.shelled=SVN,trunk,https://shelled.svn.sourceforge.net/svnroot/shelled/,,net.sourceforge.shelled-feature
