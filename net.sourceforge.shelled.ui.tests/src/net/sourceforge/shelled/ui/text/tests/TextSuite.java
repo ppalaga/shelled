@@ -13,9 +13,13 @@ package net.sourceforge.shelled.ui.text.tests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+/**
+ * Test suite for all net.sourceforge.shelled.ui.text tests.
+ * 
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ AssignmentRuleTest.class,
-		DollarBraceCountingRuleTest.class, DollarRuleTest.class, DoubleQuoteScannerTest.class,
-		EvalScannerTest.class })
+		DollarBraceCountingRuleTest.class, DollarRuleTest.class,
+		DoubleQuoteScannerTest.class, EvalScannerTest.class })
 public class TextSuite {
 }

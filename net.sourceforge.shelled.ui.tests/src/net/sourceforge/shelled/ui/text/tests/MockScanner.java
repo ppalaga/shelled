@@ -19,14 +19,26 @@ public class MockScanner implements ICharacterScanner {
 	private int fOffset = 0;
 	private String fBuffer;
 
+	/**
+	 * Dummy scanner on given buffer.
+	 * 
+	 * @param buffer
+	 *            The buffer.
+	 */
 	public MockScanner(String buffer) {
 		fBuffer = buffer;
 	}
 
+	/**
+	 * @return The offset.
+	 */
 	public int getOffset() {
 		return fOffset;
 	}
 
+	/**
+	 * @return The buffer.
+	 */
 	public String getBuffer() {
 		return fBuffer;
 	}
