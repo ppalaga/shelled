@@ -91,6 +91,7 @@ public class SimpleShellSourceViewerConfiguration extends
 		return null;
 	}
 
+	@Override
 	public IInformationPresenter getOutlinePresenter(
 			ISourceViewer sourceViewer, boolean doCodeResolve) {
 		return null;

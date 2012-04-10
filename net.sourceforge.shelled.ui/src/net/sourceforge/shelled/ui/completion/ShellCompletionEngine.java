@@ -32,6 +32,7 @@ public class ShellCompletionEngine implements ICompletionEngine {
 	private int actualCompletionPosition;
 	private int offset;
 
+	@Override
 	public void complete(IModuleSource module, int position, int pos) {
 		this.actualCompletionPosition = position;
 		this.offset = pos;
@@ -45,6 +46,7 @@ public class ShellCompletionEngine implements ICompletionEngine {
 		// Completion for model elements.
 		try {
 			module.getModelElement().accept(new IModelElementVisitor() {
+				@Override
 				public boolean visit(IModelElement element) {
 					if (element.getElementType() > IModelElement.SOURCE_MODULE) {
 						createProposal(element.getElementName(), element);
