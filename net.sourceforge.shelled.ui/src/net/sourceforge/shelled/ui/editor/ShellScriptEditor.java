@@ -11,21 +11,15 @@
 package net.sourceforge.shelled.ui.editor;
 
 import net.sourceforge.shelled.core.ShellScriptLanguageToolkit;
-import net.sourceforge.shelled.core.ShelledNature;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.text.IShellPartitions;
 
-import org.eclipse.core.runtime.ILog;
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
 import org.eclipse.dltk.internal.ui.editor.ScriptEditor;
 import org.eclipse.dltk.ui.text.ScriptTextTools;
-import org.eclipse.dltk.ui.text.folding.AbstractASTFoldingStructureProvider;
-import org.eclipse.dltk.ui.text.folding.IFoldingStructureProvider;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension3;
-import org.eclipse.jface.text.rules.IPartitionTokenScanner;
-import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
 import org.eclipse.ui.IEditorInput;
 
 public class ShellScriptEditor extends ScriptEditor {
@@ -71,43 +65,6 @@ public class ShellScriptEditor extends ScriptEditor {
 	protected void initializeEditor() {
 		super.initializeEditor();
 		setEditorContextMenuId(EDITOR_CONTEXT);
-	}
-
-	@Override
-	protected IFoldingStructureProvider createFoldingStructureProvider() {
-		return new AbstractASTFoldingStructureProvider() {
-
-			@Override
-			protected String getCommentPartition() {
-				return IShellPartitions.COMMENT_CONTENT_TYPE;
-			}
-
-			@Override
-			protected ILog getLog() {
-				return Activator.getDefault().getLog();
-			}
-
-			@Override
-			protected String getPartition() {
-				return IShellPartitions.SHELL_PARTITIONING;
-			}
-
-			@Override
-			protected IPartitionTokenScanner getPartitionScanner() {
-				return new RuleBasedPartitionScanner();
-			}
-
-			@Override
-			protected String[] getPartitionTypes() {
-				return IShellPartitions.CONTENT_TYPES;
-			}
-
-			@Override
-			protected String getNatureId() {
-				return ShelledNature.SHELLED_NATURE;
-			}
-
-		};
 	}
 
 }

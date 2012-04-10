@@ -285,4 +285,19 @@
          type="org.eclipse.core.runtime.IAdaptable">
    </propertyTester>
 </extension>
+
+<extension point="org.eclipse.dltk.ui.folding">
+  <structureProvider 
+   	nature="net.sourceforge.shelled.core.nature"
+   	class="org.eclipse.dltk.ui.text.folding.DelegatingFoldingStructureProvider">
+  </structureProvider>
+  <blockProvider
+    nature="net.sourceforge.shelled.core.nature"
+    class="net.sourceforge.shelled.ui.text.folding.ShellCommentFoldingBlockProvider">
+  </blockProvider>
+  <blockProvider
+    nature="net.sourceforge.shelled.core.nature"
+    class="net.sourceforge.shelled.ui.text.folding.ShellCodeFoldingBlockProvider">
+  </blockProvider>
+</extension>
 </plugin>
