@@ -37,6 +37,13 @@
        	  <useUIHarness>true</useUIHarness>
           <useUIThread>true</useUIThread>
           <product>org.eclipse.sdk.ide</product>
+          <dependencies>
+            <dependency>
+              <type>p2-installable-unit</type>
+              <artifactId>org.eclipse.sdk.feature.group</artifactId>
+              <version>${sdk-version}</version>
+            </dependency>
+          </dependencies>
         </configuration>
       </plugin>
     </plugins>
