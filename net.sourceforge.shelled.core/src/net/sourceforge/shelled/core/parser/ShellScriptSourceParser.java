@@ -70,6 +70,8 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 							: line.indexOf('{') - 1;
 					if (fPlusEight >= line.length())
 						continue;
+					if (fPlusEight > lBracket)
+						continue;
 					mDeclaration = new MethodDeclaration(line.substring(
 							fPlusEight, lBracket).trim(), lineStart, lineStart
 							+ line.length() - 1, lBracket + lineStart, lBracket
