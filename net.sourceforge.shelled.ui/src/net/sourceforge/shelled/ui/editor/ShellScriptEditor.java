@@ -18,7 +18,6 @@ import net.sourceforge.shelled.ui.text.ShellTextTools;
 
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.dltk.core.IDLTKLanguageToolkit;
-import org.eclipse.dltk.internal.ui.actions.FoldingActionGroup;
 import org.eclipse.dltk.internal.ui.editor.ScriptEditor;
 import org.eclipse.dltk.ui.text.ScriptTextTools;
 import org.eclipse.dltk.ui.text.folding.AbstractASTFoldingStructureProvider;
@@ -74,12 +73,6 @@ public class ShellScriptEditor extends ScriptEditor {
 	protected void initializeEditor() {
 		super.initializeEditor();
 		setEditorContextMenuId(EDITOR_CONTEXT);
-	}
-
-	@Override
-	protected FoldingActionGroup createFoldingActionGroup() {
-		return new FoldingActionGroup(this, getViewer(), Activator.getDefault()
-				.getPreferenceStore());
 	}
 
 	@Override
