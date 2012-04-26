@@ -10,27 +10,19 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.completion;
 
-import java.util.Map;
-
 import net.sourceforge.shelled.ui.text.ShellCodeScanner;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.dltk.codeassist.ICompletionEngine;
+import org.eclipse.dltk.codeassist.ScriptCompletionEngine;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.CompletionProposal;
-import org.eclipse.dltk.core.CompletionRequestor;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IModelElementVisitor;
-import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ModelException;
 
-public class ShellCompletionEngine implements ICompletionEngine {
+public class ShellCompletionEngine extends ScriptCompletionEngine {
 
-	IScriptProject project;
-	private CompletionRequestor requestor;
 	private int actualCompletionPosition;
-	private int offset;
 
 	@Override
 	public void complete(IModuleSource module, int position, int pos) {
@@ -71,29 +63,6 @@ public class ShellCompletionEngine implements ICompletionEngine {
 		proposal.setRelevance(20);
 		proposal.setModelElement(element);
 		this.requestor.accept(proposal);
-	}
-
-	@Override
-	public void setOptions(Map options) {
-	}
-
-	@Override
-	public void setProject(IScriptProject project) {
-		this.project = project;
-	}
-
-	@Override
-	public void setRequestor(CompletionRequestor requestor) {
-		this.requestor = requestor;
-	}
-
-	protected CompletionProposal createProposal(int kind, int completionOffset) {
-		return CompletionProposal.create(kind, completionOffset - this.offset);
-	}
-
-	@Override
-	public void setProgressMonitor(IProgressMonitor progressMonitor) {
-
 	}
 
 }

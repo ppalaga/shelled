@@ -12,7 +12,6 @@ package net.sourceforge.shelled.ui.selection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.dltk.ast.ASTVisitor;
 import org.eclipse.dltk.ast.declarations.MethodDeclaration;
@@ -20,8 +19,7 @@ import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
 import org.eclipse.dltk.ast.expressions.Expression;
 import org.eclipse.dltk.ast.expressions.MethodCallExpression;
 import org.eclipse.dltk.ast.references.VariableReference;
-import org.eclipse.dltk.codeassist.ISelectionEngine;
-import org.eclipse.dltk.codeassist.ISelectionRequestor;
+import org.eclipse.dltk.codeassist.ScriptSelectionEngine;
 import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IModelElement;
@@ -29,7 +27,7 @@ import org.eclipse.dltk.core.IModelElementVisitor;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.core.SourceParserUtil;
 
-public class ShelledSelectionEngine implements ISelectionEngine {
+public class ShelledSelectionEngine extends ScriptSelectionEngine {
 	private org.eclipse.dltk.core.ISourceModule sourceModule;
 
 	@Override
@@ -93,16 +91,6 @@ public class ShelledSelectionEngine implements ISelectionEngine {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void setOptions(Map options) {
-	}
-
-	@Override
-	public void setRequestor(ISelectionRequestor requestor) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
