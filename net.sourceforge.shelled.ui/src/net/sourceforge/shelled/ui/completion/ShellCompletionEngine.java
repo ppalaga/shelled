@@ -26,13 +26,24 @@ public class ShellCompletionEngine extends ScriptCompletionEngine {
 
 	@Override
 	public void complete(IModuleSource module, int position, int pos) {
+
 		this.actualCompletionPosition = position;
 		this.offset = pos;
+		String temp = module.getSourceContents().substring(0, position);
+		int lastSpace = temp.lastIndexOf(' ');
+		int lastNewline = temp.lastIndexOf('\n');
+		String complPrefix = temp.substring(
+				lastSpace > lastNewline ? lastSpace : lastNewline).trim();
+		this.requestor.beginReporting();
 		for (String keyword : ShellCodeScanner.KEYWORDS) {
-			createProposal(keyword, null);
+			if (keyword.startsWith(complPrefix)) {
+				createProposal(keyword, null);
+			}
 		}
 		for (String command : ShellCodeScanner.getCommands()) {
-			createProposal(command, null);
+			if (command.startsWith(complPrefix)) {
+				createProposal(command, null);
+			}
 		}
 
 		// Completion for model elements.
@@ -51,6 +62,7 @@ public class ShellCompletionEngine extends ScriptCompletionEngine {
 				e.printStackTrace();
 			}
 		}
+		this.requestor.endReporting();
 	}
 
 	private void createProposal(String name, IModelElement element) {
