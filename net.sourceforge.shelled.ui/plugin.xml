@@ -38,6 +38,15 @@
 			id="net.sourceforge.shelled.ui.interpreter.ShellScriptInstallType">
 		</interpreterInstallType>
 	</extension>
+	 <extension
+        point="org.eclipse.dltk.launching.interpreterInstalls">
+     <interpreterInstall
+           home="/bin/sh"
+           id="net.sourceforge.shelled.ui.interpreter.default"
+           interpreterInstallType="net.sourceforge.shelled.ui.interpreter.ShellScriptInstallType"
+           name="/bin/sh">
+     </interpreterInstall>
+     </extension>
 	<extension point="org.eclipse.ui.preferencePages">
 	<page id="net.sourceforge.shelled.ui.preferences"
  		name="Shell Script"
