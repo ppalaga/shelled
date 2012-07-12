@@ -24,16 +24,16 @@ import org.eclipse.dltk.compiler.env.IModuleSource;
 import org.eclipse.dltk.core.DLTKCore;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.IModelElementVisitor;
+import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.ModelException;
 import org.eclipse.dltk.core.SourceParserUtil;
 
 public class ShelledSelectionEngine extends ScriptSelectionEngine {
-	private org.eclipse.dltk.core.ISourceModule sourceModule;
+	private ISourceModule sourceModule;
 
 	@Override
 	public IModelElement[] select(IModuleSource module, final int offset, int i) {
-		sourceModule = (org.eclipse.dltk.core.ISourceModule) module
-				.getModelElement();
+		sourceModule = (ISourceModule) module.getModelElement();
 		ModuleDeclaration moduleDeclaration = SourceParserUtil
 				.getModuleDeclaration(sourceModule, null);
 		final List<IModelElement> results = new ArrayList<IModelElement>();
