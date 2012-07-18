@@ -2,7 +2,7 @@
 <feature
       id="net.sourceforge.shelled"
       label="ShellEd"
-      version="2.0.0.qualifier">
+      version="2.0.2.qualifier">
 
    <description url="https://sourceforge.net/apps/trac/shelled/">
       Shell Script Editor for Eclipse
@@ -13,7 +13,7 @@
    </license>
 
    <url>
-      <discovery label="Linux Tools" url="http://download.eclipse.org/technology/linuxtools/update"/>
+      <discovery label="Linux Tools" url="http://download.eclipse.org/linuxtools/update"/>
    </url>
 
    <plugin

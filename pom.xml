@@ -75,7 +75,7 @@
 		<repository>
 			<id>linuxtools</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/technology/linuxtools/update</url>
+			<url>http://download.eclipse.org/linuxtools/update</url>
 		</repository>
 		<repository>
 			<id>maven.eclipse.org</id>
