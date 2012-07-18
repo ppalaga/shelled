@@ -118,7 +118,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			buf.append(document.get(whiteEnd, c.offset - whiteEnd));
 			buf.append(c.text);
 			// Alter the command
-			c.length = c.offset - start;
+			c.length = (c.offset - start) + c.length;
 			c.offset = start;
 			c.text = buf.toString();
 		} catch (BadLocationException x) {
@@ -253,7 +253,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 
 		// Trim previous indentation back to nearest tab stop
 		int minLength = Math.min(endLength, preLength);
-		int maxCopyLength = tabSize > 0 ? minLength - minLength % tabSize
+		int maxCopyLength = tabSize > 0 ? minLength - (minLength % tabSize)
 				: minLength; // maximum indent to copy
 		String indent = stripExtraChars(previous, maxCopyLength, tabSize);
 
