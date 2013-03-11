@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tests for the ShellEd UI plugin
 Bundle-SymbolicName: net.sourceforge.shelled.ui.tests
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: org.junit4
+Require-Bundle: org.junit;bundle-version="4.10.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Fragment-Host: net.sourceforge.shelled.ui

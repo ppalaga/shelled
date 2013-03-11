@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: net.sourceforge.shelled.core.tests
 Bundle-Version: 2.0.0.qualifier
-Require-Bundle: org.junit4;bundle-version="4.5.0"
+Require-Bundle: org.junit;bundle-version="4.10.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Fragment-Host: net.sourceforge.shelled.core
