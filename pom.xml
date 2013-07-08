@@ -51,7 +51,7 @@
 	</scm>
 
 	<properties>
-		<tycho-version>0.16.0</tycho-version>
+		<tycho-version>0.18.0</tycho-version>
 		<platform-version-name>juno</platform-version-name>
 		<platform-version>[3.8,4.4)</platform-version>
 	</properties>
@@ -68,9 +68,9 @@
 
 	<repositories>
 		<repository>
-			<id>juno</id>
+			<id>kepler</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/juno</url>
+			<url>http://download.eclipse.org/releases/kepler</url>
 		</repository>
 		<repository>
 			<id>linuxtools</id>
