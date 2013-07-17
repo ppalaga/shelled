@@ -67,7 +67,18 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		for (String pathEntry : pathEntries) {
 			File dir = new File(pathEntry);
 			if (dir.exists() && dir.isDirectory()) {
+
 				File[] files = dir.listFiles();
+
+				// GRO: Prevent NullPointerException
+				if (files == null) {
+					// @formatter:off
+					Activator.getDefault().getLog().log(// +
+						new Status(IStatus.ERROR, Activator.PLUGIN_ID,"listFiles() returned null: " + dir));
+					// @formatter:on
+					files = new File[]{};
+				}
+
 				for (File file : files) {
 					if (file.canExecute()) {
 						if (file.getName().endsWith(".exe"))
