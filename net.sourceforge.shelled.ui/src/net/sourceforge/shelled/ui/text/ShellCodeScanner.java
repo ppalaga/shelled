@@ -15,8 +15,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
 import org.eclipse.dltk.ui.text.IColorManager;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -73,10 +76,14 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 				// GRO: Prevent NullPointerException
 				if (files == null) {
 					// @formatter:off
-					Activator.getDefault().getLog().log(// +
-						new Status(IStatus.ERROR, Activator.PLUGIN_ID,"listFiles() returned null: " + dir));
+					Activator
+							.getDefault()
+							.getLog()
+							.log(// +
+							new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+									"listFiles() returned null: " + dir));
 					// @formatter:on
-					files = new File[]{};
+					files = new File[] {};
 				}
 
 				for (File file : files) {
