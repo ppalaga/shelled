@@ -51,9 +51,7 @@
 	</scm>
 
 	<properties>
-		<tycho-version>0.18.0</tycho-version>
-		<platform-version-name>juno</platform-version-name>
-		<platform-version>[3.8,4.4)</platform-version>
+		<tycho-version>0.18.1</tycho-version>
 	</properties>
 
 	<modules>
@@ -160,13 +158,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
 					<version>3.3</version>
-				</plugin>
-				<plugin>
-					<groupId>org.eclipse.tycho</groupId>
-					<artifactId>tycho-packaging-plugin</artifactId>
-					<configuration>
-						<strictVersions>false</strictVersions>
-					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

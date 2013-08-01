@@ -1,7 +1,6 @@
-#Wed Jan 06 12:47:53 EET 2010
 eclipse.preferences.version=1
 org.moreunit.package_suffix=tests
-org.moreunit.prefixes=
+org.moreunit.preferences.version=2
 org.moreunit.test_methodType=testMethodTypeNoPrefix
 org.moreunit.test_type=junit4
 org.moreunit.unitsourcefolder=net.sourceforge.shelled.core\:src\:net.sourceforge.shelled.core.tests\:src
