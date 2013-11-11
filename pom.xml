@@ -17,12 +17,6 @@
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
-	<parent>
-		<groupId>org.eclipse</groupId>
-		<artifactId>eclipse-parent</artifactId>
-		<version>3</version>
-	</parent>
-
 	<groupId>net.sourceforge.shelled</groupId>
 	<artifactId>shelled</artifactId>
 	<version>2.0.4-SNAPSHOT</version>
@@ -51,7 +45,7 @@
 	</scm>
 
 	<properties>
-		<tycho-version>0.18.1</tycho-version>
+		<tycho-version>0.19.0</tycho-version>
 	</properties>
 
 	<modules>
@@ -143,7 +137,7 @@
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.6</version>
 					<configuration>
-						<encoding>ISO-8859-1</encoding>
+						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
 				<plugin>

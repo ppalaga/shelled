@@ -36,14 +36,7 @@
           <testClass>net.sourceforge.shelled.core.tests.AllTests</testClass>
        	  <useUIHarness>true</useUIHarness>
           <useUIThread>true</useUIThread>
-          <product>org.eclipse.sdk.ide</product>
-          <dependencies>
-            <dependency>
-              <type>p2-installable-unit</type>
-              <artifactId>org.eclipse.sdk.feature.group</artifactId>
-              <version>${sdk-version}</version>
-            </dependency>
-          </dependencies>
+          <product>org.eclipse.platform.ide</product>
         </configuration>
       </plugin>
     </plugins>
