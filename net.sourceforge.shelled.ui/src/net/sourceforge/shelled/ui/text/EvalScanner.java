@@ -10,6 +10,7 @@ package net.sourceforge.shelled.ui.text;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
@@ -30,7 +31,8 @@ public class EvalScanner extends AbstractScriptScanner {
 	 * this scanner.
 	 */
 	private static String fgTokenProperties[] = new String[] {
-			IShellColorConstants.SHELL_EVAL, IShellColorConstants.SHELL_VARIABLE };
+		IShellColorConstants.SHELL_EVAL,
+			IShellColorConstants.SHELL_VARIABLE };
 
 	public EvalScanner(IColorManager manager, IPreferenceStore store) {
 		super(manager, store);
@@ -49,7 +51,8 @@ public class EvalScanner extends AbstractScriptScanner {
 		// there is a LOT of whitespace and when a token is detected the other
 		// rules are not evaluated.
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new DollarBraceCountingRule('{', '}', varToken, '\\'));
+		rules.add(new DollarBraceCountingRule(LexicalConstants.LBRACE,
+				LexicalConstants.RBRACE, varToken, LexicalConstants.BACKSLASH));
 		rules.add(new DollarRule(new DollarDetector(), defaultToken, varToken));
 		setDefaultReturnToken(defaultToken);
 		return rules;

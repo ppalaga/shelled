@@ -48,31 +48,37 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 
 		try {
 			while ((line = bReader.readLine()) != null) {
-				if (line.trim().length() == 0 || line.trim().charAt(0) == '#') {
+				String trimmedLine = line.trim();
+				if (trimmedLine.length() == 0
+						|| line.trim().charAt(0) == LexicalConstants.HASH) {
 					lineStart += line.length() + 1;
 					continue;
 				}
-				if (line.contains("#")) {
-					commentLength = line.substring(line.indexOf('#')).length();
-					line = line.substring(0, line.indexOf('#'));
+				int hashOffset = line.indexOf(LexicalConstants.HASH);
+				if (hashOffset >= 0) {
+					commentLength = line.length() - hashOffset;
+					line = line.substring(0, hashOffset);
 				}
-				if (line.contains("()")) {
-					int lBracket = line.indexOf('{') == -1 ? 0 : line
-							.indexOf('{');
-					int fPlusEight = line.indexOf("function") == -1 ? 0 : line
-							.indexOf("function") + 8;
+				if (line.contains(LexicalConstants.LPAREN_RPAREN)) {
+					final int lBracket = Math.max(
+							line.indexOf(LexicalConstants.LBRACE), 0);
+					final String fToken = ReservedWord.FUNCTION.token();
+					final int fPlusEight = Math.max(line.indexOf(fToken)
+							+ fToken.length(), 0);
 					mDeclaration = new MethodDeclaration(line.substring(
-							fPlusEight, line.indexOf('(')).trim(), lineStart,
-							lineStart + line.length() - 1,
+							fPlusEight, line.indexOf(LexicalConstants.LPAREN))
+							.trim(), lineStart, lineStart + line.length() - 1,
 							lBracket + lineStart, lBracket + lineStart);
 					functionNames.add(line.substring(fPlusEight,
-							line.indexOf('(')).trim());
+							line.indexOf(LexicalConstants.LPAREN)).trim());
 					tmp.push(mDeclaration);
 					model.addFunction(mDeclaration);
 				} else if (line.contains("function ")) {
-					int fPlusEight = line.indexOf("function") + 8;
-					int lBracket = line.indexOf('{') == -1 ? line.length()
-							: line.indexOf('{') - 1;
+					final String fToken = ReservedWord.FUNCTION.token();
+					final int fPlusEight = line.indexOf(fToken)
+							+ fToken.length();
+					int lBracket = line.indexOf(LexicalConstants.LBRACE);
+					lBracket = lBracket == -1 ? line.length() : lBracket - 1;
 					if (fPlusEight >= line.length())
 						continue;
 					if (fPlusEight > lBracket)
@@ -85,7 +91,7 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 							.trim());
 					tmp.push(mDeclaration);
 					model.addFunction(mDeclaration);
-				} else if (line.trim().equals("}")) {
+				} else if (line.trim().equals(LexicalConstants.RBRACE_STRING)) {
 					if (mDeclaration != null) {
 						if (!tmp.isEmpty()) {
 							mDeclaration = (MethodDeclaration) tmp.pop();
@@ -113,25 +119,27 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 				if (line.contains("if ") && !line.contains("elif ")) {
 					mDeclaration = new MethodDeclaration(line.substring(0,
 							line.length()).trim(), lineStart
-							+ line.indexOf("if"),
-							lineStart + line.length() - 1, lineStart, lineStart
-									+ line.length());
+							+ line.indexOf(ReservedWord.IF.token()), lineStart
+							+ line.length() - 1, lineStart, lineStart
+							+ line.length());
 					model.addStatement(mDeclaration);
 					tmp.push(mDeclaration);
 
 					// end of if statement
-				} else if (line.trim().equals("fi")) {
+				} else if (line.trim().equals(ReservedWord.FI.token())) {
 					if (!tmp.isEmpty()) {
 						mDeclaration = (MethodDeclaration) tmp.pop();
-						mDeclaration.setEnd(lineStart + line.indexOf("fi"));
+						mDeclaration.setEnd(lineStart
+								+ line.indexOf(ReservedWord.FI.token()));
 					}
 
 					// start of while statement
 				} else if (line.contains("while ")) {
 					mDeclaration = new MethodDeclaration(line.substring(0,
 							line.length()).trim(), lineStart
-							+ line.indexOf("while"), lineStart + line.length()
-							- 1, lineStart, lineStart + line.length());
+							+ line.indexOf(ReservedWord.WHILE.token()),
+							lineStart + line.length() - 1, lineStart, lineStart
+									+ line.length());
 					model.addStatement(mDeclaration);
 					tmp.push(mDeclaration);
 
@@ -139,24 +147,28 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 				} else if (line.contains("until ")) {
 					mDeclaration = new MethodDeclaration(line.substring(0,
 							line.length()).trim(), lineStart
-							+ line.indexOf("until"), lineStart + line.length()
-							- 1, lineStart, lineStart + line.length());
+							+ line.indexOf(ReservedWord.UNTIL.token()),
+							lineStart + line.length() - 1, lineStart, lineStart
+									+ line.length());
 					model.addStatement(mDeclaration);
 					tmp.push(mDeclaration);
 
 					// done statement encountered
-				} else if (line.contains("done ") || line.trim().equals("done")) {
+				} else if (line.contains("done ")
+						|| line.trim().equals(ReservedWord.DONE.token())) {
 					if (!tmp.isEmpty()) {
 						mDeclaration = (MethodDeclaration) tmp.pop();
-						mDeclaration.setEnd(lineStart + line.indexOf("done"));
+						mDeclaration.setEnd(lineStart
+								+ line.indexOf(ReservedWord.DONE.token()));
 					}
 
 					// start of for statement
 				} else if (line.contains("for ")) {
 					mDeclaration = new MethodDeclaration(line.substring(0,
 							line.length()).trim(), lineStart
-							+ line.indexOf("for"), lineStart + line.length()
-							- 1, lineStart, lineStart + line.length());
+							+ line.indexOf(ReservedWord.FOR.token()), lineStart
+							+ line.length() - 1, lineStart, lineStart
+							+ line.length());
 					model.addStatement(mDeclaration);
 					tmp.push(mDeclaration);
 
@@ -164,21 +176,23 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 				} else if (line.contains("case ")) {
 					mDeclaration = new MethodDeclaration(line.substring(0,
 							line.length()).trim(), lineStart
-							+ line.indexOf("case"), lineStart + line.length()
-							- 1, lineStart, lineStart + line.length());
+							+ line.indexOf(ReservedWord.CASE.token()),
+							lineStart + line.length() - 1, lineStart, lineStart
+									+ line.length());
 					model.addStatement(mDeclaration);
 					tmp.push(mDeclaration);
 
 					// end of case statement
-				} else if (line.trim().equals("esac")) {
+				} else if (line.trim().equals(ReservedWord.ESAC.token())) {
 					if (!tmp.isEmpty()) {
 						mDeclaration = (MethodDeclaration) tmp.pop();
-						mDeclaration.setEnd(lineStart + line.indexOf("esac"));
+						mDeclaration.setEnd(lineStart
+								+ line.indexOf(ReservedWord.ESAC.token()));
 					}
 				}
 
 				// multi-line commands and literals
-				if (line.charAt(line.length() - 1) == '\\'
+				if (line.charAt(line.length() - 1) == LexicalConstants.BACKSLASH
 						&& !isPrevLnContinued) {
 					isPrevLnContinued = true;
 					mDeclaration = new MethodDeclaration(line.substring(0,
@@ -188,11 +202,12 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 									+ line.length());
 					tmp.push(mDeclaration);
 					model.addStatement(mDeclaration);
-				} else if (line.charAt(line.length() - 1) == '\\'
+				} else if (line.charAt(line.length() - 1) == LexicalConstants.BACKSLASH
 						&& isPrevLnContinued) {
 					if (!tmp.isEmpty()) {
 						mDeclaration = (MethodDeclaration) tmp.pop();
-						mDeclaration.setEnd(lineStart + line.indexOf('\\'));
+						mDeclaration.setEnd(lineStart
+								+ line.indexOf(LexicalConstants.BACKSLASH));
 						tmp.push(mDeclaration);
 					}
 				} else if (isPrevLnContinued) {

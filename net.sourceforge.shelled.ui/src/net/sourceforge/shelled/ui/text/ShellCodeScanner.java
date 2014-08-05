@@ -15,6 +15,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.shelled.core.parser.Dialect;
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+import net.sourceforge.shelled.core.parser.ReservedWord;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 
@@ -34,8 +37,9 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 	public class ShellWordDetector implements IWordDetector {
 		@Override
 		public boolean isWordPart(char character) {
-			return (Character.isJavaIdentifierPart(character) && (character != '$'))
-					|| (character == '-') || (character == '.');
+			return (Character.isJavaIdentifierPart(character) && (character != LexicalConstants.DOLLAR))
+					|| (character == LexicalConstants.DASH)
+					|| (character == LexicalConstants.PERIOD);
 		}
 
 		@Override
@@ -44,11 +48,6 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 					&& (character != 36);
 		}
 	}
-
-	public static String[] KEYWORDS = { "do", "done", "if", "fi", "then",
-			"else", "elif", "case", "esac", "while", "for", "in", "select",
-			"time", "until", "function", "[", "[[", "]", "]]", "set", "unset",
-			"declare" };
 
 	private static List<String> fgCommands = getCommands();
 
@@ -113,8 +112,15 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		rules.add(new DollarRule(new DollarDetector(), Token.UNDEFINED,
 				variable));
 		WordRule wordRule = new WordRule(new ShellWordDetector(), other);
-		for (String element : KEYWORDS) {
-			wordRule.addWord(element, keyword);
+		/*
+		 * Maybe someday we are able to detect the shell language dialect
+		 * somehow and filter only the valid completions here
+		 */
+		Dialect dialect = Dialect.ANY;
+		for (ReservedWord element : ReservedWord.values()) {
+			if (element.isValidIn(dialect)) {
+				wordRule.addWord(element.token(), keyword);
+			}
 		}
 		for (String command : fgCommands) {
 			wordRule.addWord(command, commandToken);

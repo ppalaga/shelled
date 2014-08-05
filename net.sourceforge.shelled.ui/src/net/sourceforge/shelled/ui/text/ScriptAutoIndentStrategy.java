@@ -11,6 +11,7 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
 import net.sourceforge.shelled.ui.Activator;
 
 import org.eclipse.dltk.ui.CodeFormatterConstants;
@@ -26,7 +27,7 @@ import org.eclipse.jface.text.rules.IToken;
 /**
  * An indent strategy capable of indenting and unindenting on any set of words,
  * depending on the rules that are set.
- * 
+ *
  * @see #setRules(IRule[])
  */
 public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
@@ -39,7 +40,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	 * Set the rules that will be used in a document scanner to identify where
 	 * indentations should occur. Typically you'd have one rule to describe each
 	 * type of indentation.
-	 * 
+	 *
 	 * @param rules
 	 *            the list of rules
 	 * @see IndentType
@@ -67,7 +68,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	 * indent will either be the same as the previous line or incremented if the
 	 * user has hit carriage return on a line that contains a incrementing
 	 * keyword.
-	 * 
+	 *
 	 * @param document
 	 *            the document being parsed
 	 * @param c
@@ -94,7 +95,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	/**
 	 * Set the indent of the current line when the user hits a key. The indent
 	 * will either be unchanged or decremented if the user types
-	 * 
+	 *
 	 * @param document
 	 *            the document being parsed
 	 * @param c
@@ -130,7 +131,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	 * Returns the first offset greater than <code>offset</code> and smaller
 	 * than <code>end</code> whose character is not a space or tab character. If
 	 * no such offset is found, <code>end</code> is returned.
-	 * 
+	 *
 	 * @param document
 	 *            the document to search in
 	 * @param offset
@@ -146,7 +147,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			throws BadLocationException {
 		while (offset < end) {
 			char c = document.getChar(offset);
-			if ((c != ' ') && (c != '\t')) {
+			if ((c != LexicalConstants.SPACE) && (c != LexicalConstants.TAB)) {
 				return offset;
 			}
 			offset++;
@@ -156,7 +157,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 
 	/**
 	 * Returns the indentation of the specified line in <code>document</code>.
-	 * 
+	 *
 	 * @param document
 	 *            - the document being parsed
 	 * @param line
@@ -179,7 +180,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	 * Returns the bracket count of a section of text. The count is incremented
 	 * when an opening bracket is encountered and decremented when a closing
 	 * bracket is encountered.
-	 * 
+	 *
 	 * @param document
 	 *            - the document being parsed
 	 * @param command
@@ -226,7 +227,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	/**
 	 * Calculate the indentation needed for a new line based on the contents of
 	 * the previous line.
-	 * 
+	 *
 	 * @param previous
 	 *            a string containing the indentation of the previous line
 	 * @param additional
@@ -279,16 +280,16 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			spaces = 0;
 		}
 		for (int i = 0; i < tabs; i++)
-			indent += "\t";
+			indent += LexicalConstants.TAB;
 		for (int i = 0; i < spaces; i++)
-			indent += " ";
+			indent += LexicalConstants.SPACE;
 		return indent;
 	}
 
 	/**
 	 * Computes the length of a an indentation, counting a tab character as the
 	 * size until the next tab stop and every other character as one.
-	 * 
+	 *
 	 * @param indent
 	 *            the string containing the indentation to measure
 	 * @param tabSize
@@ -300,13 +301,13 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 		for (int i = 0; i < indent.length(); i++) {
 			char ch = indent.charAt(i);
 			switch (ch) {
-			case '\t':
+			case LexicalConstants.TAB:
 				if (tabSize > 0) {
 					int reminder = length % tabSize;
 					length += tabSize - reminder;
 				}
 				break;
-			case ' ':
+			case LexicalConstants.SPACE:
 				length++;
 				break;
 			}
@@ -317,7 +318,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	/**
 	 * Strips any characters off the end of an indentation that exceed a
 	 * specified maximum visual indentation length.
-	 * 
+	 *
 	 * @param indent
 	 *            the string containing the indentation to measure
 	 * @param max
@@ -332,13 +333,13 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 		for (; (measured < max) && (i < indent.length()); i++) {
 			char ch = indent.charAt(i);
 			switch (ch) {
-			case '\t':
+			case LexicalConstants.TAB:
 				if (tabSize > 0) {
 					int reminder = measured % tabSize;
 					measured += tabSize - reminder;
 				}
 				break;
-			case ' ':
+			case LexicalConstants.SPACE:
 				measured++;
 				break;
 			}

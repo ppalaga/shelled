@@ -10,6 +10,8 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.completion;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+
 import org.eclipse.dltk.core.IScriptProject;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposal;
@@ -17,7 +19,7 @@ import org.eclipse.dltk.ui.text.completion.ScriptCompletionProposalCollector;
 import org.eclipse.swt.graphics.Image;
 
 public class ShellCompletionProposalCollector extends
-		ScriptCompletionProposalCollector {
+ScriptCompletionProposalCollector {
 
 	public ShellCompletionProposalCollector(ISourceModule module) {
 		super(module);
@@ -51,7 +53,7 @@ public class ShellCompletionProposalCollector extends
 
 	@Override
 	protected char[] getVarTrigger() {
-		return new char[] { '$' };
+		return new char[] { LexicalConstants.DOLLAR };
 	}
 
 	@Override

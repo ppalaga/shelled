@@ -10,6 +10,8 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+
 import org.eclipse.jface.text.rules.ICharacterScanner;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -41,7 +43,7 @@ public class DollarRule implements IRule {
 	 * <p>
 	 * '*', '@' - positional parameters starting from 1<br>
 	 * '#' - number of positional parameters<br>
-	 * '?' - exit status of the last executed foreground command<br>
+	 * LexicalConstants.QUESTION_MARK - exit status of the last executed foreground command<br>
 	 * '-' - current option flags<br>
 	 * '$' - PID of the shell<br>
 	 * '!' - PID of the last executed background command<br>
@@ -49,15 +51,18 @@ public class DollarRule implements IRule {
 	 * '0' - usually the name of the file used to invoke the shell<br>
 	 * '1' to '9' - expands to the corresponding positional parameters,
 	 * parameters 10+ must be referenced with braces like ${12}
-	 * 
+	 *
 	 * @param c
 	 *            a character to test
 	 * @return true if the specified character is a special parameter
 	 */
 	protected boolean isSpecial(char c) {
-		return ((c == '*') || (c == '@') || (c == '#') || (c == '?')
-				|| (c == '-') || (c == '$') || (c == '!') || (c == '_') || Character
-				.isDigit(c));
+		return ((c == LexicalConstants.ASTERISK) || (c == LexicalConstants.AT)
+				|| (c == LexicalConstants.HASH) || (c == LexicalConstants.QUESTION_MARK)
+				|| (c == LexicalConstants.DASH)
+				|| (c == LexicalConstants.DOLLAR)
+				|| (c == LexicalConstants.BANG) || (c == LexicalConstants.UNDERSCORE) || Character
+					.isDigit(c));
 	}
 
 	/*
@@ -92,7 +97,7 @@ public class DollarRule implements IRule {
 
 	/**
 	 * Returns the characters in the buffer to the scanner.
-	 * 
+	 *
 	 * @param scanner
 	 *            the scanner to be used
 	 */
