@@ -10,6 +10,8 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+
 import org.eclipse.jface.text.rules.ICharacterScanner;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
@@ -46,7 +48,7 @@ public class AssignmentRule implements IRule {
 				c = (char) scanner.read();
 			} while ((c != ICharacterScanner.EOF) && detector.isWordPart(c));
 			scanner.unread();
-			if (c == '=')
+			if (c == LexicalConstants.EQ)
 				return successToken;
 			if (defaultToken.isUndefined())
 				unreadBuffer(scanner);
@@ -58,7 +60,7 @@ public class AssignmentRule implements IRule {
 
 	/**
 	 * Returns the characters in the buffer to the scanner.
-	 * 
+	 *
 	 * @param scanner
 	 *            the scanner to be used
 	 */

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.completion;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
 import net.sourceforge.shelled.ui.Activator;
 
 import org.eclipse.dltk.ui.PreferenceConstants;
@@ -34,7 +35,7 @@ public class ShellCompletionProposal extends ScriptCompletionProposal {
 
 	@Override
 	protected boolean isSmartTrigger(char trigger) {
-		if (trigger == '$') {
+		if (trigger == LexicalConstants.DOLLAR) {
 			return true;
 		}
 		return false;

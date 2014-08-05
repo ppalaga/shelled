@@ -10,6 +10,8 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+
 import org.eclipse.jface.text.rules.IWordDetector;
 
 /**
@@ -20,7 +22,9 @@ public class AssignmentDetector implements IWordDetector {
 
 	@Override
 	public boolean isWordPart(char c) {
-		return Character.isJavaIdentifierPart(c) || (c == '[') || (c == ']');
+		return Character.isJavaIdentifierPart(c)
+				|| (c == LexicalConstants.LSQUARE)
+				|| (c == LexicalConstants.RSQUARE);
 	}
 
 	@Override

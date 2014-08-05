@@ -13,6 +13,7 @@ package net.sourceforge.shelled.ui.text;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
@@ -34,8 +35,9 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 	 * this scanner.
 	 */
 	private static String fgTokenProperties[] = new String[] {
-			IShellColorConstants.SHELL_EVAL, IShellColorConstants.SHELL_DOUBLE_QUOTE,
-			IShellColorConstants.SHELL_VARIABLE };
+		IShellColorConstants.SHELL_EVAL,
+			IShellColorConstants.SHELL_DOUBLE_QUOTE,
+		IShellColorConstants.SHELL_VARIABLE };
 
 	public DoubleQuoteScanner(IColorManager manager, IPreferenceStore store) {
 		super(manager, store);
@@ -47,7 +49,8 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		List<IRule> rules = new ArrayList<IRule>();
 
 		// Token types used in the rules
-		IToken defaultToken = this.getToken(IShellColorConstants.SHELL_DOUBLE_QUOTE);
+		IToken defaultToken = this
+				.getToken(IShellColorConstants.SHELL_DOUBLE_QUOTE);
 		IToken evalToken = this.getToken(IShellColorConstants.SHELL_EVAL);
 		IToken varToken = this.getToken(IShellColorConstants.SHELL_VARIABLE);
 
@@ -55,10 +58,11 @@ public class DoubleQuoteScanner extends AbstractScriptScanner {
 		// there is a LOT of whitespace and when a token is detected the other
 		// rules are not evaluated.
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(new DollarBraceCountingRule('(', ')', evalToken, '\\'));
-		rules.add(new DollarBraceCountingRule('{', '}', varToken, '\\'));
+		rules.add(new DollarBraceCountingRule(LexicalConstants.LPAREN, LexicalConstants.RPAREN, evalToken, LexicalConstants.BACKSLASH));
+		rules.add(new DollarBraceCountingRule(LexicalConstants.LBRACE, LexicalConstants.RBRACE,
+				varToken, LexicalConstants.BACKSLASH));
 		rules.add(new DollarRule(new DollarDetector(), defaultToken, varToken));
-		rules.add(new SingleLineRule("`", "`", evalToken, '\\', false));
+		rules.add(new SingleLineRule(LexicalConstants.GRAVE_STRING, LexicalConstants.GRAVE_STRING, evalToken, LexicalConstants.BACKSLASH, false));
 		setDefaultReturnToken(defaultToken);
 		return rules;
 	}

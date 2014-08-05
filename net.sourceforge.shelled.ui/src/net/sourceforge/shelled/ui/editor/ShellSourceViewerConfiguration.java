@@ -12,6 +12,8 @@ package net.sourceforge.shelled.ui.editor;
 
 import java.util.ArrayList;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+import net.sourceforge.shelled.core.parser.ReservedWord;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 import net.sourceforge.shelled.ui.ShellContentAssistPreference;
@@ -54,7 +56,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 public class ShellSourceViewerConfiguration extends
-		ScriptSourceViewerConfiguration {
+ScriptSourceViewerConfiguration {
 
 	private static IRule getKeywords(IToken keywordToken, final String[] words,
 			IToken defaultToken) {
@@ -100,11 +102,15 @@ public class ShellSourceViewerConfiguration extends
 		ArrayList<IRule> rules = new ArrayList<IRule>();
 		rules.add(new WhitespaceRule(new WhitespaceDetector()));
 		rules.add(getKeywords(new Token(IndentType.INCREMENT), new String[] {
-				"do", "case", "{", "then" }, Token.UNDEFINED));
+			ReservedWord.DO.token(), ReservedWord.CASE.token(),
+			LexicalConstants.LBRACE_STRING, ReservedWord.THEN.token() },
+			Token.UNDEFINED));
 		rules.add(getKeywords(new Token(IndentType.DECREMENT), new String[] {
-				"done", "esac", "}", "fi" }, Token.UNDEFINED));
+			ReservedWord.DONE.token(), ReservedWord.ESAC.token(),
+				LexicalConstants.RBRACE_STRING, ReservedWord.FI.token() },
+				Token.UNDEFINED));
 		rules.add(getKeywords(new Token(IndentType.INFLEXION),
-				new String[] { "else" }, Token.UNDEFINED));
+				new String[] { ReservedWord.ELSE.token() }, Token.UNDEFINED));
 
 		strategy.setRules(rules.toArray(new IRule[0]));
 
@@ -132,7 +138,7 @@ public class ShellSourceViewerConfiguration extends
 				int treeStyle = SWT.V_SCROLL | SWT.H_SCROLL;
 				return new ScriptOutlineInformationControl(parent, shellStyle,
 						treeStyle, commandId, Activator.getDefault()
-								.getPreferenceStore());
+						.getPreferenceStore());
 			}
 		};
 	}
