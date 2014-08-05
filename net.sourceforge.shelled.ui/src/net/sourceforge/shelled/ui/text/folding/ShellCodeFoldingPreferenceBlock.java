@@ -18,9 +18,9 @@ import org.eclipse.jface.preference.PreferencePage;
  *
  * @author <a href="mailto:ppalaga@redhat.com">Peter Palaga</a>
  */
-public class ShellFoldingPreferenceBlock extends
+public class ShellCodeFoldingPreferenceBlock extends
 		SourceCodeFoldingPreferenceBlock {
-	public ShellFoldingPreferenceBlock(OverlayPreferenceStore store,
+	public ShellCodeFoldingPreferenceBlock(OverlayPreferenceStore store,
 			PreferencePage page) {
 		super(store, page);
 	}

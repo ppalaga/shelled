@@ -11,7 +11,7 @@
 package net.sourceforge.shelled.ui.preferences;
 
 import net.sourceforge.shelled.ui.Activator;
-import net.sourceforge.shelled.ui.text.folding.ShellFoldingPreferenceBlock;
+import net.sourceforge.shelled.ui.text.folding.ShellCodeFoldingPreferenceBlock;
 import net.sourceforge.shelled.ui.text.folding.ShellCommentFoldingPreferenceBlock;
 
 import org.eclipse.dltk.ui.preferences.AbstractConfigurationBlockPreferencePage;
@@ -54,7 +54,7 @@ public class ShellFoldingPreferencePage extends
 			@Override
 			protected IFoldingPreferenceBlock createSourceCodeBlock(
 					OverlayPreferenceStore store, PreferencePage page) {
-				return new ShellFoldingPreferenceBlock(store, page);
+				return new ShellCodeFoldingPreferenceBlock(store, page);
 			}
 		};
 	}
