@@ -7,6 +7,8 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.text;
 
+import net.sourceforge.shelled.core.parser.LexicalConstants;
+
 import org.eclipse.jface.text.rules.IWordDetector;
 
 /**
@@ -21,7 +23,7 @@ public class DollarDetector implements IWordDetector {
 
 	@Override
 	public boolean isWordStart(char c) {
-		return c == '$';
+		return c == LexicalConstants.DOLLAR;
 	}
 
 }
