@@ -17,7 +17,7 @@ import org.eclipse.dltk.ui.text.folding.IFoldingContent;
 import org.eclipse.dltk.ui.text.folding.PartitioningFoldingBlockProvider;
 
 public class ShellCodeFoldingBlockProvider extends
-		PartitioningFoldingBlockProvider {
+PartitioningFoldingBlockProvider {
 
 	public ShellCodeFoldingBlockProvider() {
 		super(Activator.getDefault().getTextTools());
@@ -27,7 +27,7 @@ public class ShellCodeFoldingBlockProvider extends
 	public void computeFoldableBlocks(IFoldingContent content) {
 		computeBlocksForPartitionType(content,
 				IShellPartitions.FUNCTION_CONTENT_TYPE,
-				FoldingBlockKind.COMMENT, false);
+				FoldingBlockKind.FUNCTION, false);
 
 	}
 

@@ -25,10 +25,11 @@ public class ShellCommentFoldingBlockProvider extends
 
 	@Override
 	public void computeFoldableBlocks(IFoldingContent content) {
-		computeBlocksForPartitionType(content,
-				IShellPartitions.COMMENT_CONTENT_TYPE,
-				FoldingBlockKind.COMMENT, true);
-
+		if (isFoldingComments()) {
+			computeBlocksForPartitionType(content,
+					IShellPartitions.COMMENT_CONTENT_TYPE,
+					FoldingBlockKind.COMMENT, isCollapseComments());
+		}
 	}
 
 }
