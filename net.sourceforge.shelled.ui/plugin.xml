@@ -52,7 +52,7 @@
  		name="Shell Script"
     		class="net.sourceforge.shelled.ui.MainPreferencePage">
    	</page>
-	
+
 		<page
 			class="net.sourceforge.shelled.ui.interpreter.ShellInterpreterPreferencePage"
 			category="net.sourceforge.shelled.ui.preferences" id="net.sourceforge.shelled.ui.preferences.interpreters" name="Interpreters" />
@@ -71,6 +71,11 @@
           class="net.sourceforge.shelled.ui.preferences.ShellEditorPreferencesPage"
           id="net.sourceforge.shelled.ui.preferences.editor"
           name="Editor"/>
+		<page
+			category="net.sourceforge.shelled.ui.preferences.editor"
+			class="net.sourceforge.shelled.ui.preferences.ShellFoldingPreferencePage"
+			id="net.sourceforge.shelled.ui.preferences.folding"
+			name="Folding"/>
 	</extension>
 	<extension point="org.eclipse.ui.editors">
 		<editor
@@ -181,7 +186,7 @@
       id="net.sourceforge.shelled.buildParticipant.parser">
     </requires>
   </buildParticipant>
-  
+
 </extension>
 <extension point="org.eclipse.dltk.ui.scriptDocumentationProviders">
      <provider
@@ -296,7 +301,7 @@
 </extension>
 
 <extension point="org.eclipse.dltk.ui.folding">
-  <structureProvider 
+  <structureProvider
    	nature="net.sourceforge.shelled.core.nature"
    	class="org.eclipse.dltk.ui.text.folding.DelegatingFoldingStructureProvider">
   </structureProvider>

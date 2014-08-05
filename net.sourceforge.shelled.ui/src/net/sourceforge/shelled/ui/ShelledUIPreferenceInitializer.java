@@ -78,7 +78,14 @@ public class ShelledUIPreferenceInitializer extends
 				CodeFormatterConstants.TAB);
 		store.setDefault(CodeFormatterConstants.FORMATTER_TAB_SIZE, "4");
 		store.setDefault(CodeFormatterConstants.FORMATTER_INDENTATION_SIZE, "4");
+
+		/* folding */
 		store.setDefault(PreferenceConstants.EDITOR_FOLDING_ENABLED, true);
+		store.setDefault(PreferenceConstants.EDITOR_FOLDING_LINES_LIMIT, 2);
+		store.setDefault(PreferenceConstants.EDITOR_COMMENTS_FOLDING_ENABLED,
+				true);
+		store.setDefault(PreferenceConstants.EDITOR_DOCS_FOLDING_ENABLED, true);
+		store.setDefault(PreferenceConstants.EDITOR_FOLDING_INIT_COMMENTS, true);
 
 		TaskTagUtils.initializeDefaultValues(DefaultScope.INSTANCE
 				.getNode(Activator.PLUGIN_ID));
