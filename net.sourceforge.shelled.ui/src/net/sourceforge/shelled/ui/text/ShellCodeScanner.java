@@ -106,7 +106,7 @@ public class ShellCodeScanner extends AbstractScriptScanner {
 		IToken commandToken = this.getToken(IShellColorConstants.SHELL_COMMAND);
 		IToken other = this.getToken(IShellColorConstants.SHELL_DEFAULT);
 		IToken variable = this.getToken(IShellColorConstants.SHELL_VARIABLE);
-		rules.add(new WhitespaceRule(new WhitespaceDetector()));
+		rules.add(new WhitespaceRule(WhitespaceDetector.INSTANCE));
 		rules.add(new AssignmentRule(new AssignmentDetector(), Token.UNDEFINED,
 				variable));
 		rules.add(new DollarRule(new DollarDetector(), Token.UNDEFINED,

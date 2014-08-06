@@ -12,6 +12,7 @@
 package net.sourceforge.shelled.ui.text;
 
 import net.sourceforge.shelled.core.parser.LexicalConstants;
+import net.sourceforge.shelled.core.parser.ReservedWord;
 import net.sourceforge.shelled.ui.Activator;
 
 import org.eclipse.dltk.ui.CodeFormatterConstants;
@@ -23,6 +24,10 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
+import org.eclipse.jface.text.rules.IWordDetector;
+import org.eclipse.jface.text.rules.Token;
+import org.eclipse.jface.text.rules.WhitespaceRule;
+import org.eclipse.jface.text.rules.WordRule;
 
 /**
  * An indent strategy capable of indenting and unindenting on any set of words,
@@ -32,21 +37,76 @@ import org.eclipse.jface.text.rules.IToken;
  */
 public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	/**
-	 * Document scanner used to identify indentations.
+	 * A type of indent.
 	 */
-	private final DocumentAndCommandScanner scanner = new DocumentAndCommandScanner();
+	private enum IndentType {
+		/** A single indent decrement */
+		DECREMENT(new String[] { ReservedWord.DONE.token(),
+				ReservedWord.ESAC.token(), LexicalConstants.RBRACE_STRING,
+				ReservedWord.FI.token() }),
+
+				/** A single indent increment */
+				INCREMENT(new String[] { ReservedWord.DO.token(),
+						ReservedWord.CASE.token(), LexicalConstants.LBRACE_STRING,
+						ReservedWord.THEN.token() }),
+
+						/** An inflexion - both an increment and a decrement */
+						INFLEXION(new String[] { ReservedWord.ELSE.token() });
+
+		private final String[] tokens;
+
+		/**
+		 * @param tokens
+		 */
+		private IndentType(String[] tokens) {
+			this.tokens = tokens;
+		}
+
+		public IRule createRule() {
+			Token keywordToken = new Token(this);
+			WordRule result = new WordRule(WORD_DETECTOR, Token.UNDEFINED);
+			for (String word : tokens) {
+				result.addWord(word, keywordToken);
+			}
+			return result;
+		}
+	}
+
+	private static final IWordDetector WORD_DETECTOR = new IWordDetector() {
+
+		@Override
+		public boolean isWordPart(char c) {
+			return !Character.isWhitespace(c);
+		}
+
+		@Override
+		public boolean isWordStart(char c) {
+			return !Character.isWhitespace(c);
+		}
+	};
 
 	/**
-	 * Set the rules that will be used in a document scanner to identify where
-	 * indentations should occur. Typically you'd have one rule to describe each
-	 * type of indentation.
-	 *
-	 * @param rules
-	 *            the list of rules
-	 * @see IndentType
+	 * Document scanner used to identify indentations.
 	 */
-	public void setRules(IRule[] rules) {
-		scanner.setRules(rules);
+	private final DocumentAndCommandScanner scanner;
+
+	/**
+	 *
+	 */
+	public ScriptAutoIndentStrategy() {
+		super();
+		/*
+		 * Set the rules that will be used in a document scanner to identify
+		 * where indentations should occur. Typically you'd have one rule to
+		 * describe each type of indentation.
+		 */
+		DocumentAndCommandScanner sc = new DocumentAndCommandScanner();
+		sc.setRules(new IRule[] {
+				new WhitespaceRule(WhitespaceDetector.INSTANCE),
+				IndentType.INCREMENT.createRule(),
+				IndentType.DECREMENT.createRule(),
+				IndentType.INFLEXION.createRule() });
+		this.scanner = sc;
 	}
 
 	/**
@@ -57,8 +117,16 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	public void customizeDocumentCommand(IDocument d, DocumentCommand c) {
 		int delim = TextUtilities.endsWith(d.getLegalLineDelimiters(), c.text);
 		if ((c.length == 0) && (c.text != null) && (delim != -1)) {
+			/*
+			 * a plain insert (i.e. a non-replacement) ending with a newline
+			 * Note that this covers newline key hits as well as paste of a text
+			 * ending with a newline
+			 */
 			smartIndentAfterNewLine(d, c);
 		} else if (c.text.length() == 1) {
+			/*
+			 * a single key hit (except for newline) or a single character paste
+			 */
 			smartIndentAfterKeypress(d, c);
 		}
 	}
@@ -78,15 +146,17 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 		if ((c.offset == -1) || (document.getLength() == 0))
 			return;
 		try {
-			StringBuffer buf = new StringBuffer(c.text);
 			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
 			int line = document.getLineOfOffset(p);
 			int start = document.getLineOffset(line);
 			int bracketCount = getBracketCount(document, null, start, c.offset,
 					true);
-			buf.append(generateIndentation(getIndentOfLine(document, line),
-					bracketCount <= 0 ? 0 : 1));
-			c.text = buf.toString();
+			String addIndentation = generateIndentation(
+					getIndentOfLine(document, line), bracketCount <= 0 ? 0 : 1);
+			if (addIndentation.length() > 0) {
+				c.text = new StringBuilder(c.length + addIndentation.length())
+				.append(c.text).append(addIndentation).toString();
+			}
 		} catch (BadLocationException x) {
 			x.printStackTrace();
 		}
@@ -106,7 +176,6 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 		if ((c.offset == -1) || (document.getLength() == 0))
 			return;
 		try {
-			StringBuffer buf = new StringBuffer();
 			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
 			int line = document.getLineOfOffset(p);
 			int start = document.getLineOffset(line);
@@ -114,9 +183,12 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 
 			int bracketCount = getBracketCount(document, c, start, c.offset,
 					false);
-			buf.append(generateIndentation(getIndentOfLine(document, line),
-					bracketCount >= 0 ? 0 : -1));
-			buf.append(document.get(whiteEnd, c.offset - whiteEnd));
+			String addIndentation = generateIndentation(
+					getIndentOfLine(document, line), bracketCount >= 0 ? 0 : -1);
+			String availableText = document.get(whiteEnd, c.offset - whiteEnd);
+			StringBuilder buf = new StringBuilder();
+			buf.append(addIndentation);
+			buf.append(availableText);
 			buf.append(c.text);
 			// Alter the command
 			c.length = (c.offset - start) + c.length;
@@ -210,14 +282,24 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 
 			if (token.isOther()) {
 				IndentType type = (IndentType) token.getData();
-				if (type == IndentType.INCREMENT) {
-					++bracketcount;
-				} else if (type == IndentType.DECREMENT) {
-					--bracketcount;
-				} else if ((type == IndentType.INFLEXION) && ignoreInflexions) {
-					++bracketcount;
-				} else if ((type == IndentType.INFLEXION) && !ignoreInflexions) {
-					--bracketcount;
+				if (type != null) {
+					switch (type) {
+					case INCREMENT:
+						++bracketcount;
+						break;
+					case DECREMENT:
+						--bracketcount;
+						break;
+					case INFLEXION:
+						if (ignoreInflexions) {
+							++bracketcount;
+						} else {
+							--bracketcount;
+						}
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
