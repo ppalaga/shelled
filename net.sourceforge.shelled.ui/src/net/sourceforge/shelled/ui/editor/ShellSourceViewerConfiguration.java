@@ -10,10 +10,6 @@
  *******************************************************************************/
 package net.sourceforge.shelled.ui.editor;
 
-import java.util.ArrayList;
-
-import net.sourceforge.shelled.core.parser.LexicalConstants;
-import net.sourceforge.shelled.core.parser.ReservedWord;
 import net.sourceforge.shelled.ui.Activator;
 import net.sourceforge.shelled.ui.IShellColorConstants;
 import net.sourceforge.shelled.ui.ShellContentAssistPreference;
@@ -21,10 +17,8 @@ import net.sourceforge.shelled.ui.completion.ShellCompletionProcessor;
 import net.sourceforge.shelled.ui.text.DoubleQuoteScanner;
 import net.sourceforge.shelled.ui.text.EvalScanner;
 import net.sourceforge.shelled.ui.text.IShellPartitions;
-import net.sourceforge.shelled.ui.text.IndentType;
 import net.sourceforge.shelled.ui.text.ScriptAutoIndentStrategy;
 import net.sourceforge.shelled.ui.text.ShellCodeScanner;
-import net.sourceforge.shelled.ui.text.WhitespaceDetector;
 
 import org.eclipse.dltk.ui.text.AbstractScriptScanner;
 import org.eclipse.dltk.ui.text.IColorManager;
@@ -43,12 +37,6 @@ import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
-import org.eclipse.jface.text.rules.IRule;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.IWordDetector;
-import org.eclipse.jface.text.rules.Token;
-import org.eclipse.jface.text.rules.WhitespaceRule;
-import org.eclipse.jface.text.rules.WordRule;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
@@ -57,26 +45,6 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 public class ShellSourceViewerConfiguration extends
 ScriptSourceViewerConfiguration {
-
-	private static IRule getKeywords(IToken keywordToken, final String[] words,
-			IToken defaultToken) {
-		WordRule wordL = new WordRule(new IWordDetector() {
-
-			@Override
-			public boolean isWordPart(char c) {
-				return !Character.isWhitespace(c);
-			}
-
-			@Override
-			public boolean isWordStart(char c) {
-				return !Character.isWhitespace(c);
-			}
-		}, defaultToken);
-
-		for (String word : words)
-			wordL.addWord(word, keywordToken);
-		return wordL;
-	}
 
 	// Scanners for all the various content types provided by the partitioner
 	private AbstractScriptScanner fCodeScanner;
@@ -97,24 +65,7 @@ ScriptSourceViewerConfiguration {
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(
 			ISourceViewer sourceViewer, String contentType) {
-		ScriptAutoIndentStrategy strategy = new ScriptAutoIndentStrategy();
-
-		ArrayList<IRule> rules = new ArrayList<IRule>();
-		rules.add(new WhitespaceRule(new WhitespaceDetector()));
-		rules.add(getKeywords(new Token(IndentType.INCREMENT), new String[] {
-			ReservedWord.DO.token(), ReservedWord.CASE.token(),
-			LexicalConstants.LBRACE_STRING, ReservedWord.THEN.token() },
-			Token.UNDEFINED));
-		rules.add(getKeywords(new Token(IndentType.DECREMENT), new String[] {
-			ReservedWord.DONE.token(), ReservedWord.ESAC.token(),
-				LexicalConstants.RBRACE_STRING, ReservedWord.FI.token() },
-				Token.UNDEFINED));
-		rules.add(getKeywords(new Token(IndentType.INFLEXION),
-				new String[] { ReservedWord.ELSE.token() }, Token.UNDEFINED));
-
-		strategy.setRules(rules.toArray(new IRule[0]));
-
-		return new IAutoEditStrategy[] { strategy };
+		return new IAutoEditStrategy[] { new ScriptAutoIndentStrategy() };
 	}
 
 	@Override

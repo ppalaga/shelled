@@ -50,7 +50,7 @@ public class EvalScanner extends AbstractScriptScanner {
 		// Add generic whitespace rule. This is here for efficiency reasons,
 		// there is a LOT of whitespace and when a token is detected the other
 		// rules are not evaluated.
-		rules.add(new WhitespaceRule(new WhitespaceDetector()));
+		rules.add(new WhitespaceRule(WhitespaceDetector.INSTANCE));
 		rules.add(new DollarBraceCountingRule(LexicalConstants.LBRACE,
 				LexicalConstants.RBRACE, varToken, LexicalConstants.BACKSLASH));
 		rules.add(new DollarRule(new DollarDetector(), defaultToken, varToken));

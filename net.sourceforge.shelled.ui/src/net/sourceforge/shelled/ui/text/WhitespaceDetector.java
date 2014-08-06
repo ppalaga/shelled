@@ -12,7 +12,21 @@ package net.sourceforge.shelled.ui.text;
 
 import org.eclipse.jface.text.rules.IWhitespaceDetector;
 
+/**
+ * A stateless {@link IWhitespaceDetector} therefore the {@link #INSTANCE}
+ * singleton can be used rather than creating a new instance every time.
+ *
+ * @author <a href="mailto:ppalaga@redhat.com">Peter Palaga</a>
+ */
 public class WhitespaceDetector implements IWhitespaceDetector {
+	public static final WhitespaceDetector INSTANCE = new WhitespaceDetector();
+
+	/**
+	 * Use {@link #INSTANCE}.
+	 */
+	private WhitespaceDetector() {
+		super();
+	}
 
 	/**
 	 * @see IWhitespaceDetector#isWhitespace

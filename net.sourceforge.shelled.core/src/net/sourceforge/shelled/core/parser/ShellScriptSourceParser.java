@@ -63,8 +63,9 @@ public class ShellScriptSourceParser extends AbstractSourceParser {
 					final int lBracket = Math.max(
 							line.indexOf(LexicalConstants.LBRACE), 0);
 					final String fToken = ReservedWord.FUNCTION.token();
-					final int fPlusEight = Math.max(line.indexOf(fToken)
-							+ fToken.length(), 0);
+					final int fOffset = line.indexOf(fToken);
+					final int fPlusEight = fOffset >= 0 ? fOffset
+							+ fToken.length() : 0;
 					mDeclaration = new MethodDeclaration(line.substring(
 							fPlusEight, line.indexOf(LexicalConstants.LPAREN))
 							.trim(), lineStart, lineStart + line.length() - 1,
