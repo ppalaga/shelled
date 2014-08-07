@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 public class ShellSourceViewerConfiguration extends
-ScriptSourceViewerConfiguration {
+		ScriptSourceViewerConfiguration {
 
 	// Scanners for all the various content types provided by the partitioner
 	private AbstractScriptScanner fCodeScanner;
@@ -83,7 +83,7 @@ ScriptSourceViewerConfiguration {
 				int treeStyle = SWT.V_SCROLL | SWT.H_SCROLL;
 				return new ScriptOutlineInformationControl(parent, shellStyle,
 						treeStyle, commandId, Activator.getDefault()
-						.getPreferenceStore());
+								.getPreferenceStore());
 			}
 		};
 	}

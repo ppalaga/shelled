@@ -15,11 +15,12 @@ import org.junit.runners.Suite;
 
 /**
  * Test suite for all net.sourceforge.shelled.ui.text tests.
- * 
+ *
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ AssignmentRuleTest.class,
 		DollarBraceCountingRuleTest.class, DollarRuleTest.class,
-		DoubleQuoteScannerTest.class, EvalScannerTest.class })
+		DoubleQuoteScannerTest.class, EvalScannerTest.class,
+		ScriptAutoIndentStrategyTest.class })
 public class TextSuite {
 }
