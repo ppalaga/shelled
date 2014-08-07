@@ -20,7 +20,7 @@ import org.eclipse.jface.text.rules.RuleBasedScanner;
  * read DocumentCommands as well as IDocuments. This ability is toggled on or
  * off depending on whether setRange(document,offset,length) (off) or
  * setRange(document,documentCommand,offset,length) (on) was called.
- * 
+ *
  * @author Doug Satchwell
  * @version $Id: DocumentAndCommandScanner.java,v 1.2 2008/12/02 21:59:55
  *          akurtakov Exp $
@@ -41,9 +41,9 @@ public class DocumentAndCommandScanner extends RuleBasedScanner {
 				}
 			}
 			if ((fDocumentCommand != null)
-					&& (fOffset < fRangeEnd + fDocumentCommand.text.length())) {
-				return fDocumentCommand.text.charAt((fRangeEnd
-						+ fDocumentCommand.text.length() - fOffset) - 1);
+					&& (fOffset < (fRangeEnd + fDocumentCommand.text.length()))) {
+				return fDocumentCommand.text
+						.charAt(((fRangeEnd + fDocumentCommand.text.length()) - fOffset) - 1);
 			}
 			return EOF;
 		} finally {
@@ -56,16 +56,18 @@ public class DocumentAndCommandScanner extends RuleBasedScanner {
 	 */
 	public void setRange(IDocument document, DocumentCommand documentCommand,
 			int offset, int length) {
-		setRange(document, offset, length);
+		super.setRange(document, offset, length);
 		fDocumentCommand = documentCommand;
 	}
 
 	/**
-	 * Set this to use as a normal RuleBasedScanner
+	 * Use {@link #setRange(IDocument, DocumentCommand, int, int)} instead.
 	 */
 	@Override
+	@Deprecated
 	public void setRange(IDocument document, int offset, int length) {
-		super.setRange(document, offset, length);
-		fDocumentCommand = null;
+		throw new UnsupportedOperationException("use "
+				+ DocumentAndCommandScanner.class.getSimpleName()
+				+ ".setRange(IDocument, DocumentCommand, int, int) instead");
 	}
 }

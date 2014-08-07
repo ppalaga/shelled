@@ -149,10 +149,11 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
 			int line = document.getLineOfOffset(p);
 			int start = document.getLineOffset(line);
-			int bracketCount = getBracketCount(document, null, start, c.offset,
-					true);
-			String addIndentation = generateIndentation(
-					getIndentOfLine(document, line), bracketCount <= 0 ? 0 : 1);
+			int indentationLevel = getIndentationLevel(document, null, start,
+					c.offset, true);
+			String prevLineIndent = getIndentOfLine(document, line);
+			String addIndentation = generateIndentation(prevLineIndent,
+					indentationLevel <= 0 ? 0 : 1);
 			if (addIndentation.length() > 0) {
 				c.text = new StringBuilder(c.length + addIndentation.length())
 				.append(c.text).append(addIndentation).toString();
@@ -177,22 +178,23 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 			return;
 		try {
 			int p = c.offset == document.getLength() ? c.offset - 1 : c.offset;
-			int line = document.getLineOfOffset(p);
-			int start = document.getLineOffset(line);
-			int whiteEnd = findEndOfWhiteSpace(document, start, c.offset);
+			int lineIndex = document.getLineOfOffset(p);
+			int lineStart = document.getLineOffset(lineIndex);
+			int whiteEnd = findEndOfWhiteSpace(document, lineStart, c.offset);
 
-			int bracketCount = getBracketCount(document, c, start, c.offset,
-					false);
-			String addIndentation = generateIndentation(
-					getIndentOfLine(document, line), bracketCount >= 0 ? 0 : -1);
+			int indentationLevel = getIndentationLevel(document, c, lineStart,
+					c.offset, false);
+			String prevLineIndent = getIndentOfLine(document, lineIndex);
+			String addIndentation = generateIndentation(prevLineIndent,
+					indentationLevel >= 0 ? 0 : -1);
 			String availableText = document.get(whiteEnd, c.offset - whiteEnd);
 			StringBuilder buf = new StringBuilder();
 			buf.append(addIndentation);
 			buf.append(availableText);
 			buf.append(c.text);
 			// Alter the command
-			c.length = (c.offset - start) + c.length;
-			c.offset = start;
+			c.length = (c.offset - lineStart) + c.length;
+			c.offset = lineStart;
 			c.text = buf.toString();
 		} catch (BadLocationException x) {
 			x.printStackTrace();
@@ -249,9 +251,9 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	}
 
 	/**
-	 * Returns the bracket count of a section of text. The count is incremented
-	 * when an opening bracket is encountered and decremented when a closing
-	 * bracket is encountered.
+	 * Returns the indentation level at position {@code end} relative to the
+	 * position {@code start}. The count is incremented when an opening bracket
+	 * is encountered and decremented when a closing bracket is encountered.
 	 *
 	 * @param document
 	 *            - the document being parsed
@@ -267,14 +269,12 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 	 * @return the resulting bracket count, a positive value means we've
 	 *         encountered more opening than closing brackets
 	 */
-	private int getBracketCount(IDocument document, DocumentCommand command,
-			int start, int end, boolean ignoreInflexions) {
-		int bracketcount = 0;
-		if (command != null)
-			scanner.setRange(document, command, start, end - start);
-		else
-			scanner.setRange(document, start, end - start);
+	private int getIndentationLevel(IDocument document,
+			DocumentCommand command, int start, int end,
+			boolean ignoreInflexions) {
+		scanner.setRange(document, command, start, end - start);
 
+		int indentationLevel = 0;
 		while (true) {
 			IToken token = scanner.nextToken();
 			if (token.isEOF())
@@ -285,16 +285,16 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 				if (type != null) {
 					switch (type) {
 					case INCREMENT:
-						++bracketcount;
+						++indentationLevel;
 						break;
 					case DECREMENT:
-						--bracketcount;
+						--indentationLevel;
 						break;
 					case INFLEXION:
 						if (ignoreInflexions) {
-							++bracketcount;
+							++indentationLevel;
 						} else {
-							--bracketcount;
+							--indentationLevel;
 						}
 						break;
 					default:
@@ -303,7 +303,7 @@ public class ScriptAutoIndentStrategy implements IAutoEditStrategy {
 				}
 			}
 		}
-		return bracketcount;
+		return indentationLevel;
 	}
 
 	/**
