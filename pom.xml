@@ -15,7 +15,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<prerequisites>
-		<maven>3.0</maven>
+		<maven>3.1.1</maven>
 	</prerequisites>
 	<groupId>net.sourceforge.shelled</groupId>
 	<artifactId>shelled</artifactId>
@@ -147,7 +147,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-site-plugin</artifactId>
-					<version>3.3</version>
+					<version>3.4</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
