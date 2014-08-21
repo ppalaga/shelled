@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc. and others.
+ * Copyright (c) 2014 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,7 +25,7 @@ import org.eclipse.jface.preference.PreferencePage;
  * A couple of usual folding options.
  */
 public class ShellFoldingPreferencePage extends
-AbstractConfigurationBlockPreferencePage {
+		AbstractConfigurationBlockPreferencePage {
 	@Override
 	protected String getHelpId() {
 		return null;

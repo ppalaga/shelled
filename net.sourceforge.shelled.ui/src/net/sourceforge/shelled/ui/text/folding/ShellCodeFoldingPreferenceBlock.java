@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 Red Hat Inc. and others.
+ * Copyright (c) 2014 Red Hat Inc. and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,7 +18,7 @@ import org.eclipse.jface.preference.PreferencePage;
  * A preference block for folding of Shell Script commands.
  */
 public class ShellCodeFoldingPreferenceBlock extends
-SourceCodeFoldingPreferenceBlock {
+		SourceCodeFoldingPreferenceBlock {
 	public ShellCodeFoldingPreferenceBlock(OverlayPreferenceStore store,
 			PreferencePage page) {
 		super(store, page);
